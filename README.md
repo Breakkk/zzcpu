@@ -1,2 +1,2 @@
 # zzcpu
-design cpu for big homeworl
+design cpu for big homework
