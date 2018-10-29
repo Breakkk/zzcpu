@@ -1,0 +1,52 @@
+Release 14.7 - par P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+Sun Oct 28 18:50:30 2018
+
+All signals are completely routed.
+
+WARNING:ParHelpers:362 - There are 21 sourceless signals in this design. This design will not pass the DRC check run by
+   Bitgen.
+
+   Ram1Addr<0>_OBUF
+   Ram1Addr<10>_OBUF
+   Ram1Addr<11>_OBUF
+   Ram1Addr<12>_OBUF
+   Ram1Addr<13>_OBUF
+   Ram1Addr<14>_OBUF
+   Ram1Addr<15>_OBUF
+   Ram1Addr<16>_OBUF
+   Ram1Addr<17>_OBUF
+   Ram1Addr<1>_OBUF
+   Ram1Addr<2>_OBUF
+   Ram1Addr<3>_OBUF
+   Ram1Addr<4>_OBUF
+   Ram1Addr<5>_OBUF
+   Ram1Addr<6>_OBUF
+   Ram1Addr<7>_OBUF
+   Ram1Addr<8>_OBUF
+   Ram1Addr<9>_OBUF
+   Ram1EN_OBUF
+   Ram1OE_OBUF
+   Ram1WE_OBUF
+WARNING:ParHelpers:361 - There are 16 loadless signals in this design. This design will cause Bitgen to issue DRC
+   warnings.
+
+   Ram1Data<0>_IBUF
+   Ram1Data<10>_IBUF
+   Ram1Data<11>_IBUF
+   Ram1Data<12>_IBUF
+   Ram1Data<13>_IBUF
+   Ram1Data<14>_IBUF
+   Ram1Data<15>_IBUF
+   Ram1Data<1>_IBUF
+   Ram1Data<2>_IBUF
+   Ram1Data<3>_IBUF
+   Ram1Data<4>_IBUF
+   Ram1Data<5>_IBUF
+   Ram1Data<6>_IBUF
+   Ram1Data<7>_IBUF
+   Ram1Data<8>_IBUF
+   Ram1Data<9>_IBUF
+
+
