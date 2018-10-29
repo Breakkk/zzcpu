@@ -1,0 +1,5 @@
+verilog work "RAM.v"
+verilog work "ledDecoder.v"
+verilog work "Controller.v"
+verilog work "testcontroler.v"
+verilog work "C:/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v"

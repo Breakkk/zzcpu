@@ -45,23 +45,23 @@ Setup/Hold to clock CLK
             |Max Setup to|Max Hold to |                  | Clock  |
 Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
 ------------+------------+------------+------------------+--------+
-RST         |    6.316(R)|    0.200(R)|CLK_BUFGP         |   0.000|
-SW<0>       |    2.791(R)|   -0.219(R)|CLK_BUFGP         |   0.000|
-SW<1>       |    2.635(R)|   -0.168(R)|CLK_BUFGP         |   0.000|
-SW<2>       |    2.633(R)|   -0.182(R)|CLK_BUFGP         |   0.000|
-SW<3>       |    3.649(R)|   -1.320(R)|CLK_BUFGP         |   0.000|
-SW<4>       |    3.898(R)|   -1.496(R)|CLK_BUFGP         |   0.000|
-SW<5>       |    4.319(R)|   -1.142(R)|CLK_BUFGP         |   0.000|
-SW<6>       |    3.299(R)|   -1.080(R)|CLK_BUFGP         |   0.000|
-SW<7>       |    3.608(R)|   -0.817(R)|CLK_BUFGP         |   0.000|
-SW<8>       |    5.290(R)|   -0.660(R)|CLK_BUFGP         |   0.000|
-SW<9>       |    3.877(R)|   -0.349(R)|CLK_BUFGP         |   0.000|
-SW<10>      |    2.986(R)|   -0.584(R)|CLK_BUFGP         |   0.000|
-SW<11>      |    3.644(R)|    0.321(R)|CLK_BUFGP         |   0.000|
-SW<12>      |    3.138(R)|   -0.168(R)|CLK_BUFGP         |   0.000|
-SW<13>      |    3.468(R)|    0.172(R)|CLK_BUFGP         |   0.000|
-SW<14>      |    3.099(R)|    0.029(R)|CLK_BUFGP         |   0.000|
-SW<15>      |    3.163(R)|    0.116(R)|CLK_BUFGP         |   0.000|
+RST         |    6.552(R)|   -0.110(R)|CLK_BUFGP         |   0.000|
+SW<0>       |    3.325(R)|   -0.043(R)|CLK_BUFGP         |   0.000|
+SW<1>       |    2.545(R)|   -0.281(R)|CLK_BUFGP         |   0.000|
+SW<2>       |    4.761(R)|   -0.019(R)|CLK_BUFGP         |   0.000|
+SW<3>       |    3.570(R)|   -0.862(R)|CLK_BUFGP         |   0.000|
+SW<4>       |    4.034(R)|   -0.846(R)|CLK_BUFGP         |   0.000|
+SW<5>       |    4.356(R)|   -1.052(R)|CLK_BUFGP         |   0.000|
+SW<6>       |    4.917(R)|   -1.327(R)|CLK_BUFGP         |   0.000|
+SW<7>       |    4.363(R)|   -0.890(R)|CLK_BUFGP         |   0.000|
+SW<8>       |    4.406(R)|   -0.424(R)|CLK_BUFGP         |   0.000|
+SW<9>       |    4.649(R)|   -0.073(R)|CLK_BUFGP         |   0.000|
+SW<10>      |    3.587(R)|    0.253(R)|CLK_BUFGP         |   0.000|
+SW<11>      |    3.724(R)|    0.224(R)|CLK_BUFGP         |   0.000|
+SW<12>      |    3.963(R)|   -0.317(R)|CLK_BUFGP         |   0.000|
+SW<13>      |    3.006(R)|    0.070(R)|CLK_BUFGP         |   0.000|
+SW<14>      |    4.412(R)|   -0.282(R)|CLK_BUFGP         |   0.000|
+SW<15>      |    4.287(R)|    0.259(R)|CLK_BUFGP         |   0.000|
 ------------+------------+------------+------------------+--------+
 
 Clock CLK to Pad
@@ -69,29 +69,29 @@ Clock CLK to Pad
             | clk (edge) |                  | Clock  |
 Destination |   to PAD   |Internal Clock(s) | Phase  |
 ------------+------------+------------------+--------+
-Led<0>      |   10.753(R)|CLK_BUFGP         |   0.000|
-Led<1>      |   10.753(R)|CLK_BUFGP         |   0.000|
-Led<2>      |   12.481(R)|CLK_BUFGP         |   0.000|
-Led<3>      |   11.325(R)|CLK_BUFGP         |   0.000|
-Led<4>      |   11.999(R)|CLK_BUFGP         |   0.000|
-Led<5>      |   11.846(R)|CLK_BUFGP         |   0.000|
-Led<6>      |   11.055(R)|CLK_BUFGP         |   0.000|
-Light<0>    |    9.071(R)|CLK_BUFGP         |   0.000|
-Light<1>    |    9.070(R)|CLK_BUFGP         |   0.000|
-Light<2>    |    9.324(R)|CLK_BUFGP         |   0.000|
-Light<3>    |    9.054(R)|CLK_BUFGP         |   0.000|
-Light<4>    |    9.243(R)|CLK_BUFGP         |   0.000|
-Light<5>    |    8.866(R)|CLK_BUFGP         |   0.000|
-Light<6>    |    9.527(R)|CLK_BUFGP         |   0.000|
-Light<7>    |    9.422(R)|CLK_BUFGP         |   0.000|
-Light<8>    |   10.250(R)|CLK_BUFGP         |   0.000|
-Light<9>    |   10.479(R)|CLK_BUFGP         |   0.000|
-Light<10>   |   10.727(R)|CLK_BUFGP         |   0.000|
-Light<11>   |   10.627(R)|CLK_BUFGP         |   0.000|
-Light<12>   |   10.617(R)|CLK_BUFGP         |   0.000|
-Light<13>   |   10.680(R)|CLK_BUFGP         |   0.000|
-Light<14>   |   10.916(R)|CLK_BUFGP         |   0.000|
-Light<15>   |   10.749(R)|CLK_BUFGP         |   0.000|
+Led<0>      |   12.105(R)|CLK_BUFGP         |   0.000|
+Led<1>      |   11.812(R)|CLK_BUFGP         |   0.000|
+Led<2>      |   12.348(R)|CLK_BUFGP         |   0.000|
+Led<3>      |   12.056(R)|CLK_BUFGP         |   0.000|
+Led<4>      |   11.541(R)|CLK_BUFGP         |   0.000|
+Led<5>      |   12.084(R)|CLK_BUFGP         |   0.000|
+Led<6>      |   12.222(R)|CLK_BUFGP         |   0.000|
+Light<0>    |    9.829(R)|CLK_BUFGP         |   0.000|
+Light<1>    |    8.758(R)|CLK_BUFGP         |   0.000|
+Light<2>    |   10.079(R)|CLK_BUFGP         |   0.000|
+Light<3>    |    9.814(R)|CLK_BUFGP         |   0.000|
+Light<4>    |    8.994(R)|CLK_BUFGP         |   0.000|
+Light<5>    |    9.551(R)|CLK_BUFGP         |   0.000|
+Light<6>    |    9.878(R)|CLK_BUFGP         |   0.000|
+Light<7>    |   10.023(R)|CLK_BUFGP         |   0.000|
+Light<8>    |   10.562(R)|CLK_BUFGP         |   0.000|
+Light<9>    |   10.272(R)|CLK_BUFGP         |   0.000|
+Light<10>   |   10.839(R)|CLK_BUFGP         |   0.000|
+Light<11>   |   10.717(R)|CLK_BUFGP         |   0.000|
+Light<12>   |   10.870(R)|CLK_BUFGP         |   0.000|
+Light<13>   |   10.829(R)|CLK_BUFGP         |   0.000|
+Light<14>   |   11.088(R)|CLK_BUFGP         |   0.000|
+Light<15>   |   10.736(R)|CLK_BUFGP         |   0.000|
 ------------+------------+------------------+--------+
 
 Clock to Setup on destination clock CLK
@@ -99,11 +99,11 @@ Clock to Setup on destination clock CLK
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-CLK            |    5.729|         |         |         |
+CLK            |    6.766|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
-Analysis completed Mon Oct 29 17:58:00 2018 
+Analysis completed Mon Oct 29 19:58:32 2018 
 --------------------------------------------------------------------------------
 
 Trace Settings:

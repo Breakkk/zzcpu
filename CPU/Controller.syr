@@ -3,13 +3,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 --> Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
+Total REAL time to Xst completion: 1.00 secs
 Total CPU time to Xst completion: 0.23 secs
  
 --> Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
+Total REAL time to Xst completion: 1.00 secs
 Total CPU time to Xst completion: 0.23 secs
  
 --> Reading design: Controller.prj
@@ -139,11 +139,8 @@ Analyzing top module <Controller>.
 	INITADDR = 2'b00
 	INPUTDATA = 2'b01
 	READDATA = 2'b10
-WARNING:Xst:2725 - "Controller.v" line 60: Size mismatch between case item and case selector.
-WARNING:Xst:2725 - "Controller.v" line 68: Size mismatch between case item and case selector.
-WARNING:Xst:916 - "Controller.v" line 71: Delay is ignored for synthesis.
-WARNING:Xst:2725 - "Controller.v" line 85: Size mismatch between case item and case selector.
-WARNING:Xst:916 - "Controller.v" line 87: Delay is ignored for synthesis.
+WARNING:Xst:916 - "Controller.v" line 78: Delay is ignored for synthesis.
+WARNING:Xst:916 - "Controller.v" line 94: Delay is ignored for synthesis.
 Module <Controller> is correct for synthesis.
  
 Analyzing module <ledDecoder> in library <work>.
@@ -168,6 +165,7 @@ Module <RAM> is correct for synthesis.
 =========================================================================
 
 Performing bidirectional port resolution...
+INFO:Xst:2679 - Register <ram_trigger> in unit <Controller> has a constant value of 0 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <data_o> in unit <RAM> has a constant value of ZZZZZZZZZZZZZZZZ during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <RamWE> in unit <RAM> has a constant value of 1 during circuit operation. The register is replaced by logic.
 
@@ -182,49 +180,44 @@ Unit <ledDecoder> synthesized.
 Synthesizing Unit <RAM>.
     Related source file is "RAM.v".
 WARNING:Xst:1305 - Output <RamEN> is never assigned. Tied to value 0.
-WARNING:Xst:1780 - Signal <w_finished> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:1780 - Signal <r_finished> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-    Found 1-bit register for signal <RamOE>.
+WARNING:Xst:2109 - Contents of latch <dataBuf> never changes during circuit operation. The latch is removed and the signal is tied to value 0000000000000000.
+WARNING:Xst:2109 - Contents of latch <addrBuf> never changes during circuit operation. The latch is removed and the signal is tied to value 000000000000000000.
+WARNING:Xst:2109 - Contents of latch <RamOE> never changes during circuit operation. The latch is removed and the signal is tied to value 1.
     Found 16-bit tristate buffer for signal <data_o>.
-    Found 18-bit register for signal <addrBuf>.
-    Found 16-bit tristate buffer for signal <dataBuf>.
-    Found 16-bit register for signal <Mtridata_dataBuf>.
-    Found 1-bit register for signal <Mtrien_dataBuf>.
     Summary:
-	inferred  36 D-type flip-flop(s).
-	inferred  32 Tristate(s).
+	inferred  16 Tristate(s).
 Unit <RAM> synthesized.
 
 
 Synthesizing Unit <Controller>.
     Related source file is "Controller.v".
-WARNING:Xst:646 - Signal <outputValue<15:9>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <startAddr<17:16>> is used but never assigned. This sourceless signal will be automatically connected to value 00.
+WARNING:Xst:646 - Signal <outputValue<15:8>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Found finite state machine <FSM_0> for signal <c_state>.
     -----------------------------------------------------------------------
     | States             | 3                                              |
     | Transitions        | 5                                              |
-    | Inputs             | 1                                              |
+    | Inputs             | 2                                              |
     | Outputs            | 3                                              |
     | Clock              | CLK                       (rising_edge)        |
     | Reset              | RST                       (negative)           |
     | Reset type         | asynchronous                                   |
-    | Reset State        | 000                                            |
+    | Reset State        | 00                                             |
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-    Found 16-bit register for signal <currAddr>.
+    Found 18-bit adder for signal <$add0000> created at line 89.
+    Found 18-bit register for signal <currAddr>.
     Found 16-bit register for signal <currValue>.
     Found 16-bit register for signal <ledLight>.
     Found 4-bit register for signal <number>.
-    Found 16-bit comparator not equal for signal <number$cmp_ne0000> created at line 78.
-    Found 4-bit adder for signal <number$share0000> created at line 59.
-    Found 16-bit adder for signal <old_currAddr_2$add0000> created at line 92.
-    Found 1-bit register for signal <ram_trigger>.
+    Found 18-bit comparator not equal for signal <number$cmp_ne0000> created at line 86.
+    Found 4-bit adder for signal <number$share0000> created at line 66.
     Found 1-bit register for signal <read>.
-    Found 16-bit register for signal <startAddr>.
+    Found 16-bit register for signal <startAddr<15:0>>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred  70 D-type flip-flop(s).
+	inferred  71 D-type flip-flop(s).
 	inferred   2 Adder/Subtractor(s).
 	inferred   1 Comparator(s).
 Unit <Controller> synthesized.
@@ -238,18 +231,16 @@ Macro Statistics
 # ROMs                                                 : 1
  16x7-bit ROM                                          : 1
 # Adders/Subtractors                                   : 2
- 16-bit adder                                          : 1
+ 18-bit adder                                          : 1
  4-bit adder                                           : 1
-# Registers                                            : 11
- 1-bit register                                        : 4
- 16-bit register                                       : 5
- 18-bit register                                       : 1
+# Registers                                            : 38
+ 1-bit register                                        : 35
+ 16-bit register                                       : 2
  4-bit register                                        : 1
 # Comparators                                          : 1
- 16-bit comparator not equal                           : 1
-# Tristates                                            : 17
+ 18-bit comparator not equal                           : 1
+# Tristates                                            : 16
  1-bit tristate buffer                                 : 16
- 16-bit tristate buffer                                : 1
 
 =========================================================================
 
@@ -258,19 +249,14 @@ Macro Statistics
 =========================================================================
 
 Analyzing FSM <FSM_0> for best encoding.
-Optimizing FSM <c_state/FSM> on signal <c_state[1:2]> with sequential encoding.
+Optimizing FSM <c_state/FSM> on signal <c_state[1:2]> with user encoding.
 -------------------
  State | Encoding
 -------------------
- 000   | 00
- 001   | 01
- 010   | 10
+ 00    | 00
+ 01    | 01
+ 10    | 10
 -------------------
-INFO:Xst:2261 - The FF/Latch <addrBuf_1> in Unit <ram> is equivalent to the following 16 FFs/Latches, which will be removed : <addrBuf_2> <addrBuf_3> <addrBuf_4> <addrBuf_5> <addrBuf_6> <addrBuf_7> <addrBuf_8> <addrBuf_9> <addrBuf_10> <addrBuf_11> <addrBuf_12> <addrBuf_13> <addrBuf_14> <addrBuf_15> <addrBuf_16> <addrBuf_17> 
-WARNING:Xst:1426 - The value init of the FF/Latch RamOE hinder the constant cleaning in the block ram.
-   You should achieve better results by setting this init to 0.
-WARNING:Xst:1710 - FF/Latch <addrBuf_1> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:2404 -  FFs/Latches <addrBuf<17:1>> (without init value) have a constant value of 0 in block <RAM>.
 
 =========================================================================
 Advanced HDL Synthesis Report
@@ -280,27 +266,48 @@ Macro Statistics
 # ROMs                                                 : 1
  16x7-bit ROM                                          : 1
 # Adders/Subtractors                                   : 2
- 16-bit adder                                          : 1
+ 18-bit adder                                          : 1
  4-bit adder                                           : 1
-# Registers                                            : 89
- Flip-Flops                                            : 89
+# Registers                                            : 71
+ Flip-Flops                                            : 71
 # Comparators                                          : 1
- 16-bit comparator not equal                           : 1
+ 18-bit comparator not equal                           : 1
 
 =========================================================================
 
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
-WARNING:Xst:1426 - The value init of the FF/Latch RamOE hinder the constant cleaning in the block RAM.
-   You should achieve better results by setting this init to 0.
+WARNING:Xst:2042 - Unit RAM: 16 internal tristates are replaced by logic (pull-up yes): data_o<0>, data_o<10>, data_o<11>, data_o<12>, data_o<13>, data_o<14>, data_o<15>, data_o<1>, data_o<2>, data_o<3>, data_o<4>, data_o<5>, data_o<6>, data_o<7>, data_o<8>, data_o<9>.
 
 Optimizing unit <Controller> ...
 
+Optimizing unit <RAM> ...
+WARNING:Xst:2677 - Node <read> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_0> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_1> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_2> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_3> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_4> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_5> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_6> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_7> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_8> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_9> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_10> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_11> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_12> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_13> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_14> of sequential type is unconnected in block <Controller>.
+WARNING:Xst:2677 - Node <currValue_15> of sequential type is unconnected in block <Controller>.
+
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block Controller, actual ratio is 0.
-FlipFlop ram/Mtrien_dataBuf has been replicated 15 time(s) to handle iob=true attribute.
+Found area constraint ratio of 100 (+ 5) on block Controller, actual ratio is 1.
+FlipFlop c_state_FSM_FFd1 has been replicated 1 time(s)
+FlipFlop c_state_FSM_FFd2 has been replicated 1 time(s)
+FlipFlop number_0 has been replicated 1 time(s)
+FlipFlop number_1 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -308,8 +315,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 106
- Flip-Flops                                            : 106
+# Registers                                            : 60
+ Flip-Flops                                            : 60
 
 =========================================================================
 
@@ -338,33 +345,30 @@ Design Statistics
 # IOs                              : 78
 
 Cell Usage :
-# BELS                             : 186
+# BELS                             : 209
 #      GND                         : 1
 #      INV                         : 2
-#      LUT1                        : 15
-#      LUT2                        : 17
-#      LUT2_D                      : 1
-#      LUT2_L                      : 8
-#      LUT3                        : 24
+#      LUT1                        : 17
+#      LUT2                        : 42
+#      LUT2_L                      : 3
+#      LUT3                        : 15
 #      LUT3_D                      : 1
-#      LUT3_L                      : 1
-#      LUT4                        : 64
-#      LUT4_D                      : 1
-#      LUT4_L                      : 2
-#      MUXCY                       : 23
-#      MUXF5                       : 9
+#      LUT3_L                      : 7
+#      LUT4                        : 52
+#      LUT4_D                      : 2
+#      LUT4_L                      : 20
+#      MUXCY                       : 26
+#      MUXF5                       : 2
 #      VCC                         : 1
-#      XORCY                       : 16
-# FlipFlops/Latches                : 106
-#      FD                          : 33
-#      FDC                         : 6
-#      FDE                         : 67
+#      XORCY                       : 18
+# FlipFlops/Latches                : 60
+#      FDC                         : 10
+#      FDE                         : 50
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
 # IO Buffers                       : 77
 #      IBUF                        : 17
-#      OBUF                        : 44
-#      OBUFT                       : 16
+#      OBUF                        : 60
 =========================================================================
 
 Device utilization summary:
@@ -372,12 +376,11 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                       72  out of   8672     0%  
- Number of Slice Flip Flops:             72  out of  17344     0%  
- Number of 4 input LUTs:                136  out of  17344     0%  
+ Number of Slices:                       85  out of   8672     0%  
+ Number of Slice Flip Flops:             60  out of  17344     0%  
+ Number of 4 input LUTs:                161  out of  17344     0%  
  Number of IOs:                          78
  Number of bonded IOBs:                  78  out of    250    31%  
-    IOB Flip Flops:                      34
  Number of GCLKs:                         1  out of     24     4%  
 
 ---------------------------
@@ -401,25 +404,23 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-CLK                                | BUFGP                  | 72    |
-ram_trigger                        | NONE(ram/addrBuf)      | 34    |
+CLK                                | BUFGP                  | 60    |
 -----------------------------------+------------------------+-------+
-INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
 ----------------------------------------
 -----------------------------------+------------------------+-------+
 Control Signal                     | Buffer(FF name)        | Load  |
 -----------------------------------+------------------------+-------+
-RST_inv(RST_inv1_INV_0:O)          | NONE(c_state_FSM_FFd1) | 6     |
+RST_inv(RST_inv1_INV_0:O)          | NONE(c_state_FSM_FFd1) | 10    |
 -----------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 6.588ns (Maximum Frequency: 151.791MHz)
-   Minimum input arrival time before clock: 4.950ns
+   Minimum period: 6.582ns (Maximum Frequency: 151.929MHz)
+   Minimum input arrival time before clock: 5.118ns
    Maximum output required time after clock: 6.230ns
    Maximum combinational path delay: No path found
 
@@ -429,73 +430,50 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'CLK'
-  Clock period: 6.588ns (frequency: 151.791MHz)
-  Total number of paths / destination ports: 827 / 72
+  Clock period: 6.582ns (frequency: 151.930MHz)
+  Total number of paths / destination ports: 1267 / 60
 -------------------------------------------------------------------------
-Delay:               6.588ns (Levels of Logic = 10)
-  Source:            currAddr_1 (FF)
-  Destination:       currAddr_6 (FF)
+Delay:               6.582ns (Levels of Logic = 4)
+  Source:            number_3 (FF)
+  Destination:       currAddr_15 (FF)
   Source Clock:      CLK rising
   Destination Clock: CLK rising
 
-  Data Path: currAddr_1 to currAddr_6
+  Data Path: number_3 to currAddr_15
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q              3   0.591   0.706  currAddr_1 (currAddr_1)
-     LUT1:I0->O            1   0.704   0.000  Madd_old_currAddr_2_add0000_cy<1>_rt (Madd_old_currAddr_2_add0000_cy<1>_rt)
-     MUXCY:S->O            1   0.464   0.000  Madd_old_currAddr_2_add0000_cy<1> (Madd_old_currAddr_2_add0000_cy<1>)
-     MUXCY:CI->O           1   0.059   0.000  Madd_old_currAddr_2_add0000_cy<2> (Madd_old_currAddr_2_add0000_cy<2>)
-     MUXCY:CI->O           1   0.059   0.000  Madd_old_currAddr_2_add0000_cy<3> (Madd_old_currAddr_2_add0000_cy<3>)
-     MUXCY:CI->O           1   0.059   0.000  Madd_old_currAddr_2_add0000_cy<4> (Madd_old_currAddr_2_add0000_cy<4>)
-     MUXCY:CI->O           1   0.059   0.000  Madd_old_currAddr_2_add0000_cy<5> (Madd_old_currAddr_2_add0000_cy<5>)
-     XORCY:CI->O           1   0.804   0.595  Madd_old_currAddr_2_add0000_xor<6> (old_currAddr_2_add0000<6>)
-     LUT3:I0->O            1   0.704   0.000  currAddr_mux0000<6>110_F (N80)
-     MUXF5:I0->O           2   0.321   0.451  currAddr_mux0000<6>110 (N10)
-     LUT4:I3->O            1   0.704   0.000  ledLight_mux0000<15>1 (ledLight_mux0000<15>)
-     FDE:D                     0.308          ledLight_15
+     FDC:C->Q             15   0.591   1.192  number_3 (number_3)
+     LUT2:I0->O            1   0.704   0.424  ledLight_mux0008<10>2_SW0 (N35)
+     LUT4_D:I3->LO         1   0.704   0.179  ledLight_mux0008<10>2 (N78)
+     LUT2:I1->O           18   0.704   1.072  currAddr_0_mux000021 (N4)
+     LUT4:I3->O            1   0.704   0.000  currAddr_6_mux000027 (currAddr_6_mux0000)
+     FDE:D                     0.308          currAddr_6
     ----------------------------------------
-    Total                      6.588ns (4.836ns logic, 1.752ns route)
-                                       (73.4% logic, 26.6% route)
+    Total                      6.582ns (3.715ns logic, 2.867ns route)
+                                       (56.4% logic, 43.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK'
-  Total number of paths / destination ports: 130 / 130
+  Total number of paths / destination ports: 98 / 98
 -------------------------------------------------------------------------
-Offset:              4.950ns (Levels of Logic = 2)
-  Source:            RST (PAD)
-  Destination:       startAddr_0 (FF)
+Offset:              5.118ns (Levels of Logic = 4)
+  Source:            SW<15> (PAD)
+  Destination:       currAddr_15 (FF)
   Destination Clock: CLK rising
 
-  Data Path: RST to startAddr_0
+  Data Path: SW<15> to currAddr_15
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            37   1.218   1.439  RST_IBUF (RST_IBUF)
-     LUT2:I0->O           16   0.704   1.034  currValue_and00001 (currValue_and0000)
-     FDE:CE                    0.555          currValue_0
+     IBUF:I->O             3   1.218   0.706  SW_15_IBUF (SW_15_IBUF)
+     LUT2:I0->O            1   0.704   0.595  currAddr_15_mux00003 (currAddr_15_mux00003)
+     LUT4_L:I0->LO         1   0.704   0.179  currAddr_15_mux000012 (currAddr_15_mux000012)
+     LUT4:I1->O            1   0.704   0.000  currAddr_15_mux000027 (currAddr_15_mux0000)
+     FDE:D                     0.308          currAddr_15
     ----------------------------------------
-    Total                      4.950ns (2.477ns logic, 2.473ns route)
-                                       (50.0% logic, 50.0% route)
-
-=========================================================================
-Timing constraint: Default OFFSET OUT AFTER for Clock 'ram_trigger'
-  Total number of paths / destination ports: 34 / 18
--------------------------------------------------------------------------
-Offset:              4.283ns (Levels of Logic = 1)
-  Source:            ram/RamOE (FF)
-  Destination:       Ram1OE (PAD)
-  Source Clock:      ram_trigger rising
-
-  Data Path: ram/RamOE to Ram1OE
-                                Gate     Net
-    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
-    ----------------------------------------  ------------
-     FDE:C->Q              1   0.591   0.420  ram/RamOE (ram/RamOE)
-     OBUF:I->O                 3.272          Ram1OE_OBUF (Ram1OE)
-    ----------------------------------------
-    Total                      4.283ns (3.863ns logic, 0.420ns route)
-                                       (90.2% logic, 9.8% route)
+    Total                      5.118ns (3.638ns logic, 1.480ns route)
+                                       (71.1% logic, 28.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK'
@@ -520,14 +498,14 @@ Offset:              6.230ns (Levels of Logic = 2)
 =========================================================================
 
 
-Total REAL time to Xst completion: 28.00 secs
-Total CPU time to Xst completion: 27.99 secs
+Total REAL time to Xst completion: 10.00 secs
+Total CPU time to Xst completion: 9.84 secs
  
 --> 
 
-Total memory usage is 274412 kilobytes
+Total memory usage is 261420 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   17 (   0 filtered)
-Number of infos    :    5 (   0 filtered)
+Number of warnings :   29 (   0 filtered)
+Number of infos    :    4 (   0 filtered)
 

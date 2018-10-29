@@ -21,7 +21,7 @@
 module RAM(
 	input	clk,
 	input	read,
-	input	addr,
+	input	[17:0] addr,
 	input	[15:0] data_i,
 	output	reg	[15:0] data_o,
     output	[17:0] RamAddr,
@@ -39,8 +39,8 @@ localparam t_H = 5;	//Hold from write end - WRITE
 
 reg [15:0] dataBuf;
 reg [17:0] addrBuf;
-reg w_finished;
-reg r_finished;
+//reg w_finished;
+//reg r_finished;
 
 initial begin
 	RamEN <= 1'b0;

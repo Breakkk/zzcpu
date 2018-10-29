@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -o "Z:/Desktop/zzcpu/CPU/testcontroler_isim_beh.exe" -prj "Z:/Desktop/zzcpu/CPU/testcontroler_beh.prj" "work.testcontroler" "work.glbl" 

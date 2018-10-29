@@ -1,8 +1,12 @@
 //! **************************************************************************
-// Written by: Map P.20131013 on Mon Oct 29 17:56:11 2018
+// Written by: Map P.20131013 on Mon Oct 29 19:57:59 2018
 //! **************************************************************************
 
 SCHEMATIC START;
+COMP "SW<0>" LOCATE = SITE "T7" LEVEL 1;
+COMP "Led<2>" LOCATE = SITE "E7" LEVEL 1;
+COMP "Ram1Data<12>" LOCATE = SITE "L17" LEVEL 1;
+NET "CLK_BUFGP/IBUFG" BEL "CLK_BUFGP/BUFG.GCLKMUX" USELOCALCONNECT;
 COMP "SW<1>" LOCATE = SITE "R7" LEVEL 1;
 COMP "Led<3>" LOCATE = SITE "F7" LEVEL 1;
 COMP "Ram1Data<13>" LOCATE = SITE "L18" LEVEL 1;
@@ -78,9 +82,5 @@ COMP "Led<0>" LOCATE = SITE "C7" LEVEL 1;
 COMP "Ram1Data<10>" LOCATE = SITE "L15" LEVEL 1;
 COMP "Led<1>" LOCATE = SITE "D7" LEVEL 1;
 COMP "Ram1Data<11>" LOCATE = SITE "L16" LEVEL 1;
-COMP "SW<0>" LOCATE = SITE "T7" LEVEL 1;
-COMP "Led<2>" LOCATE = SITE "E7" LEVEL 1;
-COMP "Ram1Data<12>" LOCATE = SITE "L17" LEVEL 1;
-NET "CLK_BUFGP/IBUFG" BEL "CLK_BUFGP/BUFG.GCLKMUX" USELOCALCONNECT;
 SCHEMATIC END;
 
