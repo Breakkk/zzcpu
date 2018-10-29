@@ -1,14 +1,14 @@
 #-----------------------------------------------------------
 # PlanAhead v14.7
 # Build 321239 by xbuild on Fri Sep 27 19:31:35 MDT 2013
-# Start of session at: Sun Oct 28 20:30:40 2018
-# Process ID: 9372
+# Start of session at: Mon Oct 29 15:01:29 2018
+# Process ID: 5444
 # Log file: G:/ISE_Project/SerialInterface/planAhead_run_1/planAhead.log
 # Journal file: G:/ISE_Project/SerialInterface/planAhead_run_1/planAhead.jou
 #-----------------------------------------------------------
 INFO: [Common 17-78] Attempting to get a license: PlanAhead
 INFO: [Common 17-290] Got license for PlanAhead
-INFO: [Common 17-86] Your PlanAhead license expires in -666 day(s)
+INFO: [Common 17-86] Your PlanAhead license expires in -667 day(s)
 INFO: [Device 21-36] Loading parts and site information from G:/ISE/14.7/ISE_DS/PlanAhead/data/parts/arch.xml
 Parsing RTL primitives file [G:/ISE/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
 Finished parsing RTL primitives file [G:/ISE/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
@@ -36,9 +36,13 @@ WARNING:NetListWriters:298 - No output is written to controller.xncf, ignored.
 Processing design ...
    Preping design's networks ...
    Preping design's macros ...
+WARNING:NetListWriters:306 - Signal bus L_mux0000<7 : 0> on block controller is
+   not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus Mtridata_data<4 : 0> on block controller
+   is not reconstructed, because there are some missing bus signals.
   finished :Prep
 Writing EDIF netlist file controller.edif ...
-ngc2edif: Total memory usage is 84080 kilobytes
+ngc2edif: Total memory usage is 83824 kilobytes
 
 Parsing EDIF File [./planAhead_run_1/SerialInterface.data/cache/controller_ngc_zx.edif]
 Finished Parsing EDIF File [./planAhead_run_1/SerialInterface.data/cache/controller_ngc_zx.edif]
@@ -58,124 +62,15 @@ Finished Parsing UCF File [G:/ISE_Project/SerialInterface/controller.ucf]
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Phase 0 | Netlist Checksum: 87c1218b
-link_design: Time (s): elapsed = 00:00:11 . Memory (MB): peak = 450.273 ; gain = 60.492
-startgroup
-set_property package_pin T7 [get_ports {CO[1]}]
-endgroup
-startgroup
-set_property package_pin R7 [get_ports {CO[0]}]
-endgroup
-startgroup
-set_property package_pin F11 [get_ports {L[7]}]
-endgroup
-startgroup
-set_property package_pin E11 [get_ports {L[6]}]
-endgroup
-startgroup
-set_property package_pin D11 [get_ports {L[5]}]
-endgroup
-startgroup
-set_property package_pin C11 [get_ports {L[4]}]
-endgroup
-startgroup
-set_property package_pin B11 [get_ports {L[3]}]
-endgroup
-startgroup
-set_property package_pin A11 [get_ports {L[2]}]
-endgroup
-startgroup
-set_property package_pin E10 [get_ports {L[1]}]
-endgroup
-startgroup
-set_property package_pin D10 [get_ports {L[0]}]
-endgroup
-startgroup
-set_property package_pin K13 [get_ports {Ram1Data[7]}]
-endgroup
-startgroup
-set_property package_pin K12 [get_ports {Ram1Data[6]}]
-endgroup
-startgroup
-set_property package_pin J17 [get_ports {Ram1Data[5]}]
-endgroup
-startgroup
-set_property package_pin J16 [get_ports {Ram1Data[4]}]
-endgroup
-startgroup
-set_property package_pin J15 [get_ports {Ram1Data[3]}]
-endgroup
-startgroup
-set_property package_pin J14 [get_ports {Ram1Data[2]}]
-endgroup
-startgroup
-set_property package_pin J13 [get_ports {Ram1Data[1]}]
-endgroup
-startgroup
-set_property package_pin J12 [get_ports {Ram1Data[0]}]
-endgroup
-startgroup
-set_property package_pin J6 [get_ports {SW[7]}]
-endgroup
-startgroup
-set_property package_pin J7 [get_ports {SW[6]}]
-endgroup
-startgroup
-set_property package_pin K2 [get_ports {SW[5]}]
-endgroup
-startgroup
-set_property package_pin K7 [get_ports {SW[4]}]
-endgroup
-startgroup
-set_property package_pin M1 [get_ports {SW[3]}]
-endgroup
-startgroup
-set_property package_pin N1 [get_ports {SW[2]}]
-endgroup
-startgroup
-set_property package_pin N2 [get_ports {SW[1]}]
-endgroup
-startgroup
-set_property package_pin R1 [get_ports {SW[0]}]
-endgroup
-startgroup
-set_property package_pin B8 [get_ports CLK]
-endgroup
-startgroup
-set_property package_pin U10 [get_ports RST]
-endgroup
-startgroup
-set_property package_pin A16 [get_ports data_ready]
-endgroup
-startgroup
-set_property package_pin M15 [get_ports Ram1EN]
-endgroup
-startgroup
-set_property package_pin M16 [get_ports Ram1OE]
-endgroup
-startgroup
-set_property package_pin M18 [get_ports Ram1WE]
-endgroup
-startgroup
-set_property package_pin C14 [get_ports rdn]
-endgroup
-startgroup
-set_property package_pin D14 [get_ports tbre]
-endgroup
-startgroup
-set_property package_pin N9 [get_ports tsre]
-endgroup
-startgroup
-set_property package_pin U5 [get_ports wrn]
-endgroup
-save_constraints
+Phase 0 | Netlist Checksum: 12f625f5
+link_design: Time (s): elapsed = 00:00:06 . Memory (MB): peak = 499.180 ; gain = 75.105
 exit
 ERROR: [PlanAhead 12-106] *** Exception: ui.h.b: Found deleted key in HTclEventBroker. Verify if the classes listed here call cleanup()
-HTclEvent: DEBUG_CORE_CONFIG_CHANGE   Classes: ui.views.aR 
-HTclEvent: SIGNAL_BUS_MODIFY   Classes: ui.views.aR 
 HTclEvent: DEBUG_PORT_CONFIG_CHANGE   Classes: ui.views.aR 
 HTclEvent: SIGNAL_MODIFY   Classes: ui.views.aR 
- (See G:/ISE_Project/SerialInterface\planAhead_pid9372.debug)
+HTclEvent: SIGNAL_BUS_MODIFY   Classes: ui.views.aR 
+HTclEvent: DEBUG_CORE_CONFIG_CHANGE   Classes: ui.views.aR 
+ (See G:/ISE_Project/SerialInterface\planAhead_pid5444.debug)
 ERROR: [Common 17-39] 'stop_gui' failed due to earlier errors.
-INFO: [Common 17-206] Exiting PlanAhead at Sun Oct 28 20:38:24 2018...
+INFO: [Common 17-206] Exiting PlanAhead at Mon Oct 29 15:02:04 2018...
 INFO: [Common 17-83] Releasing license: PlanAhead

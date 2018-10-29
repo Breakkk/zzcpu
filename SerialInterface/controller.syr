@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.42 secs
+Total CPU time to Xst completion: 0.09 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.42 secs
+Total CPU time to Xst completion: 0.09 secs
  
 --> Reading design: controller.prj
 
@@ -150,9 +150,6 @@ Module <controller> is correct for synthesis.
 =========================================================================
 
 Performing bidirectional port resolution...
-INFO:Xst:2679 - Register <Ram1OE> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
-INFO:Xst:2679 - Register <Ram1WE> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
-INFO:Xst:2679 - Register <Ram1EN> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
 
 Synthesizing Unit <controller>.
     Related source file is "controller.v".
@@ -171,18 +168,22 @@ INFO:Xst:1799 - State 0011 is never reached in FSM <state_c>.
     | Reset              | RST                       (negative)           |
     | Reset type         | asynchronous                                   |
     | Reset State        | 0000                                           |
+    | Power Up State     | 0000                                           |
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
+WARNING:Xst:737 - Found 1-bit latch for signal <rdn>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+INFO:Xst:2371 - HDL ADVISOR - Logic functions respectively driving the data and gate enable inputs of this latch share common terms. This situation will potentially lead to setup/hold violations and, as a result, to simulation problems. This situation may come from an incomplete case statement (all selector values are not covered). You should carefully review if it was in your intentions to describe such a latch.
     Found 8-bit register for signal <L>.
-    Found 1-bit register for signal <rdn>.
     Found 1-bit register for signal <wrn>.
     Found 8-bit tristate buffer for signal <data>.
     Found 8-bit register for signal <Mtridata_data>.
+    Found 8-bit adder for signal <Mtridata_data$addsub0000> created at line 156.
     Found 1-bit register for signal <Mtrien_data>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred  19 D-type flip-flop(s).
+	inferred  18 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
 	inferred   8 Tristate(s).
 Unit <controller> synthesized.
 
@@ -191,9 +192,13 @@ Unit <controller> synthesized.
 HDL Synthesis Report
 
 Macro Statistics
-# Registers                                            : 5
- 1-bit register                                        : 3
+# Adders/Subtractors                                   : 1
+ 8-bit adder                                           : 1
+# Registers                                            : 4
+ 1-bit register                                        : 2
  8-bit register                                        : 2
+# Latches                                              : 1
+ 1-bit latch                                           : 1
 # Tristates                                            : 1
  8-bit tristate buffer                                 : 1
 
@@ -217,54 +222,33 @@ Optimizing FSM <state_c/FSM> on signal <state_c[1:5]> with one-hot encoding.
  0110  | 01000
  0111  | 10000
 -------------------
-WARNING:Xst:1710 - FF/Latch <rdn> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_0> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_1> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_2> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_3> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_4> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_5> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_6> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_7> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtrien_data> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<2> Mtridata_data<2> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<3> Mtridata_data<3> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<4> Mtridata_data<4> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<5> Mtridata_data<5> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<6> Mtridata_data<6> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<7> Mtridata_data<7> signal will be lost.
-WARNING:Xst:1710 - FF/Latch <Mtrien_data> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <0> (without init value) has a constant value of 0 in block <rdn>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <L_1> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <L_2> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <Mtrien_data> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1293 - FF/Latch <Mtrien_data> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
 
 =========================================================================
 Advanced HDL Synthesis Report
 
 Macro Statistics
 # FSMs                                                 : 1
-# Registers                                            : 19
- Flip-Flops                                            : 19
+# Adders/Subtractors                                   : 1
+ 8-bit adder                                           : 1
+# Registers                                            : 18
+ Flip-Flops                                            : 18
+# Latches                                              : 1
+ 1-bit latch                                           : 1
 
 =========================================================================
 
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
+WARNING:Xst:1710 - FF/Latch <L_1> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <L_2> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <Mtrien_data> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <rdn> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_0> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_1> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_2> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_3> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_4> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_5> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_6> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_7> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtrien_data> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<2> Mtridata_data<2> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<3> Mtridata_data<3> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<4> Mtridata_data<4> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<5> Mtridata_data<5> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<6> Mtridata_data<6> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<7> Mtridata_data<7> signal will be lost.
-WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtrien_data Mtrien_data signal will be lost.
 
 Optimizing unit <controller> ...
 
@@ -278,8 +262,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 14
- Flip-Flops                                            : 14
+# Registers                                            : 20
+ Flip-Flops                                            : 20
 
 =========================================================================
 
@@ -308,18 +292,19 @@ Design Statistics
 # IOs                              : 36
 
 Cell Usage :
-# BELS                             : 25
+# BELS                             : 27
 #      GND                         : 1
-#      INV                         : 1
-#      LUT2                        : 2
-#      LUT3                        : 2
-#      LUT3_L                      : 6
-#      LUT4                        : 10
-#      LUT4_L                      : 2
+#      INV                         : 2
+#      LUT2                        : 3
+#      LUT2_L                      : 1
+#      LUT3                        : 4
+#      LUT3_D                      : 2
+#      LUT4                        : 11
+#      LUT4_D                      : 2
 #      VCC                         : 1
-# FlipFlops/Latches                : 14
+# FlipFlops/Latches                : 20
 #      FDC                         : 4
-#      FDE                         : 8
+#      FDE                         : 14
 #      FDP                         : 2
 # Clock Buffers                    : 1
 #      BUFGP                       : 1
@@ -333,9 +318,9 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                       11  out of   8672     0%  
- Number of Slice Flip Flops:             14  out of  17344     0%  
- Number of 4 input LUTs:                 23  out of  17344     0%  
+ Number of Slices:                       14  out of   8672     0%  
+ Number of Slice Flip Flops:             20  out of  17344     0%  
+ Number of 4 input LUTs:                 25  out of  17344     0%  
  Number of IOs:                          36
  Number of bonded IOBs:                  25  out of    250    10%  
  Number of GCLKs:                         1  out of     24     4%  
@@ -361,7 +346,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-CLK                                | BUFGP                  | 14    |
+CLK                                | BUFGP                  | 20    |
 -----------------------------------+------------------------+-------+
 
 Asynchronous Control Signals Information:
@@ -376,9 +361,9 @@ Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 3.743ns (Maximum Frequency: 267.165MHz)
-   Minimum input arrival time before clock: 4.064ns
-   Maximum output required time after clock: 4.310ns
+   Minimum period: 3.579ns (Maximum Frequency: 279.408MHz)
+   Minimum input arrival time before clock: 4.166ns
+   Maximum output required time after clock: 4.532ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -387,78 +372,77 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'CLK'
-  Clock period: 3.743ns (frequency: 267.165MHz)
-  Total number of paths / destination ports: 62 / 14
+  Clock period: 3.579ns (frequency: 279.408MHz)
+  Total number of paths / destination ports: 99 / 28
 -------------------------------------------------------------------------
-Delay:               3.743ns (Levels of Logic = 2)
-  Source:            state_c_FSM_FFd1 (FF)
-  Destination:       L_0 (FF)
+Delay:               3.579ns (Levels of Logic = 2)
+  Source:            Mtridata_data_3 (FF)
+  Destination:       Mtridata_data_5 (FF)
   Source Clock:      CLK rising
   Destination Clock: CLK rising
 
-  Data Path: state_c_FSM_FFd1 to L_0
+  Data Path: Mtridata_data_3 to Mtridata_data_5
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q             11   0.591   1.012  state_c_FSM_FFd1 (state_c_FSM_FFd1)
-     LUT3:I1->O            1   0.704   0.424  L_mux0000<7>_SW2 (N50)
-     LUT4:I3->O            1   0.704   0.000  L_mux0000<7> (L_mux0000<7>)
-     FDE:D                     0.308          L_0
+     FDE:C->Q              3   0.591   0.706  Mtridata_data_3 (Mtridata_data<3>)
+     LUT4_D:I0->O          3   0.704   0.566  Madd_Mtridata_data_addsub0000_cy<3>11 (Madd_Mtridata_data_addsub0000_cy<3>)
+     LUT3:I2->O            1   0.704   0.000  Madd_Mtridata_data_addsub0000_xor<5>11 (Mtridata_data_addsub0000<5>)
+     FDE:D                     0.308          Mtridata_data_5
     ----------------------------------------
-    Total                      3.743ns (2.307ns logic, 1.436ns route)
-                                       (61.6% logic, 38.4% route)
+    Total                      3.579ns (2.307ns logic, 1.272ns route)
+                                       (64.5% logic, 35.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK'
-  Total number of paths / destination ports: 14 / 13
+  Total number of paths / destination ports: 20 / 19
 -------------------------------------------------------------------------
-Offset:              4.064ns (Levels of Logic = 3)
-  Source:            tsre (PAD)
-  Destination:       L_0 (FF)
+Offset:              4.166ns (Levels of Logic = 2)
+  Source:            RST (PAD)
+  Destination:       Mtridata_data_0 (FF)
   Destination Clock: CLK rising
 
-  Data Path: tsre to L_0
+  Data Path: RST to Mtridata_data_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O             3   1.218   0.706  tsre_IBUF (tsre_IBUF)
-     LUT3:I0->O            1   0.704   0.424  L_mux0000<7>_SW2 (N50)
-     LUT4:I3->O            1   0.704   0.000  L_mux0000<7> (L_mux0000<7>)
-     FDE:D                     0.308          L_0
+     IBUF:I->O             8   1.218   0.932  RST_IBUF (RST_IBUF)
+     LUT3:I0->O            8   0.704   0.757  Mtridata_data_and00001 (Mtridata_data_and0000)
+     FDE:CE                    0.555          Mtridata_data_0
     ----------------------------------------
-    Total                      4.064ns (2.934ns logic, 1.130ns route)
-                                       (72.2% logic, 27.8% route)
+    Total                      4.166ns (2.477ns logic, 1.689ns route)
+                                       (59.5% logic, 40.5% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK'
-  Total number of paths / destination ports: 9 / 9
+  Total number of paths / destination ports: 15 / 15
 -------------------------------------------------------------------------
-Offset:              4.310ns (Levels of Logic = 1)
-  Source:            wrn (FF)
-  Destination:       wrn (PAD)
+Offset:              4.532ns (Levels of Logic = 1)
+  Source:            Mtridata_data_0 (FF)
+  Destination:       Ram1Data<0> (PAD)
   Source Clock:      CLK rising
 
-  Data Path: wrn to wrn
+  Data Path: Mtridata_data_0 to Ram1Data<0>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDP:C->Q              2   0.591   0.447  wrn (wrn_OBUF)
-     OBUF:I->O                 3.272          wrn_OBUF (wrn)
+     FDE:C->Q              6   0.591   0.669  Mtridata_data_0 (Mtridata_data<0>)
+     OBUF:I->O                 3.272          Ram1Data_0_OBUF (Ram1Data<0>)
     ----------------------------------------
-    Total                      4.310ns (3.863ns logic, 0.447ns route)
-                                       (89.6% logic, 10.4% route)
+    Total                      4.532ns (3.863ns logic, 0.669ns route)
+                                       (85.2% logic, 14.8% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 6.00 secs
-Total CPU time to Xst completion: 5.66 secs
+Total REAL time to Xst completion: 5.00 secs
+Total CPU time to Xst completion: 4.39 secs
  
 --> 
 
-Total memory usage is 4533916 kilobytes
+Total memory usage is 4550100 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   36 (   0 filtered)
-Number of infos    :    6 (   0 filtered)
+Number of warnings :   12 (   0 filtered)
+Number of infos    :    4 (   0 filtered)
 
