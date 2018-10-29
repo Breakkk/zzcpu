@@ -25,13 +25,13 @@ module controller(
 	 input [1:0] CO,
     output reg [7:0] L,
     inout [7:0] Ram1Data,
-    output reg Ram1OE,
-    output reg Ram1WE,
-    output reg Ram1EN,
+    output Ram1OE,
+    output Ram1WE,
+    output Ram1EN,
     inout data_ready,
     output reg rdn,
-    inout tbre,
-    inout tsre,
+    input tbre,
+    input tsre,
     output reg wrn
     );
 	 
@@ -48,10 +48,10 @@ module controller(
 	parameter writeIT3 = 4'b0110;
 	parameter writeIT4 = 4'b0111;
 	
-	reg [3:0] state_c;
+	reg [3:0] state_c = initialization;
 	reg [3:0] state_n;
 	
-	reg [7:0] data;
+	reg [7:0] data = 8'b00010000;
 	
 	always @(posedge CLK or negedge RST)begin 
 		if(RST==1'b0)begin
@@ -84,15 +84,20 @@ module controller(
 			end
 			
 			readIT1:begin
+				rdn = 1'b1;
 				state_n = readIT2;
 			end
 			readIT2:begin
-				if(data_ready == 1'b1)
+				if(data_ready == 1'b1) begin
+					rdn = 1'b0;
 					state_n = readIT3;
-				else
+				end
+				else begin
 					state_n = readIT1;
+				end
 			end
 			readIT3:begin
+				rdn = 1'b1;
 				state_n = writeIT1;
 			end
 			
@@ -120,27 +125,26 @@ module controller(
 	always @(posedge CLK or negedge RST)begin 
 		if(RST==1'b0)begin
 			wrn <= 1'b1;
-			Ram1OE <= 1'b1;
+			/*Ram1OE <= 1'b1;
 			Ram1WE <= 1'b1;
-			Ram1EN <= 1'b1;
+			Ram1EN <= 1'b1;*/
 		end
 		else if(state_c == initialization)begin  
-			L[7:0] <= 8'b10101010;
+			L[7:0] <= {tbre,6'b000000,tsre};
 			wrn <= 1'b1;
-			Ram1OE <= 1'b1;
-			Ram1WE <= 1'b1;
-			Ram1EN <= 1'b1;
 		end 
 		
+		//readIT
 		else if(state_c == readIT1)begin  
-			rdn <= 1'b1;
+			//rdn <= 1'b1;
 			data[7:0] <= 8'bzzzzzzzz;
 		end 
 		else if(state_c == readIT2)begin  
-			rdn <= 1'b0;
+			//rdn <= 1'b0;
+			L[7:0] <= 8'b00110000;
 		end 
 		else if(state_c == readIT3)begin 
-			rdn <= 1'b1;
+			//rdn <= 1'b1;
 			L[7:0] <= Ram1Data[7:0];
 			data[7:0] <= Ram1Data[7:0];
 		end 
@@ -148,20 +152,20 @@ module controller(
 		//writeIT
 		else if(state_c == writeIT1)begin  
 			//data <= data +8'b00000001;
-			L[7:0] <= {tbre,6'b111111,tsre};
-			data <= 8'b10011001;
+			L[7:0] <= {tbre,6'b000100,tsre};
+			data <= data + 8'b00000001;
 			wrn <= 1'b0;
 		end
 		else if(state_c == writeIT2)begin  
-			L[7:0] <= {tbre,6'b000000,tsre};
+			L[7:0] <= {tbre,6'b001100,tsre};
 			wrn <= 1'b1;
 		end
 		else if(state_c == writeIT3)begin  
-			L[7:0] <= 8'b00000111;
+			L[7:0] <= {tbre,6'b011100,tsre};
 			
 		end
 		else if(state_c == writeIT4)begin  
-			L[7:0] <= 8'b00001111;
+			L[7:0] <= {tbre,6'b111100,tsre};
 		end		
 		else begin
 		
@@ -169,5 +173,9 @@ module controller(
 	end
 	
 	assign Ram1Data = data;
+	assign Ram1OE = 1'b1;
+	assign Ram1WE = 1'b1;
+	assign Ram1EN = 1'b1;
+	
 	//
 endmodule
