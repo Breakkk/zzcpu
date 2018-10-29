@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=G:\ISE_Project\SerialInterface\controller.ncd
+OUTFILE=G:\ISE_Project\SerialInterface\controller.bit
+FAMILY=Spartan3E
+PART=xc3s1200e-4fg320
+WORKINGDIR=G:\ISE_Project\SerialInterface
+LICENSE=ISE
+USER_INFO=135256_15690819_173552794_661

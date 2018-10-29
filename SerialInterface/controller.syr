@@ -1,0 +1,464 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.42 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.42 secs
+ 
+--> Reading design: controller.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+	9.1) Device utilization summary
+	9.2) Partition Resource Summary
+	9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "controller.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "controller"
+Output Format                      : NGC
+Target Device                      : xc3s1200e-4-fg320
+
+---- Source Options
+Top Module Name                    : controller
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : Yes
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : Yes
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 24
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling verilog file "controller.v" in library work
+Module <controller> compiled
+No errors in compilation
+Analysis of file <"controller.prj"> succeeded.
+ 
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for module <controller> in library <work> with parameters.
+	clear = "00"
+	initialization = "0000"
+	read = "01"
+	readIT1 = "0001"
+	readIT2 = "0010"
+	readIT3 = "0011"
+	write = "10"
+	writeIT1 = "0100"
+	writeIT2 = "0101"
+	writeIT3 = "0110"
+	writeIT4 = "0111"
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing top module <controller>.
+	clear = 2'b00
+	initialization = 4'b0000
+	read = 2'b01
+	readIT1 = 4'b0001
+	readIT2 = 4'b0010
+	readIT3 = 4'b0011
+	write = 2'b10
+	writeIT1 = 4'b0100
+	writeIT2 = 4'b0101
+	writeIT3 = 4'b0110
+	writeIT4 = 4'b0111
+Module <controller> is correct for synthesis.
+ 
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+INFO:Xst:2679 - Register <Ram1OE> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <Ram1WE> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <Ram1EN> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
+
+Synthesizing Unit <controller>.
+    Related source file is "controller.v".
+WARNING:Xst:647 - Input <CO> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <SW> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+INFO:Xst:1799 - State 0010 is never reached in FSM <state_c>.
+INFO:Xst:1799 - State 0001 is never reached in FSM <state_c>.
+INFO:Xst:1799 - State 0011 is never reached in FSM <state_c>.
+    Found finite state machine <FSM_0> for signal <state_c>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 7                                              |
+    | Inputs             | 3                                              |
+    | Outputs            | 8                                              |
+    | Clock              | CLK                       (rising_edge)        |
+    | Reset              | RST                       (negative)           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | 0000                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 8-bit register for signal <L>.
+    Found 1-bit register for signal <rdn>.
+    Found 1-bit register for signal <wrn>.
+    Found 8-bit tristate buffer for signal <data>.
+    Found 8-bit register for signal <Mtridata_data>.
+    Found 1-bit register for signal <Mtrien_data>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred  19 D-type flip-flop(s).
+	inferred   8 Tristate(s).
+Unit <controller> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Registers                                            : 5
+ 1-bit register                                        : 3
+ 8-bit register                                        : 2
+# Tristates                                            : 1
+ 8-bit tristate buffer                                 : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <state_c/FSM> on signal <state_c[1:5]> with one-hot encoding.
+-------------------
+ State | Encoding
+-------------------
+ 0000  | 00001
+ 0001  | unreached
+ 0010  | unreached
+ 0011  | unreached
+ 0100  | 00010
+ 0101  | 00100
+ 0110  | 01000
+ 0111  | 10000
+-------------------
+WARNING:Xst:1710 - FF/Latch <rdn> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_0> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_1> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_2> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_3> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_4> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_5> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_6> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_7> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtrien_data> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<2> Mtridata_data<2> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<3> Mtridata_data<3> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<4> Mtridata_data<4> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<5> Mtridata_data<5> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<6> Mtridata_data<6> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<7> Mtridata_data<7> signal will be lost.
+WARNING:Xst:1710 - FF/Latch <Mtrien_data> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# FSMs                                                 : 1
+# Registers                                            : 19
+ Flip-Flops                                            : 19
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+WARNING:Xst:1710 - FF/Latch <rdn> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_0> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_1> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_2> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_3> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_4> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_5> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_6> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtridata_data_7> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Mtrien_data> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<2> Mtridata_data<2> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<3> Mtridata_data<3> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<4> Mtridata_data<4> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<5> Mtridata_data<5> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtridata_data<6> Mtridata_data<6> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<0> and Mtridata_data<7> Mtridata_data<7> signal will be lost.
+WARNING:Xst:638 - in unit controller Conflict on KEEP property on signal Mtridata_data<1> and Mtrien_data Mtrien_data signal will be lost.
+
+Optimizing unit <controller> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block controller, actual ratio is 0.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 14
+ Flip-Flops                                            : 14
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : controller.ngr
+Top Level Output File Name         : controller
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : No
+
+Design Statistics
+# IOs                              : 36
+
+Cell Usage :
+# BELS                             : 25
+#      GND                         : 1
+#      INV                         : 1
+#      LUT2                        : 2
+#      LUT3                        : 2
+#      LUT3_L                      : 6
+#      LUT4                        : 10
+#      LUT4_L                      : 2
+#      VCC                         : 1
+# FlipFlops/Latches                : 14
+#      FDC                         : 4
+#      FDE                         : 8
+#      FDP                         : 2
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 24
+#      IBUF                        : 3
+#      OBUF                        : 21
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 3s1200efg320-4 
+
+ Number of Slices:                       11  out of   8672     0%  
+ Number of Slice Flip Flops:             14  out of  17344     0%  
+ Number of 4 input LUTs:                 23  out of  17344     0%  
+ Number of IOs:                          36
+ Number of bonded IOBs:                  25  out of    250    10%  
+ Number of GCLKs:                         1  out of     24     4%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+CLK                                | BUFGP                  | 14    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+-----------------------------------+------------------------+-------+
+Control Signal                     | Buffer(FF name)        | Load  |
+-----------------------------------+------------------------+-------+
+RST_inv(RST_inv1_INV_0:O)          | NONE(state_c_FSM_FFd1) | 6     |
+-----------------------------------+------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -4
+
+   Minimum period: 3.743ns (Maximum Frequency: 267.165MHz)
+   Minimum input arrival time before clock: 4.064ns
+   Maximum output required time after clock: 4.310ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'CLK'
+  Clock period: 3.743ns (frequency: 267.165MHz)
+  Total number of paths / destination ports: 62 / 14
+-------------------------------------------------------------------------
+Delay:               3.743ns (Levels of Logic = 2)
+  Source:            state_c_FSM_FFd1 (FF)
+  Destination:       L_0 (FF)
+  Source Clock:      CLK rising
+  Destination Clock: CLK rising
+
+  Data Path: state_c_FSM_FFd1 to L_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q             11   0.591   1.012  state_c_FSM_FFd1 (state_c_FSM_FFd1)
+     LUT3:I1->O            1   0.704   0.424  L_mux0000<7>_SW2 (N50)
+     LUT4:I3->O            1   0.704   0.000  L_mux0000<7> (L_mux0000<7>)
+     FDE:D                     0.308          L_0
+    ----------------------------------------
+    Total                      3.743ns (2.307ns logic, 1.436ns route)
+                                       (61.6% logic, 38.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK'
+  Total number of paths / destination ports: 14 / 13
+-------------------------------------------------------------------------
+Offset:              4.064ns (Levels of Logic = 3)
+  Source:            tsre (PAD)
+  Destination:       L_0 (FF)
+  Destination Clock: CLK rising
+
+  Data Path: tsre to L_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             3   1.218   0.706  tsre_IBUF (tsre_IBUF)
+     LUT3:I0->O            1   0.704   0.424  L_mux0000<7>_SW2 (N50)
+     LUT4:I3->O            1   0.704   0.000  L_mux0000<7> (L_mux0000<7>)
+     FDE:D                     0.308          L_0
+    ----------------------------------------
+    Total                      4.064ns (2.934ns logic, 1.130ns route)
+                                       (72.2% logic, 27.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK'
+  Total number of paths / destination ports: 9 / 9
+-------------------------------------------------------------------------
+Offset:              4.310ns (Levels of Logic = 1)
+  Source:            wrn (FF)
+  Destination:       wrn (PAD)
+  Source Clock:      CLK rising
+
+  Data Path: wrn to wrn
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDP:C->Q              2   0.591   0.447  wrn (wrn_OBUF)
+     OBUF:I->O                 3.272          wrn_OBUF (wrn)
+    ----------------------------------------
+    Total                      4.310ns (3.863ns logic, 0.447ns route)
+                                       (89.6% logic, 10.4% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 6.00 secs
+Total CPU time to Xst completion: 5.66 secs
+ 
+--> 
+
+Total memory usage is 4533916 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   36 (   0 filtered)
+Number of infos    :    6 (   0 filtered)
+
