@@ -34,87 +34,65 @@ module Controller(
     output [6:0] Led
     );
 
-localparam W0 = 2'b00;
-localparam W1 = 2'b01;
-localparam W2 = 2'b10;
-localparam R0 = 2'b11;
+localparam INITADDR	= 2'b00;
+localparam INPUTDATA= 2'b01;
+localparam READDATA = 2'b10;
 
-reg [1:0] c_state;
-reg [1:0] n_state;
-
+reg [2:0] c_state;
 reg [15:0] startAddr;
-reg [15:0] startValue;
-
 reg [15:0] currAddr;
 reg [15:0] currValue;
-
+wire [15:0] outputValue;
 reg [15:0] ledLight;
 reg [3:0] number;				//max: 10 values
 reg read;
+reg ram_trigger;
 
 ledDecoder showLed(.index(number), .led(Led));
-RAM ram(.addr(currAddr), .data(currValue), .RamAddr(Ram1Addr), .RamData(Ram1Data), .RamOE(Ram1OE), .RamWE(Ram1WE), .RamEN(Ram1EN), .read(read));
+RAM ram(.clk(ram_trigger), .read(read), .addr(currAddr), .data_i(currValue), .data_o(outputValue), .RamAddr(Ram1Addr), .RamData(Ram1Data), .RamOE(Ram1OE), .RamWE(Ram1WE), .RamEN(Ram1EN));
 
 always@(posedge CLK or negedge RST)begin
 	if(!RST)begin
-		c_state <= W0;
-	end
-	else begin
-		c_state <= n_state;
-	end
-end
-
-always@(c_state)begin
-	n_state = W0;
-	case(c_state)
-		W0:begin
-			n_state = W1;
-		end
-		W1:begin
-			n_state = W2;
-		end
-		W2:begin
-			if(number == 4'h9) begin
-				n_state = R0;
-				read = 1'b1;
-			end
-			else begin
-				n_state = W2;
-			end
-		end
-		R0:begin
-			n_state = R0;
-		end
-	endcase
-end
-
-always@(posedge CLK or negedge RST)begin
-	if(!RST) begin
-		number <= 4'b0000;
-		read <= 1'b0;
-	end
-	else begin
+		c_state = INITADDR;
+		number = 4'b0000;
+	end else begin
 		case(c_state)
-			W0:begin			// readAddr
-				startAddr <= SW;
-				currAddr <= SW;
-				ledLight <= SW;
+			INITADDR: begin
+				startAddr = SW;
+				currAddr = SW;
+				c_state = INPUTDATA;
+				read = 1'b0;
+				ram_trigger = 1'b0;
+				ledLight = startAddr;
 			end
-			W1:begin			// readData and write into RAM +1
-				currAddr <= startAddr + number;
-				currValue <= SW;
-				number <= number + 1'b1;
-				ledLight <= SW;
+			INPUTDATA: begin
+				currValue = SW;
+				ram_trigger = 1'b1;
+				#20 ram_trigger = 1'b0;
+				if (number == 4'b1001) begin
+					c_state = READDATA;
+					currAddr = startAddr;
+					number = 4'b0000;
+					read = 1'b1;
+				end else begin
+					if (currAddr != startAddr) begin
+						number = number + 1'b1;
+					end
+					currAddr = currAddr + 1'b1;
+				end
+				ledLight = {currAddr[8:0], currValue[8:0]};
 			end
-			W2:begin			// loop write into RAM +9
-				number <= number + 1'b1;
-				currAddr <= currAddr + 1'b1;
-				currValue <= currValue + 1'b1;
-				ledLight <= number;
-			end
-			R0:begin
-				
-				ledLight <= 16'hFFFF;
+			READDATA: begin
+				ram_trigger = 1'b1;
+				#20 ram_trigger = 1'b1;
+				if (number == 4'b1001) begin
+					c_state = INITADDR;
+					number = 4'b0000;
+				end else begin
+					currAddr = currAddr + 1'b1;
+					number = number + 1'b1;
+				end
+				ledLight = {currAddr[8:0], outputValue[8:0]};
 			end
 		endcase
 	end

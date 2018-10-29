@@ -23,7 +23,7 @@ module RAM(
 	input	read,
 	input	addr,
 	input	[15:0] data_i,
-	output	reg[15:0] data_o,
+	output	reg	[15:0] data_o,
     output	[17:0] RamAddr,
     inout	[15:0] RamData,
     output	reg	RamOE,
@@ -39,13 +39,15 @@ localparam t_H = 5;	//Hold from write end - WRITE
 
 reg [15:0] dataBuf;
 reg [17:0] addrBuf;
-reg finished;
+reg w_finished;
+reg r_finished;
 
 initial begin
 	RamEN <= 1'b0;
 	RamWE <= 1'b1;
 	RamOE <= 1'b1;
-	finished = 1'b1;
+	//w_finished <= 1'b1;
+	//r_finished <= 1'b1;
 end
 
 assign RamAddr = addrBuf;
@@ -53,31 +55,33 @@ assign RamData = dataBuf;
 
 task RAM_READ;
 	begin
-		finished = 1'b0;
+		//r_finished = 1'b0;
 		dataBuf = 16'bz;
 		addrBuf = addr;
 		RamOE = 1'b0;
 		#(t_AA) data_o = dataBuf;
-		finished = 1'b1;
+		//r_finished = 1'b1;
 	end
 endtask
 
 task RAM_WRITE;
 	begin
-		finished = 1'b1;
+		//w_finished = 1'b1;
 		dataBuf = data_i;
 		addrBuf = addr;
 		#(t_SA) RamWE = 1'b0;
 		#(t_PWE1) RamWE = 1'b1;
-		#(t_H) finished = 1'b1;
+		//#(t_H) w_finished = 1'b1;
 	end
 endtask
 
 always@(posedge clk)begin
 	if (read == 1'b1) begin
-		wait(finished) RAM_READ();
+		//wait(w_finished && r_finished) RAM_READ();
+		RAM_READ();
 	end else begin
-		wait(finished) RAM_WRITE();
+		//wait(w_finished && r_finished) RAM_WRITE();
+		RAM_WRITE();
 	end
 end
 
