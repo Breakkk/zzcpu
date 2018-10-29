@@ -19,104 +19,66 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module RAM(
-	 input addr,
-	 input data,
-    output reg [17:0] Ram1Addr,
-    inout [15:0] Ram1Data,
-    output Ram1OE,
-    output Ram1WE,
-    output Ram1EN,
-	 input read
-    );
-	 
-localparam W0 = 4'B0000;
-localparam W1 = 4'B0001;
-localparam W2 = 4'B0010;
+	input	clk,
+	input	read,
+	input	addr,
+	input	[15:0] data_i,
+	output	reg[15:0] data_o,
+    output	[17:0] RamAddr,
+    inout	[15:0] RamData,
+    output	reg	RamOE,
+    output	reg	RamWE,
+    output	reg	RamEN
+);
 
-localparam R0 = 4'B0011;
-localparam R1 = 4'B0100;
-localparam R2 = 4'B0101;
+localparam t_AA = 15;	//address access time - READ
+localparam t_SA = 10;	//address setup time - WRITE
+localparam t_PWE1 = 12;	//WE pulse width(OE = LOW) - WRITE
+localparam t_PWE2 = 10;	//WE pulse width - WRITE
+localparam t_H = 5;	//Hold from write end - WRITE
 
-reg oe;
-reg we;
-reg en;
+reg [15:0] dataBuf;
+reg [17:0] addrBuf;
+reg finished;
 
-reg [3:0]c_state; 
-reg [3:0]n_state;
+initial begin
+	RamEN <= 1'b0;
+	RamWE <= 1'b1;
+	RamOE <= 1'b1;
+	finished = 1'b1;
+end
 
-reg changeflag;
+assign RamAddr = addrBuf;
+assign RamData = dataBuf;
 
-localparam clk_period = 10;  
-reg clk;  
+task RAM_READ;
+	begin
+		finished = 1'b0;
+		dataBuf = 16'bz;
+		addrBuf = addr;
+		RamOE = 1'b0;
+		#(t_AA) data_o = dataBuf;
+		finished = 1'b1;
+	end
+endtask
 
-initial begin  
-    clk = 0;  
-    forever  
-        #(clk_period/2) clk = ~clk;  
-end  
+task RAM_WRITE;
+	begin
+		finished = 1'b1;
+		dataBuf = data_i;
+		addrBuf = addr;
+		#(t_SA) RamWE = 1'b0;
+		#(t_PWE1) RamWE = 1'b1;
+		#(t_H) finished = 1'b1;
+	end
+endtask
 
 always@(posedge clk)begin
-	if(clk)begin
-		if(read)begin
-			c_state = R0;
-		end
-		else begin
-			c_state = W1;
-		end
-		c_state <= n_state;
+	if (read == 1'b1) begin
+		wait(finished) RAM_READ();
+	end else begin
+		wait(finished) RAM_WRITE();
 	end
 end
-
-always@(c_state)begin
-	case(c_state)
-		W0:begin
-			n_state = W1;
-		end
-		W1:begin
-			n_state = W2;
-		end
-		W2:begin
-			n_state = W0;
-		end
-
-		R0:begin
-			n_state = R1;
-		end
-		R1:begin
-			n_state = R2;
-		end
-		R2:begin
-			n_state = R0;
-		end
-	endcase
-end
-
-always@(posedge clk)begin
-	case(c_state)
-		W0:begin			// readAddr
-			Ram1Addr <= addr;
-			Ram1Data <= data;
-		end
-		W1:begin			// readData and write into RAM +1
-			we <= 1'b0;
-		end
-		W2:begin			// loop write into RAM +9
-			we<= 1'b1;
-		end
-		R0:begin
-			oe <= 1'b0;
-		end
-		R1:begin
-			Ram1Data <= 16'hZ;
-		end
-		R2:begin
-			Ram1Addr <= data;
-		end
-	endcase
-end
-
-assign Ram1OE = oe;
-assign Ram1WE = we;
-assign Ram1EN = en;
 
 endmodule

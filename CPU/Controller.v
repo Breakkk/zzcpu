@@ -53,7 +53,7 @@ reg [3:0] number;				//max: 10 values
 reg read;
 
 ledDecoder showLed(.index(number), .led(Led));
-RAM ram(.addr(currAddr), .data(currValue), .Ram1Addr(Ram1Addr), .Ram1Data(Ram1Data), .Ram1OE(Ram1OE), .Ram1WE(Ram1WE), .Ram1EN(Ram1EN), .read(read));
+RAM ram(.addr(currAddr), .data(currValue), .RamAddr(Ram1Addr), .RamData(Ram1Data), .RamOE(Ram1OE), .RamWE(Ram1WE), .RamEN(Ram1EN), .read(read));
 
 always@(posedge CLK or negedge RST)begin
 	if(!RST)begin

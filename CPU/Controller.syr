@@ -3,14 +3,14 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 --> Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.08 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.19 secs
  
 --> Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.08 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.19 secs
  
 --> Reading design: Controller.prj
 
@@ -110,16 +110,19 @@ Module <RAM> compiled
 Compiling verilog file "Controller.v" in library work
 Module <ledDecoder> compiled
 Module <Controller> compiled
-ERROR:HDLCompilers:247 - "RAM.v" line 98 Reference to vector wire 'Ram1Data' is not a legal reg or variable lvalue
-ERROR:HDLCompilers:106 - "RAM.v" line 98 Illegal left hand side of nonblocking assignment
-ERROR:HDLCompilers:247 - "RAM.v" line 110 Reference to vector wire 'Ram1Data' is not a legal reg or variable lvalue
-ERROR:HDLCompilers:106 - "RAM.v" line 110 Illegal left hand side of nonblocking assignment
-Analysis of file <"Controller.prj"> failed.
+No errors in compilation
+Analysis of file <"Controller.prj"> succeeded.
+ 
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+ERROR:HDLCompilers:91 - "Controller.v" line 56 Module 'RAM' does not have a port named 'data'
 --> 
 
-Total memory usage is 240008 kilobytes
+Total memory usage is 245676 kilobytes
 
-Number of errors   :    4 (   0 filtered)
+Number of errors   :    1 (   0 filtered)
 Number of warnings :    0 (   0 filtered)
 Number of infos    :    0 (   0 filtered)
 

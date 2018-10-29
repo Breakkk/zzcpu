@@ -5,16 +5,7 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="error" file="HDLCompilers" num="247" delta="old" ><arg fmt="%s" index="1">&quot;RAM.v&quot; line 98 </arg>Reference to <arg fmt="%s" index="2">vector wire &apos;Ram1Data&apos;</arg> is not a legal reg or variable lvalue
-</msg>
-
-<msg type="error" file="HDLCompilers" num="106" delta="old" ><arg fmt="%s" index="1">&quot;RAM.v&quot; line 98 </arg>Illegal left hand side of nonblocking assignment
-</msg>
-
-<msg type="error" file="HDLCompilers" num="247" delta="old" ><arg fmt="%s" index="1">&quot;RAM.v&quot; line 110 </arg>Reference to <arg fmt="%s" index="2">vector wire &apos;Ram1Data&apos;</arg> is not a legal reg or variable lvalue
-</msg>
-
-<msg type="error" file="HDLCompilers" num="106" delta="old" ><arg fmt="%s" index="1">&quot;RAM.v&quot; line 110 </arg>Illegal left hand side of nonblocking assignment
+<msg type="error" file="HDLCompilers" num="91" delta="old" ><arg fmt="%s" index="1">&quot;Controller.v&quot; line 56 </arg>Module &apos;<arg fmt="%s" index="2">RAM</arg>&apos; does not have a port named &apos;<arg fmt="%s" index="3">data</arg>&apos;
 </msg>
 
 </messages>
