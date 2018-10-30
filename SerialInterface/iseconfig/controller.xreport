@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2018-10-30T17:31:58</DateModified>
+  <DateModified>2018-10-30T19:02:52</DateModified>
   <ModuleName>controller</ModuleName>
-  <SummaryTimeStamp>2018-10-30T17:16:09</SummaryTimeStamp>
-  <SavedFilePath>E:/2018Aut/zzcpu/SerialInterface/iseconfig/controller.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>E:/2018Aut/zzcpu/SerialInterface\</ImplementationReportsDirectory>
+  <SummaryTimeStamp>2018-10-30T19:02:30</SummaryTimeStamp>
+  <SavedFilePath>G:/ISE_Project/zzcpu/SerialInterface/iseconfig/controller.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>G:/ISE_Project/zzcpu/SerialInterface\</ImplementationReportsDirectory>
   <DateInitialized>2018-10-28T13:52:05</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>

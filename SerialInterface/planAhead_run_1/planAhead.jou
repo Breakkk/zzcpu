@@ -1,0 +1,10 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7
+# Build 321239 by xbuild on Fri Sep 27 19:31:35 MDT 2013
+# Start of session at: Tue Oct 30 19:01:35 2018
+# Process ID: 1720
+# Log file: G:/ISE_Project/zzcpu/SerialInterface/planAhead_run_1/planAhead.log
+# Journal file: G:/ISE_Project/zzcpu/SerialInterface/planAhead_run_1/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source G:/ISE_Project/zzcpu/SerialInterface/pa.fromNetlist.tcl

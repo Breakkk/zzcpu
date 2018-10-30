@@ -1,8 +1,8 @@
 INTSTYLE=ise
-INFILE=E:\2018Aut\zzcpu\SerialInterface\controller.ncd
-OUTFILE=E:\2018Aut\zzcpu\SerialInterface\controller.bit
+INFILE=G:\ISE_Project\zzcpu\SerialInterface\controller.ncd
+OUTFILE=G:\ISE_Project\zzcpu\SerialInterface\controller.bit
 FAMILY=Spartan3E
 PART=xc3s1200e-4fg320
-WORKINGDIR=E:\2018Aut\zzcpu\SerialInterface
+WORKINGDIR=G:\ISE_Project\zzcpu\SerialInterface
 LICENSE=ISE
 USER_INFO=135256_15690819_173552794_661

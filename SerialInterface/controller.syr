@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.10 secs
+Total CPU time to Xst completion: 0.11 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.10 secs
+Total CPU time to Xst completion: 0.11 secs
  
 --> Reading design: controller.prj
 
@@ -247,7 +247,7 @@ INFO:Xst:2371 - HDL ADVISOR - Logic functions respectively driving the data and 
     Found 16-bit tristate buffer for signal <$mux0000>.
     Found 1-bit register for signal <accept_flag>.
     Found 8-bit register for signal <data>.
-    Found 8-bit adder for signal <data$addsub0000> created at line 246.
+    Found 8-bit adder for signal <data$addsub0000> created at line 243.
     Found 8-bit register for signal <read_data>.
     Found 1-bit register for signal <read_ready>.
     Found 1-bit register for signal <running>.
@@ -648,12 +648,12 @@ Offset:              4.368ns (Levels of Logic = 1)
 =========================================================================
 
 
-Total REAL time to Xst completion: 6.00 secs
-Total CPU time to Xst completion: 6.78 secs
+Total REAL time to Xst completion: 5.00 secs
+Total CPU time to Xst completion: 5.46 secs
  
 --> 
 
-Total memory usage is 271020 kilobytes
+Total memory usage is 4550124 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   67 (   0 filtered)

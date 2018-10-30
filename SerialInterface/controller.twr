@@ -2,9 +2,8 @@
 Release 14.7 Trace  (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-F:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 4
--n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr
-controller.pcf
+G:\ISE\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 4 -n 3
+-fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf
 
 Design file:              controller.ncd
 Physical constraint file: controller.pcf
@@ -132,14 +131,14 @@ clk1           |    1.922|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
-Analysis completed Tue Oct 30 18:53:15 2018 
+Analysis completed Tue Oct 30 19:00:01 2018 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 172 MB
+Peak Memory Usage: 4531 MB
 
 
 
