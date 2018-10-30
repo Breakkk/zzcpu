@@ -2,8 +2,9 @@
 Release 14.7 Trace  (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-G:\ISE\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 4 -n 3
--fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf
+F:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 4
+-n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr
+controller.pcf
 
 Design file:              controller.ncd
 Physical constraint file: controller.pcf
@@ -44,18 +45,18 @@ Setup/Hold to clock CLK
             |Max Setup to|Max Hold to |                  | Clock  |
 Source      | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
 ------------+------------+------------+------------------+--------+
-RST         |    1.980(R)|    0.806(R)|CLK_BUFGP         |   0.000|
-Ram1Data<0> |   -0.400(R)|    1.579(R)|CLK_BUFGP         |   0.000|
-Ram1Data<1> |   -0.197(R)|    1.418(R)|CLK_BUFGP         |   0.000|
-Ram1Data<2> |   -0.181(R)|    1.405(R)|CLK_BUFGP         |   0.000|
-Ram1Data<3> |   -0.193(R)|    1.414(R)|CLK_BUFGP         |   0.000|
-Ram1Data<4> |    1.698(R)|    0.885(R)|CLK_BUFGP         |   0.000|
-Ram1Data<5> |    2.063(R)|    0.933(R)|CLK_BUFGP         |   0.000|
-Ram1Data<6> |    1.941(R)|    1.196(R)|CLK_BUFGP         |   0.000|
-Ram1Data<7> |    1.647(R)|    1.410(R)|CLK_BUFGP         |   0.000|
-data_ready  |    2.451(R)|   -0.678(R)|CLK_BUFGP         |   0.000|
-tbre        |    1.888(R)|    0.916(R)|CLK_BUFGP         |   0.000|
-tsre        |    1.212(R)|    1.256(R)|CLK_BUFGP         |   0.000|
+RST         |    3.125(R)|    0.757(R)|CLK_IBUF          |   0.000|
+Ram1Data<0> |   -0.160(R)|    1.389(R)|CLK_IBUF          |   0.000|
+Ram1Data<1> |    0.071(R)|    1.204(R)|CLK_IBUF          |   0.000|
+Ram1Data<2> |    0.072(R)|    1.203(R)|CLK_IBUF          |   0.000|
+Ram1Data<3> |    0.275(R)|    1.041(R)|CLK_IBUF          |   0.000|
+Ram1Data<4> |    1.621(R)|    1.195(R)|CLK_IBUF          |   0.000|
+Ram1Data<5> |    1.773(R)|    0.947(R)|CLK_IBUF          |   0.000|
+Ram1Data<6> |    2.669(R)|    0.539(R)|CLK_IBUF          |   0.000|
+Ram1Data<7> |    2.534(R)|    0.465(R)|CLK_IBUF          |   0.000|
+data_ready  |    3.004(R)|    1.383(R)|CLK_IBUF          |   0.000|
+tbre        |    0.968(R)|    1.071(R)|CLK_IBUF          |   0.000|
+tsre        |    1.154(R)|    1.141(R)|CLK_IBUF          |   0.000|
 ------------+------------+------------+------------------+--------+
 
 Clock CLK to Pad
@@ -63,15 +64,54 @@ Clock CLK to Pad
             | clk (edge) |                  | Clock  |
 Destination |   to PAD   |Internal Clock(s) | Phase  |
 ------------+------------+------------------+--------+
-L<0>        |    8.556(R)|CLK_BUFGP         |   0.000|
-L<1>        |    8.467(R)|CLK_BUFGP         |   0.000|
-L<2>        |    8.217(R)|CLK_BUFGP         |   0.000|
-L<3>        |    7.596(R)|CLK_BUFGP         |   0.000|
-L<4>        |    8.217(R)|CLK_BUFGP         |   0.000|
-L<5>        |    8.201(R)|CLK_BUFGP         |   0.000|
-L<6>        |    8.225(R)|CLK_BUFGP         |   0.000|
-L<7>        |    8.118(R)|CLK_BUFGP         |   0.000|
-wrn         |    8.801(R)|CLK_BUFGP         |   0.000|
+L<0>        |    8.577(R)|CLK_IBUF          |   0.000|
+L<1>        |    8.156(R)|CLK_IBUF          |   0.000|
+L<2>        |    8.176(R)|CLK_IBUF          |   0.000|
+L<3>        |    7.928(R)|CLK_IBUF          |   0.000|
+L<4>        |    7.934(R)|CLK_IBUF          |   0.000|
+L<5>        |    7.930(R)|CLK_IBUF          |   0.000|
+L<6>        |    8.241(R)|CLK_IBUF          |   0.000|
+L<7>        |    8.812(R)|CLK_IBUF          |   0.000|
+Ram1Data<0> |   12.832(R)|CLK_IBUF          |   0.000|
+Ram1Data<1> |   12.561(R)|CLK_IBUF          |   0.000|
+Ram1Data<2> |   12.551(R)|CLK_IBUF          |   0.000|
+Ram1Data<3> |   12.856(R)|CLK_IBUF          |   0.000|
+Ram1Data<4> |   12.298(R)|CLK_IBUF          |   0.000|
+Ram1Data<5> |   13.105(R)|CLK_IBUF          |   0.000|
+Ram1Data<6> |   12.041(R)|CLK_IBUF          |   0.000|
+Ram1Data<7> |   11.777(R)|CLK_IBUF          |   0.000|
+Ram1Data<8> |   11.781(R)|CLK_IBUF          |   0.000|
+Ram1Data<9> |   11.522(R)|CLK_IBUF          |   0.000|
+Ram1Data<10>|   11.712(R)|CLK_IBUF          |   0.000|
+Ram1Data<11>|   11.537(R)|CLK_IBUF          |   0.000|
+Ram1Data<12>|   11.963(R)|CLK_IBUF          |   0.000|
+Ram1Data<13>|   11.518(R)|CLK_IBUF          |   0.000|
+Ram1Data<14>|   12.287(R)|CLK_IBUF          |   0.000|
+Ram1Data<15>|   11.764(R)|CLK_IBUF          |   0.000|
+wrn         |    8.858(R)|CLK_IBUF          |   0.000|
+------------+------------+------------------+--------+
+
+Clock clk1 to Pad
+------------+------------+------------------+--------+
+            | clk (edge) |                  | Clock  |
+Destination |   to PAD   |Internal Clock(s) | Phase  |
+------------+------------+------------------+--------+
+Ram1Data<0> |   10.954(R)|clk1_BUFGP        |   0.000|
+Ram1Data<1> |   10.683(R)|clk1_BUFGP        |   0.000|
+Ram1Data<2> |   10.673(R)|clk1_BUFGP        |   0.000|
+Ram1Data<3> |   10.978(R)|clk1_BUFGP        |   0.000|
+Ram1Data<4> |   10.420(R)|clk1_BUFGP        |   0.000|
+Ram1Data<5> |   11.227(R)|clk1_BUFGP        |   0.000|
+Ram1Data<6> |   10.163(R)|clk1_BUFGP        |   0.000|
+Ram1Data<7> |    9.899(R)|clk1_BUFGP        |   0.000|
+Ram1Data<8> |    9.903(R)|clk1_BUFGP        |   0.000|
+Ram1Data<9> |    9.644(R)|clk1_BUFGP        |   0.000|
+Ram1Data<10>|    9.834(R)|clk1_BUFGP        |   0.000|
+Ram1Data<11>|    9.659(R)|clk1_BUFGP        |   0.000|
+Ram1Data<12>|   10.085(R)|clk1_BUFGP        |   0.000|
+Ram1Data<13>|    9.640(R)|clk1_BUFGP        |   0.000|
+Ram1Data<14>|   10.409(R)|clk1_BUFGP        |   0.000|
+Ram1Data<15>|    9.886(R)|clk1_BUFGP        |   0.000|
 ------------+------------+------------------+--------+
 
 Clock to Setup on destination clock CLK
@@ -79,18 +119,27 @@ Clock to Setup on destination clock CLK
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-CLK            |    4.479|         |         |         |
+CLK            |    4.531|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock clk1
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+CLK            |    3.865|         |         |         |
+clk1           |    1.922|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 
-Analysis completed Tue Oct 30 17:18:25 2018 
+Analysis completed Tue Oct 30 18:53:15 2018 
 --------------------------------------------------------------------------------
 
 Trace Settings:
 -------------------------
 Trace Settings 
 
-Peak Memory Usage: 4531 MB
+Peak Memory Usage: 172 MB
 
 
 

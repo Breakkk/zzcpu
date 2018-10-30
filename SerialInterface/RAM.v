@@ -28,7 +28,8 @@ module RAM(
     output Ram1EN,
 	 input read,
 	 input clk,
-	 input next
+	 input next,
+	 input running
     );
 	 
 localparam W0 = 4'B0000;
@@ -47,9 +48,11 @@ reg [15:0] datain;
 reg [3:0]c_state; 
 reg [3:0]n_state;
 
-assign Ram1OE = oe;
-assign Ram1WE = we;
-assign Ram1EN = 1'b0;
+assign Ram1OE = !running ? 1'bz : oe;
+assign Ram1WE = !running ? 1'bz : we;
+assign Ram1EN = !running ? 1'bz : 1'b0;
+
+assign Ram1Data = flag ? 16'bz : datain;
 
 always@(posedge clk or negedge next)begin
 	if(!next)begin

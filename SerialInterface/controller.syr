@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> Reading design: controller.prj
 
@@ -104,7 +104,9 @@ Slice Utilization Ratio Delta      : 5
 =========================================================================
 *                          HDL Compilation                              *
 =========================================================================
+Compiling verilog file "RAM.v" in library work
 Compiling verilog file "controller.v" in library work
+Module <RAM> compiled
 Module <controller> compiled
 No errors in compilation
 Analysis of file <"controller.prj"> succeeded.
@@ -121,13 +123,23 @@ Analyzing hierarchy for module <controller> in library <work> with parameters.
 	readIT2 = "0010"
 	readIT3 = "0011"
 	readIT4 = "1111"
-	readRAM = "1001"
+	readRAM1 = "1011"
+	readRAM2 = "1100"
+	readRAM3 = "1101"
 	write = "10"
 	writeIT1 = "0100"
 	writeIT2 = "0101"
 	writeIT3 = "0110"
 	writeIT4 = "0111"
-	writeRAM = "1000"
+	writeRAM1 = "1000"
+	writeRAM2 = "1001"
+	writeRAM3 = "1010"
+
+Analyzing hierarchy for module <RAM> in library <work> with parameters.
+	N = "0011"
+	W0 = "0000"
+	W1 = "0001"
+	W2 = "0010"
 
 
 =========================================================================
@@ -141,14 +153,27 @@ Analyzing top module <controller>.
 	readIT2 = 4'b0010
 	readIT3 = 4'b0011
 	readIT4 = 4'b1111
-	readRAM = 4'b1001
+	readRAM1 = 4'b1011
+	readRAM2 = 4'b1100
+	readRAM3 = 4'b1101
 	write = 2'b10
 	writeIT1 = 4'b0100
 	writeIT2 = 4'b0101
 	writeIT3 = 4'b0110
 	writeIT4 = 4'b0111
-	writeRAM = 4'b1000
+	writeRAM1 = 4'b1000
+	writeRAM2 = 4'b1001
+	writeRAM3 = 4'b1010
+WARNING:Xst:883 - "controller.v" line 91: Ignored duplicate item in case statement. 
+WARNING:Xst:852 - "controller.v" line 253: Unconnected input port 'running' of instance 'ram' is tied to GND.
 Module <controller> is correct for synthesis.
+ 
+Analyzing module <RAM> in library <work>.
+	N = 4'b0011
+	W0 = 4'b0000
+	W1 = 4'b0001
+	W2 = 4'b0010
+Module <RAM> is correct for synthesis.
  
 
 =========================================================================
@@ -156,21 +181,54 @@ Module <controller> is correct for synthesis.
 =========================================================================
 
 Performing bidirectional port resolution...
+INFO:Xst:2679 - Register <readRam> in unit <controller> has a constant value of 0 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <OE> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <WE> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
 INFO:Xst:2679 - Register <EN> in unit <controller> has a constant value of 1 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <currAddr> in unit <controller> has a constant value of 001111111111111111 during circuit operation. The register is replaced by logic.
+
+Synthesizing Unit <RAM>.
+    Related source file is "RAM.v".
+WARNING:Xst:1780 - Signal <en> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:2474 - Clock and clock enable of register <c_state> are driven by the same logic. The clock enable is removed.
+INFO:Xst:2117 - HDL ADVISOR - Mux Selector <c_state> of Case statement line 67 was re-encoded using one-hot encoding. The case statement will be optimized (default statement optimization), but this optimization may lead to design initialization problems. To ensure the design works safely, you can:
+   	- add an 'INIT' attribute on signal <c_state> (optimization is then done without any risk)
+   	- use the attribute 'signal_encoding user' to avoid onehot optimization
+   	- use the attribute 'safe_implementation yes' to force XST to perform a safe (but less efficient) optimization
+    Using one-hot encoding for signal <c_state>.
+    Found 1-bit tristate buffer for signal <Ram1WE>.
+    Found 1-bit tristate buffer for signal <Ram1EN>.
+    Found 16-bit tristate buffer for signal <Ram1Data>.
+    Found 1-bit tristate buffer for signal <Ram1OE>.
+    Found 18-bit register for signal <Ram1Addr>.
+    Found 4-bit register for signal <c_state>.
+    Found 16-bit register for signal <datain>.
+    Found 1-bit register for signal <flag>.
+    Found 1-bit register for signal <oe>.
+    Found 1-bit register for signal <we>.
+    Summary:
+	inferred  37 D-type flip-flop(s).
+	inferred  19 Tristate(s).
+Unit <RAM> synthesized.
+
 
 Synthesizing Unit <controller>.
     Related source file is "controller.v".
-WARNING:Xst:647 - Input <clk1> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 WARNING:Xst:647 - Input <SW> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
-WARNING:Xst:1306 - Output <Ram1Addr> is never assigned.
+WARNING:Xst:646 - Signal <readRam> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:653 - Signal <currValue> is used but never assigned. This sourceless signal will be automatically connected to value 0.
+INFO:Xst:1799 - State 1001 is never reached in FSM <state_c>.
+INFO:Xst:1799 - State 1000 is never reached in FSM <state_c>.
+INFO:Xst:1799 - State 1010 is never reached in FSM <state_c>.
+INFO:Xst:1799 - State 1011 is never reached in FSM <state_c>.
+INFO:Xst:1799 - State 1100 is never reached in FSM <state_c>.
+INFO:Xst:1799 - State 1101 is never reached in FSM <state_c>.
     Found finite state machine <FSM_0> for signal <state_c>.
     -----------------------------------------------------------------------
     | States             | 9                                              |
     | Transitions        | 12                                             |
     | Inputs             | 3                                              |
-    | Outputs            | 9                                              |
+    | Outputs            | 11                                             |
     | Clock              | CLK                       (rising_edge)        |
     | Reset              | RST                       (negative)           |
     | Reset type         | asynchronous                                   |
@@ -179,22 +237,25 @@ WARNING:Xst:1306 - Output <Ram1Addr> is never assigned.
     | Encoding           | automatic                                      |
     | Implementation     | LUT                                            |
     -----------------------------------------------------------------------
-WARNING:Xst:737 - Found 1-bit latch for signal <read_ready>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
-WARNING:Xst:737 - Found 8-bit latch for signal <data>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
-WARNING:Xst:737 - Found 1-bit latch for signal <accept_flag>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
-INFO:Xst:2371 - HDL ADVISOR - Logic functions respectively driving the data and gate enable inputs of this latch share common terms. This situation will potentially lead to setup/hold violations and, as a result, to simulation problems. This situation may come from an incomplete case statement (all selector values are not covered). You should carefully review if it was in your intentions to describe such a latch.
 WARNING:Xst:737 - Found 1-bit latch for signal <rdn>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
 INFO:Xst:2371 - HDL ADVISOR - Logic functions respectively driving the data and gate enable inputs of this latch share common terms. This situation will potentially lead to setup/hold violations and, as a result, to simulation problems. This situation may come from an incomplete case statement (all selector values are not covered). You should carefully review if it was in your intentions to describe such a latch.
     Found 8-bit register for signal <L>.
+    Found 1-bit tristate buffer for signal <Ram1EN>.
+    Found 1-bit tristate buffer for signal <Ram1OE>.
+    Found 1-bit tristate buffer for signal <Ram1WE>.
     Found 1-bit register for signal <wrn>.
-    Found 8-bit tristate buffer for signal <$mux0000<7:0>>.
-    Found 8-bit adder for signal <data$add0000> created at line 128.
+    Found 16-bit tristate buffer for signal <$mux0000>.
+    Found 1-bit register for signal <accept_flag>.
+    Found 8-bit register for signal <data>.
+    Found 8-bit adder for signal <data$addsub0000> created at line 246.
     Found 8-bit register for signal <read_data>.
+    Found 1-bit register for signal <read_ready>.
+    Found 1-bit register for signal <running>.
     Summary:
 	inferred   1 Finite State Machine(s).
-	inferred  17 D-type flip-flop(s).
+	inferred  28 D-type flip-flop(s).
 	inferred   1 Adder/Subtractor(s).
-	inferred   8 Tristate(s).
+	inferred  19 Tristate(s).
 Unit <controller> synthesized.
 
 
@@ -204,14 +265,17 @@ HDL Synthesis Report
 Macro Statistics
 # Adders/Subtractors                                   : 1
  8-bit adder                                           : 1
-# Registers                                            : 3
- 1-bit register                                        : 1
- 8-bit register                                        : 2
-# Latches                                              : 4
- 1-bit latch                                           : 3
- 8-bit latch                                           : 1
+# Registers                                            : 11
+ 1-bit register                                        : 5
+ 16-bit register                                       : 1
+ 18-bit register                                       : 1
+ 4-bit register                                        : 1
+ 8-bit register                                        : 3
+# Latches                                              : 1
+ 1-bit latch                                           : 1
 # Tristates                                            : 8
- 1-bit tristate buffer                                 : 8
+ 1-bit tristate buffer                                 : 6
+ 16-bit tristate buffer                                : 2
 
 =========================================================================
 
@@ -232,8 +296,41 @@ Optimizing FSM <state_c/FSM> on signal <state_c[1:9]> with one-hot encoding.
  0101  | 001000000
  0110  | 010000000
  0111  | 100000000
+ 1000  | unreached
+ 1001  | unreached
+ 1010  | unreached
+ 1011  | unreached
+ 1100  | unreached
+ 1101  | unreached
  1111  | 000010000
 --------------------
+WARNING:Xst:1710 - FF/Latch <datain_15> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_14> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_13> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_12> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_11> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_10> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_9> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_8> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_7> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_6> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_5> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_4> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_3> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_2> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_1> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <datain_0> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <Ram1Addr_17> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <Ram1Addr_16> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_7> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_6> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_5> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_4> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_3> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_2> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_1> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_0> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <running> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
 
 =========================================================================
 Advanced HDL Synthesis Report
@@ -242,32 +339,54 @@ Macro Statistics
 # FSMs                                                 : 1
 # Adders/Subtractors                                   : 1
  8-bit adder                                           : 1
-# Registers                                            : 17
- Flip-Flops                                            : 17
-# Latches                                              : 4
- 1-bit latch                                           : 3
- 8-bit latch                                           : 1
+# Registers                                            : 67
+ Flip-Flops                                            : 67
+# Latches                                              : 1
+ 1-bit latch                                           : 1
 
 =========================================================================
 
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
+WARNING:Xst:1710 - FF/Latch <Ram1Addr_16> (without init value) has a constant value of 0 in block <RAM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <Ram1Addr_17> (without init value) has a constant value of 0 in block <RAM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <running> (without init value) has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+INFO:Xst:2261 - The FF/Latch <datain_0> in Unit <RAM> is equivalent to the following 15 FFs/Latches, which will be removed : <datain_1> <datain_2> <datain_3> <datain_4> <datain_5> <datain_6> <datain_7> <datain_8> <datain_9> <datain_10> <datain_11> <datain_12> <datain_13> <datain_14> <datain_15> 
+WARNING:Xst:1710 - FF/Latch <datain_0> (without init value) has a constant value of 0 in block <RAM>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2677 - Node <c_state_3> of sequential type is unconnected in block <RAM>.
+WARNING:Xst:1293 - FF/Latch <data_0> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_1> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_2> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_3> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_4> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_5> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_6> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1896 - Due to other FF/Latch trimming, FF/Latch <data_7> has a constant value of 0 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2040 - Unit controller: 16 multi-source signals are replaced by logic (pull-up yes): Madd_data_addsub0000_cy<0>_MLTSRCEDGE, Madd_data_addsub0000_lut<1>_MLTSRCEDGE, Madd_data_addsub0000_lut<2>_MLTSRCEDGE, Madd_data_addsub0000_lut<3>_MLTSRCEDGE, Madd_data_addsub0000_lut<4>_MLTSRCEDGE, Madd_data_addsub0000_lut<5>_MLTSRCEDGE, Madd_data_addsub0000_lut<6>_MLTSRCEDGE, Madd_data_addsub0000_lut<7>_MLTSRCEDGE, Ram1Data<10>_MLTSRCEDGE, Ram1Data<11>_MLTSRCEDGE, Ram1Data<12>_MLTSRCEDGE, Ram1Data<13>_MLTSRCEDGE, Ram1Data<14>_MLTSRCEDGE, Ram1Data<15>_MLTSRCEDGE, Ram1Data<8>_MLTSRCEDGE, Ram1Data<9>_MLTSRCEDGE.
 
 Optimizing unit <controller> ...
+WARNING:Xst:1710 - FF/Latch <ram/Ram1Addr_15> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_14> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_13> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_12> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_11> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_10> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_9> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_8> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_7> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_6> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_5> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_4> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_3> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_2> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_1> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <ram/Ram1Addr_0> (without init value) has a constant value of 1 in block <controller>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1898 - Due to constant pushing, FF/Latch <ram/c_state_2> is unconnected in block <controller>.
 
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block controller, actual ratio is 0.
-Latch data_0 has been replicated 1 time(s) to handle iob=true attribute.
-Latch accept_flag has been replicated 7 time(s) to handle iob=true attribute.
-Latch data_1 has been replicated 1 time(s) to handle iob=true attribute.
-Latch data_2 has been replicated 1 time(s) to handle iob=true attribute.
-Latch data_3 has been replicated 1 time(s) to handle iob=true attribute.
-Latch data_4 has been replicated 1 time(s) to handle iob=true attribute.
-Latch data_5 has been replicated 1 time(s) to handle iob=true attribute.
-Latch data_6 has been replicated 1 time(s) to handle iob=true attribute.
-Latch data_7 has been replicated 1 time(s) to handle iob=true attribute.
 Latch rdn has been replicated 1 time(s) to handle iob=true attribute.
 
 Final Macro Processing ...
@@ -276,8 +395,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 26
- Flip-Flops                                            : 26
+# Registers                                            : 31
+ Flip-Flops                                            : 31
 
 =========================================================================
 
@@ -306,30 +425,32 @@ Design Statistics
 # IOs                              : 69
 
 Cell Usage :
-# BELS                             : 61
+# BELS                             : 49
 #      GND                         : 1
 #      INV                         : 2
-#      LUT2                        : 7
+#      LUT2                        : 5
 #      LUT2_L                      : 2
-#      LUT3                        : 12
+#      LUT3                        : 6
 #      LUT3_D                      : 1
-#      LUT3_L                      : 2
-#      LUT4                        : 25
+#      LUT3_L                      : 1
+#      LUT4                        : 21
 #      LUT4_D                      : 1
-#      LUT4_L                      : 6
-#      MUXF5                       : 1
+#      LUT4_L                      : 8
 #      VCC                         : 1
-# FlipFlops/Latches                : 53
-#      FDC                         : 8
-#      FDE                         : 16
-#      FDP                         : 2
-#      LD                          : 27
-# Clock Buffers                    : 1
+# FlipFlops/Latches                : 33
+#      FD                          : 1
+#      FDC                         : 9
+#      FDE                         : 18
+#      FDP                         : 3
+#      LD                          : 2
+# Clock Buffers                    : 2
+#      BUFG                        : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 33
-#      IBUF                        : 4
+# IO Buffers                       : 52
+#      IBUF                        : 5
 #      IOBUF                       : 8
-#      OBUF                        : 21
+#      OBUF                        : 31
+#      OBUFT                       : 8
 =========================================================================
 
 Device utilization summary:
@@ -337,13 +458,13 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                       30  out of   8672     0%  
- Number of Slice Flip Flops:             36  out of  17344     0%  
- Number of 4 input LUTs:                 58  out of  17344     0%  
+ Number of Slices:                       27  out of   8672     0%  
+ Number of Slice Flip Flops:             32  out of  17344     0%  
+ Number of 4 input LUTs:                 47  out of  17344     0%  
  Number of IOs:                          69
- Number of bonded IOBs:                  34  out of    250    13%  
-    IOB Flip Flops:                      17
- Number of GCLKs:                         1  out of     24     4%  
+ Number of bonded IOBs:                  53  out of    250    21%  
+    IOB Flip Flops:                       1
+ Number of GCLKs:                         2  out of     24     8%  
 
 ---------------------------
 Partition Resource Summary:
@@ -363,35 +484,34 @@ NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
 
 Clock Information:
 ------------------
------------------------------------------+------------------------+-------+
-Clock Signal                             | Clock buffer(FF name)  | Load  |
------------------------------------------+------------------------+-------+
-CLK                                      | BUFGP                  | 26    |
-rdn_not0001(rdn_not00011:O)              | NONE(*)(rdn)           | 2     |
-accept_flag_or0000(accept_flag_or00001:O)| NONE(*)(accept_flag)   | 8     |
-state_c_FSM_FFd8                         | NONE(read_ready)       | 1     |
-state_c_FSM_FFd4                         | NONE(data_0)           | 16    |
------------------------------------------+------------------------+-------+
-(*) These 2 clock signal(s) are generated by combinatorial logic,
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+CLK                                | IBUF+BUFG              | 28    |
+rdn_not0001(rdn_not00011:O)        | NONE(*)(rdn)           | 2     |
+clk1                               | BUFGP                  | 3     |
+-----------------------------------+------------------------+-------+
+(*) This 1 clock signal(s) are generated by combinatorial logic,
 and XST is not able to identify which are the primary clock signals.
 Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
 ----------------------------------------
------------------------------------+------------------------+-------+
-Control Signal                     | Buffer(FF name)        | Load  |
------------------------------------+------------------------+-------+
-RST_inv(RST_inv1_INV_0:O)          | NONE(state_c_FSM_FFd1) | 10    |
------------------------------------+------------------------+-------+
+---------------------------------------------------+------------------------+-------+
+Control Signal                                     | Buffer(FF name)        | Load  |
+---------------------------------------------------+------------------------+-------+
+RST_inv(RST_inv1_INV_0:O)                          | NONE(state_c_FSM_FFd1) | 10    |
+ram/c_state_Acst_inv(ram/c_state_Acst_inv1_INV_0:O)| NONE(ram/c_state_0)    | 2     |
+---------------------------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 5.346ns (Maximum Frequency: 187.056MHz)
-   Minimum input arrival time before clock: 5.074ns
-   Maximum output required time after clock: 4.368ns
+   Minimum period: 5.303ns (Maximum Frequency: 188.573MHz)
+   Minimum input arrival time before clock: 4.850ns
+   Maximum output required time after clock: 6.535ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -400,33 +520,55 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'CLK'
-  Clock period: 5.346ns (frequency: 187.056MHz)
-  Total number of paths / destination ports: 169 / 26
+  Clock period: 5.303ns (frequency: 188.573MHz)
+  Total number of paths / destination ports: 169 / 28
 -------------------------------------------------------------------------
-Delay:               5.346ns (Levels of Logic = 3)
-  Source:            state_c_FSM_FFd4 (FF)
+Delay:               5.303ns (Levels of Logic = 3)
+  Source:            state_c_FSM_FFd5 (FF)
   Destination:       L_0 (FF)
   Source Clock:      CLK rising
   Destination Clock: CLK rising
 
-  Data Path: state_c_FSM_FFd4 to L_0
+  Data Path: state_c_FSM_FFd5 to L_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q             22   0.591   1.168  state_c_FSM_FFd4 (state_c_FSM_FFd4)
-     LUT4:I3->O            1   0.704   0.455  L_or00004 (L_or00004)
-     LUT4_D:I2->O          7   0.704   0.712  L_or000014 (L_or0000)
-     LUT4:I3->O            1   0.704   0.000  L_mux0000<2>21 (L_mux0000<2>)
-     FDE:D                     0.308          L_5
+     FDC:C->Q             12   0.591   0.996  state_c_FSM_FFd5 (state_c_FSM_FFd5)
+     LUT3:I2->O            8   0.704   0.761  rdn_mux00001 (rdn_mux0000)
+     LUT4_D:I3->O          3   0.704   0.535  L_or0000 (L_or0000)
+     LUT4:I3->O            1   0.704   0.000  L_mux0000<0>17 (L_mux0000<0>)
+     FDE:D                     0.308          L_7
     ----------------------------------------
-    Total                      5.346ns (3.011ns logic, 2.335ns route)
-                                       (56.3% logic, 43.7% route)
+    Total                      5.303ns (3.011ns logic, 2.292ns route)
+                                       (56.8% logic, 43.2% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk1'
+  Clock period: 2.225ns (frequency: 449.438MHz)
+  Total number of paths / destination ports: 4 / 2
+-------------------------------------------------------------------------
+Delay:               2.225ns (Levels of Logic = 1)
+  Source:            ram/flag (FF)
+  Destination:       ram/flag (FF)
+  Source Clock:      clk1 rising
+  Destination Clock: clk1 rising
+
+  Data Path: ram/flag to ram/flag
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               2   0.591   0.622  ram/flag (ram/flag)
+     LUT4:I0->O            1   0.704   0.000  ram/flag_mux00001 (ram/flag_mux0000)
+     FD:D                      0.308          ram/flag
+    ----------------------------------------
+    Total                      2.225ns (1.603ns logic, 0.622ns route)
+                                       (72.0% logic, 28.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK'
-  Total number of paths / destination ports: 35 / 32
+  Total number of paths / destination ports: 38 / 35
 -------------------------------------------------------------------------
-Offset:              5.074ns (Levels of Logic = 4)
+Offset:              4.850ns (Levels of Logic = 4)
   Source:            data_ready (PAD)
   Destination:       L_0 (FF)
   Destination Clock: CLK rising
@@ -435,71 +577,54 @@ Offset:              5.074ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O             2   1.218   0.482  data_ready_IBUF (data_ready_IBUF)
-     LUT4:I2->O            1   0.704   0.499  L_mux0000<7>4 (L_mux0000<7>4)
-     LUT3:I1->O            1   0.704   0.455  L_mux0000<7>7 (L_mux0000<7>7)
-     LUT4:I2->O            1   0.704   0.000  L_mux0000<7>35 (L_mux0000<7>)
+     IBUF:I->O             2   1.218   0.622  data_ready_IBUF (data_ready_IBUF)
+     LUT4_L:I0->LO         1   0.704   0.135  L_mux0000<7>4 (L_mux0000<7>4)
+     LUT3:I2->O            1   0.704   0.455  L_mux0000<7>12_SW1 (N54)
+     LUT4:I2->O            1   0.704   0.000  L_mux0000<7>211 (L_mux0000<7>)
      FDE:D                     0.308          L_0
     ----------------------------------------
-    Total                      5.074ns (3.638ns logic, 1.436ns route)
-                                       (71.7% logic, 28.3% route)
+    Total                      4.850ns (3.638ns logic, 1.212ns route)
+                                       (75.0% logic, 25.0% route)
 
 =========================================================================
-Timing constraint: Default OFFSET IN BEFORE for Clock 'state_c_FSM_FFd8'
-  Total number of paths / destination ports: 1 / 1
+Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK'
+  Total number of paths / destination ports: 41 / 25
 -------------------------------------------------------------------------
-Offset:              1.973ns (Levels of Logic = 1)
-  Source:            data_ready (PAD)
-  Destination:       read_ready (LATCH)
-  Destination Clock: state_c_FSM_FFd8 falling
-
-  Data Path: data_ready to read_ready
-                                Gate     Net
-    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
-    ----------------------------------------  ------------
-     IBUF:I->O             2   1.218   0.447  data_ready_IBUF (data_ready_IBUF)
-     LD:D                      0.308          read_ready
-    ----------------------------------------
-    Total                      1.973ns (1.526ns logic, 0.447ns route)
-                                       (77.3% logic, 22.7% route)
-
-=========================================================================
-Timing constraint: Default OFFSET OUT AFTER for Clock 'state_c_FSM_FFd4'
-  Total number of paths / destination ports: 8 / 8
--------------------------------------------------------------------------
-Offset:              4.368ns (Levels of Logic = 1)
-  Source:            data_0_1 (LATCH)
+Offset:              6.535ns (Levels of Logic = 2)
+  Source:            accept_flag (FF)
   Destination:       Ram1Data<0> (PAD)
-  Source Clock:      state_c_FSM_FFd4 falling
+  Source Clock:      CLK rising
 
-  Data Path: data_0_1 to Ram1Data<0>
+  Data Path: accept_flag to Ram1Data<0>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     LD:G->Q               1   0.676   0.420  data_0_1 (data_0_1)
-     IOBUF:I->IO               3.272          Ram1Data_0_IOBUF (Ram1Data<0>)
+     FDE:C->Q              3   0.591   0.706  accept_flag (accept_flag)
+     LUT2:I0->O           32   0.704   1.262  Madd_data_addsub0000_cy<0>_MLTSRCEDGE1 (Madd_data_addsub0000_cy<0>_MLTSRCEDGE)
+     OBUFT:I->O                3.272          Ram1Data_8_OBUFT (Ram1Data<8>)
     ----------------------------------------
-    Total                      4.368ns (3.948ns logic, 0.420ns route)
-                                       (90.4% logic, 9.6% route)
+    Total                      6.535ns (4.567ns logic, 1.968ns route)
+                                       (69.9% logic, 30.1% route)
 
 =========================================================================
-Timing constraint: Default OFFSET OUT AFTER for Clock 'accept_flag_or0000'
-  Total number of paths / destination ports: 8 / 8
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk1'
+  Total number of paths / destination ports: 32 / 16
 -------------------------------------------------------------------------
-Offset:              4.368ns (Levels of Logic = 1)
-  Source:            accept_flag_1 (LATCH)
+Offset:              6.355ns (Levels of Logic = 2)
+  Source:            ram/flag (FF)
   Destination:       Ram1Data<0> (PAD)
-  Source Clock:      accept_flag_or0000 falling
+  Source Clock:      clk1 rising
 
-  Data Path: accept_flag_1 to Ram1Data<0>
+  Data Path: ram/flag to Ram1Data<0>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     LD:G->Q               1   0.676   0.420  accept_flag_1 (accept_flag_1)
-     IOBUF:T->IO               3.272          Ram1Data_0_IOBUF (Ram1Data<0>)
+     FD:C->Q               2   0.591   0.526  ram/flag (ram/flag)
+     LUT2:I1->O           32   0.704   1.262  Madd_data_addsub0000_cy<0>_MLTSRCEDGE1 (Madd_data_addsub0000_cy<0>_MLTSRCEDGE)
+     OBUFT:I->O                3.272          Ram1Data_8_OBUFT (Ram1Data<8>)
     ----------------------------------------
-    Total                      4.368ns (3.948ns logic, 0.420ns route)
-                                       (90.4% logic, 9.6% route)
+    Total                      6.355ns (4.567ns logic, 1.788ns route)
+                                       (71.9% logic, 28.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'rdn_not0001'
@@ -521,35 +646,16 @@ Offset:              4.368ns (Levels of Logic = 1)
                                        (90.4% logic, 9.6% route)
 
 =========================================================================
-Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK'
-  Total number of paths / destination ports: 9 / 9
--------------------------------------------------------------------------
-Offset:              4.310ns (Levels of Logic = 1)
-  Source:            wrn (FF)
-  Destination:       wrn (PAD)
-  Source Clock:      CLK rising
-
-  Data Path: wrn to wrn
-                                Gate     Net
-    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
-    ----------------------------------------  ------------
-     FDP:C->Q              2   0.591   0.447  wrn (wrn_OBUF)
-     OBUF:I->O                 3.272          wrn_OBUF (wrn)
-    ----------------------------------------
-    Total                      4.310ns (3.863ns logic, 0.447ns route)
-                                       (89.6% logic, 10.4% route)
-
-=========================================================================
 
 
 Total REAL time to Xst completion: 6.00 secs
-Total CPU time to Xst completion: 5.42 secs
+Total CPU time to Xst completion: 6.78 secs
  
 --> 
 
-Total memory usage is 4550148 kilobytes
+Total memory usage is 271020 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :    7 (   0 filtered)
-Number of infos    :    6 (   0 filtered)
+Number of warnings :   67 (   0 filtered)
+Number of infos    :   15 (   0 filtered)
 

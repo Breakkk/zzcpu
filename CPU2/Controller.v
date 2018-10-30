@@ -63,7 +63,7 @@ reg oe;
 
 ledDecoder showLed(.index(number), .led(Led));
 RAM ram(.next(CLK), .addr(currAddr), .data(currValue), .Ram1Addr(Ram1Addr), .Ram1Data(Ram1Data), .Ram1OE(Ram1OE), .Ram1WE(Ram1WE), .Ram1EN(Ram1EN), .read(read), .clk(clk1));
-
+assign Ram1Data = read ? 16'bz : currValue;
 always@(posedge CLK or negedge RST)begin
 	if(!RST)begin
 		c_state <= W0;
