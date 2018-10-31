@@ -12,24 +12,6 @@ Done.
 Annotating constraints to design from ucf file "controller.ucf" ...
 Resolving constraint associations...
 Checking Constraint Associations...
-ERROR:ConstraintSystem:59 - Constraint <NET "CO[1]" LOC = T7;>
-   [controller.ucf(3)]: NET "CO[1]" not found.  Please verify that:
-   1. The specified design element actually exists in the original design.
-   2. The specified object is spelled correctly in the constraint source file.
-
-WARNING:ConstraintSystem - A target design object for the Locate constraint
-   '<NET "CO[1]" LOC = T7;> [controller.ucf(3)]' could not be found and so the
-   Locate constraint will be removed.
-
-ERROR:ConstraintSystem:59 - Constraint <NET "CO[0]" LOC = R7;>
-   [controller.ucf(4)]: NET "CO[0]" not found.  Please verify that:
-   1. The specified design element actually exists in the original design.
-   2. The specified object is spelled correctly in the constraint source file.
-
-WARNING:ConstraintSystem - A target design object for the Locate constraint
-   '<NET "CO[0]" LOC = R7;> [controller.ucf(4)]' could not be found and so the
-   Locate constraint will be removed.
-
 Done...
 
 Checking expanded design ...
@@ -42,14 +24,13 @@ Partition Implementation Status
 -------------------------------
 
 NGDBUILD Design Results Summary:
-  Number of errors:     2
-  Number of warnings:   2
+  Number of errors:     0
+  Number of warnings:   0
 
-Total memory usage is 4419424 kilobytes
+Total memory usage is 4419400 kilobytes
 
+Writing NGD file "controller.ngd" ...
 Total REAL time to NGDBUILD completion:  3 sec
-Total CPU time to NGDBUILD completion:   2 sec
-
-One or more errors were found during NGDBUILD.  No NGD file will be written.
+Total CPU time to NGDBUILD completion:   3 sec
 
 Writing NGDBUILD log file "controller.bld"...

@@ -27,3 +27,58 @@ par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.
 trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf 
 bitgen -intstyle ise -f controller.ut controller.ncd 
 ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 
+xst -intstyle ise -ifn "G:/ISE_Project/zzcpu/SerialInterface/controller.xst" -ofn "G:/ISE_Project/zzcpu/SerialInterface/controller.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc controller.ucf -p xc3s1200e-fg320-4 controller.ngc controller.ngd  
+map -intstyle ise -p xc3s1200e-fg320-4 -cm area -ir off -pr off -c 100 -o controller_map.ncd controller.ngd controller.pcf 
+par -w -intstyle ise -ol high -t 1 controller_map.ncd controller.ncd controller.pcf 
+trce -intstyle ise -v 3 -s 4 -n 3 -fastpaths -xml controller.twx controller.ncd -o controller.twr controller.pcf -ucf controller.ucf 
+bitgen -intstyle ise -f controller.ut controller.ncd 

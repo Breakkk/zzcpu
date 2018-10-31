@@ -1,0 +1,288 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7
+# Build 321239 by xbuild on Fri Sep 27 19:31:35 MDT 2013
+# Start of session at: Tue Oct 30 19:03:05 2018
+# Process ID: 1748
+# Log file: G:/ISE_Project/zzcpu/SerialInterface/planAhead_run_2/planAhead.log
+# Journal file: G:/ISE_Project/zzcpu/SerialInterface/planAhead_run_2/planAhead.jou
+#-----------------------------------------------------------
+INFO: [Common 17-78] Attempting to get a license: PlanAhead
+INFO: [Common 17-290] Got license for PlanAhead
+INFO: [Common 17-86] Your PlanAhead license expires in -668 day(s)
+INFO: [Device 21-36] Loading parts and site information from G:/ISE/14.7/ISE_DS/PlanAhead/data/parts/arch.xml
+Parsing RTL primitives file [G:/ISE/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+Finished parsing RTL primitives file [G:/ISE/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+start_gui
+source G:/ISE_Project/zzcpu/SerialInterface/pa.fromNetlist.tcl
+# create_project -name SerialInterface -dir "G:/ISE_Project/zzcpu/SerialInterface/planAhead_run_2" -part xc3s1200efg320-4
+# set_property design_mode GateLvl [get_property srcset [current_run -impl]]
+# set_property edif_top_file "G:/ISE_Project/zzcpu/SerialInterface/controller.ngc" [ get_property srcset [ current_run ] ]
+# add_files -norecurse { {G:/ISE_Project/zzcpu/SerialInterface} }
+# set_param project.pinAheadLayout  yes
+# set_property target_constrs_file "controller.ucf" [current_fileset -constrset]
+Adding file 'G:/ISE_Project/zzcpu/SerialInterface/controller.ucf' to fileset 'constrs_1'
+# add_files [list {controller.ucf}] -fileset [get_property constrset [current_run]]
+# link_design
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+Design is defaulting to project part: xc3s1200efg320-4
+Release 14.7 - ngc2edif P.20131013 (nt)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+Release 14.7 - ngc2edif P.20131013 (nt)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+Reading design controller.ngc ...
+WARNING:NetListWriters:298 - No output is written to controller.xncf, ignored.
+Processing design ...
+   Preping design's networks ...
+   Preping design's macros ...
+  finished :Prep
+Writing EDIF netlist file controller.edif ...
+ngc2edif: Total memory usage is 84264 kilobytes
+
+Parsing EDIF File [./planAhead_run_2/SerialInterface.data/cache/controller_ngc_zx.edif]
+Finished Parsing EDIF File [./planAhead_run_2/SerialInterface.data/cache/controller_ngc_zx.edif]
+INFO: [Designutils 20-910] Reading macro library G:/ISE/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/hd_int_macros.edn
+Parsing EDIF File [G:/ISE/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/hd_int_macros.edn]
+Finished Parsing EDIF File [G:/ISE/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/hd_int_macros.edn]
+Loading clock regions from G:/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/xc3s1200e/ClockRegion.xml
+Loading clock buffers from G:/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/xc3s1200e/ClockBuffers.xml
+Loading package from G:/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/xc3s1200e/fg320/Package.xml
+Loading io standards from G:/ISE/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/IOStandards.xml
+INFO: [Device 21-19] Loading pkg sso from G:/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/xc3s1200e/fg320/SSORules.xml
+Loading list of drcs for the architecture : G:/ISE/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/drc.xml
+INFO: [Timing 38-77] Reading timing library G:/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/spartan3e-4.lib.
+INFO: [Timing 38-34] Done reading timing library G:/ISE/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/spartan3e-4.lib.
+Parsing UCF File [G:/ISE_Project/zzcpu/SerialInterface/controller.ucf]
+Finished Parsing UCF File [G:/ISE_Project/zzcpu/SerialInterface/controller.ucf]
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Phase 0 | Netlist Checksum: 66fbcdb5
+link_design: Time (s): elapsed = 00:00:06 . Memory (MB): peak = 495.387 ; gain = 73.875
+startgroup
+set_property package_pin F11 [get_ports {L[7]}]
+endgroup
+startgroup
+set_property package_pin E11 [get_ports {L[7]}]
+endgroup
+startgroup
+set_property package_pin D11 [get_ports {L[6]}]
+endgroup
+startgroup
+set_property package_pin F11 [get_ports {L[7]}]
+endgroup
+startgroup
+set_property package_pin E11 [get_ports {L[6]}]
+endgroup
+startgroup
+set_property package_pin D11 [get_ports {L[5]}]
+endgroup
+startgroup
+set_property package_pin C11 [get_ports {L[4]}]
+endgroup
+startgroup
+set_property package_pin B11 [get_ports {L[3]}]
+endgroup
+startgroup
+set_property package_pin A11 [get_ports {L[2]}]
+endgroup
+startgroup
+set_property package_pin E1 [get_ports {L[1]}]
+endgroup
+startgroup
+set_property package_pin E10 [get_ports {L[1]}]
+endgroup
+startgroup
+set_property package_pin D10 [get_ports {L[0]}]
+endgroup
+set_property package_pin "" [get_ports [list  {SW[15]}]]
+startgroup
+set_property package_pin U9 [get_ports CLK]
+endgroup
+startgroup
+set_property package_pin B9 [get_ports clk1]
+endgroup
+startgroup
+set_property package_pin A16 [get_ports data_ready]
+endgroup
+startgroup
+set_property package_pin M15 [get_ports Ram1EN]
+endgroup
+startgroup
+set_property package_pin M16 [get_ports Ram1OE]
+endgroup
+startgroup
+set_property package_pin M18 [get_ports Ram1WE]
+endgroup
+startgroup
+set_property package_pin C14 [get_ports rdn]
+endgroup
+startgroup
+set_property package_pin U10 [get_ports RST]
+endgroup
+startgroup
+set_property package_pin D14 [get_ports tbre]
+endgroup
+startgroup
+set_property package_pin N9 [get_ports tsre]
+endgroup
+startgroup
+set_property package_pin U5 [get_ports wrn]
+endgroup
+startgroup
+set_property package_pin H17 [get_ports {Ram1Addr[17]}]
+endgroup
+startgroup
+set_property package_pin H1 [get_ports {Ram1Addr[16]}]
+endgroup
+startgroup
+set_property package_pin H16 [get_ports {Ram1Addr[16]}]
+endgroup
+startgroup
+set_property package_pin H15 [get_ports {Ram1Addr[15]}]
+endgroup
+startgroup
+set_property package_pin H14 [get_ports {Ram1Addr[14]}]
+endgroup
+startgroup
+set_property package_pin G16 [get_ports {Ram1Addr[13]}]
+endgroup
+startgroup
+set_property package_pin G15 [get_ports {Ram1Addr[12]}]
+endgroup
+startgroup
+set_property package_pin G14 [get_ports {Ram1Addr[11]}]
+endgroup
+startgroup
+set_property package_pin G13 [get_ports {Ram1Addr[10]}]
+endgroup
+startgroup
+set_property package_pin F18 [get_ports {Ram1Addr[9]}]
+endgroup
+startgroup
+set_property package_pin F17 [get_ports {Ram1Addr[8]}]
+endgroup
+startgroup
+set_property package_pin F15 [get_ports {Ram1Addr[7]}]
+endgroup
+startgroup
+set_property package_pin F14 [get_ports {Ram1Addr[6]}]
+endgroup
+startgroup
+set_property package_pin E16 [get_ports {Ram1Addr[5]}]
+endgroup
+startgroup
+set_property package_pin E15 [get_ports {Ram1Addr[4]}]
+endgroup
+startgroup
+set_property package_pin D17 [get_ports {Ram1Addr[3]}]
+endgroup
+startgroup
+set_property package_pin D16 [get_ports {Ram1Addr[2]}]
+endgroup
+startgroup
+set_property package_pin C18 [get_ports {Ram1Addr[1]}]
+endgroup
+startgroup
+set_property package_pin C17 [get_ports {Ram1Addr[0]}]
+endgroup
+startgroup
+set_property package_pin M14 [get_ports {Ram1Data[15]}]
+endgroup
+startgroup
+set_property package_pin M13 [get_ports {Ram1Data[14]}]
+endgroup
+startgroup
+set_property package_pin L18 [get_ports {Ram1Data[13]}]
+endgroup
+startgroup
+set_property package_pin L17 [get_ports {Ram1Data[12]}]
+endgroup
+startgroup
+set_property package_pin L16 [get_ports {Ram1Data[11]}]
+endgroup
+startgroup
+set_property package_pin L15 [get_ports {Ram1Data[10]}]
+endgroup
+startgroup
+set_property package_pin K15 [get_ports {Ram1Data[9]}]
+endgroup
+startgroup
+set_property package_pin K14 [get_ports {Ram1Data[8]}]
+endgroup
+startgroup
+set_property package_pin K13 [get_ports {Ram1Data[7]}]
+endgroup
+startgroup
+set_property package_pin K12 [get_ports {Ram1Data[6]}]
+endgroup
+startgroup
+set_property package_pin J17 [get_ports {Ram1Data[5]}]
+endgroup
+startgroup
+set_property package_pin J16 [get_ports {Ram1Data[4]}]
+endgroup
+startgroup
+set_property package_pin J15 [get_ports {Ram1Data[3]}]
+endgroup
+startgroup
+set_property package_pin J14 [get_ports {Ram1Data[2]}]
+endgroup
+startgroup
+set_property package_pin J13 [get_ports {Ram1Data[1]}]
+endgroup
+startgroup
+set_property package_pin J12 [get_ports {Ram1Data[0]}]
+endgroup
+save_constraints
+startgroup
+set_property package_pin J6 [get_ports {SW[15]}]
+endgroup
+startgroup
+set_property package_pin J7 [get_ports {SW[14]}]
+endgroup
+startgroup
+set_property package_pin K2 [get_ports {SW[13]}]
+endgroup
+startgroup
+set_property package_pin K7 [get_ports {SW[12]}]
+endgroup
+startgroup
+set_property package_pin M1 [get_ports {SW[11]}]
+endgroup
+startgroup
+set_property package_pin N1 [get_ports {SW[10]}]
+endgroup
+startgroup
+set_property package_pin N2 [get_ports {SW[9]}]
+endgroup
+startgroup
+set_property package_pin R1 [get_ports {SW[8]}]
+endgroup
+startgroup
+set_property package_pin R4 [get_ports {SW[7]}]
+endgroup
+startgroup
+set_property package_pin U1 [get_ports {SW[6]}]
+endgroup
+startgroup
+set_property package_pin V2 [get_ports {SW[5]}]
+endgroup
+startgroup
+set_property package_pin V3 [get_ports {SW[4]}]
+endgroup
+startgroup
+set_property package_pin V4 [get_ports {SW[3]}]
+endgroup
+startgroup
+set_property package_pin U8 [get_ports {SW[2]}]
+endgroup
+startgroup
+set_property package_pin R7 [get_ports {SW[1]}]
+endgroup
+startgroup
+set_property package_pin T7 [get_ports {SW[0]}]
+endgroup
+save_constraints
+exit

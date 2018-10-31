@@ -115,7 +115,7 @@ module controller(
 			
 			readIT4:begin
 				rdn = 1'b1;
-				state_n = writeIT1;
+				state_n = writeRAM1;
 			end
 			//
 			writeRAM1:begin
@@ -207,7 +207,7 @@ module controller(
 		else if(state_c == writeIT1)begin  
 			//data <= read_data + 8'b00000001;
 			accept_flag <= 1'b0;
-			L[7:0] <= {tbre,6'b011110,tsre};
+			L[7:0] <= Ram1Data[7:0];
 			wrn <= 1'b0;
 		end
 		else if(state_c == writeIT2)begin  
@@ -215,7 +215,7 @@ module controller(
 			wrn <= 1'b1;
 		end
 		else if(state_c == writeIT3)begin  
-			L[7:0] <= data[7:0];
+			L[7:0] <= Ram1Data[7:0];
 			
 		end
 		else if(state_c == writeIT4)begin  
@@ -230,7 +230,7 @@ module controller(
 		end
 		else if(state_c == writeRAM2)begin  
 			data <= read_data;
-			currAddr <= 16'hffff;
+			currAddr <= SW;
 		end
 		else if(state_c == writeRAM3)begin  
 			
@@ -245,6 +245,7 @@ module controller(
 		end
 		else if(state_c == readRAM3)begin  
 			running <= 1'b0;
+			accept_flag <= 1'b0;
 		end
 		else begin
 		
