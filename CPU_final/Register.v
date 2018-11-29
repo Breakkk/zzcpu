@@ -20,16 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 module Register#(parameter WIDTH = 16, INIT = 0)(
 	input [(WIDTH-1):0]d,
-	input clk,
+	input CLK,
 	input en_write,
-	input reset,
+	input RESET,
 	output reg [(WIDTH-1):0]q
 
 	);
 
 	
 	always  @(posedge CLK)begin
-		case(reset)
+		case(RESET)
 			1'b1:begin
 				q[(WIDTH-1):0] <= 1'h0;
 			end
