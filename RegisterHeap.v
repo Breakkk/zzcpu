@@ -37,8 +37,8 @@ module RegisterHeap#(parameter REG_WIDTH = 4)(
 	reg [15:0]REG_Heaps[0:NUM-1];
 	
 	always@(negedge CLK)// ±÷”–≈∫≈œ¬Ωµ—ÿ
-    begin
-        case(EN_WRITE_REG)
+		begin
+			case(EN_WRITE_REG)
 				1'b1:begin
 					
 				end
@@ -47,7 +47,7 @@ module RegisterHeap#(parameter REG_WIDTH = 4)(
 					REG_Heaps[w_reg] <= w_data;
 				end
 			endcase
-    end
+		end
 	
 	assign read_data_A = REG_Heaps[r_reg_A];
 	assign read_data_B = REG_Heaps[r_reg_B];
