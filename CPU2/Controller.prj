@@ -1,3 +1,0 @@
-verilog work "RAM.v"
-verilog work "ledDecoder.v"
-verilog work "Controller.v"

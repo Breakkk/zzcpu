@@ -1,8 +1,0 @@
-INTSTYLE=ise
-INFILE=Z:\Desktop\zzcpu\CPU\Controller.ncd
-OUTFILE=Z:\Desktop\zzcpu\CPU\Controller.bit
-FAMILY=Spartan3E
-PART=xc3s1200e-4fg320
-WORKINGDIR=Z:\Desktop\zzcpu\CPU
-LICENSE=ISE
-USER_INFO=135256_15690819_173552794_661
