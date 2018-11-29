@@ -36,22 +36,22 @@ module ALU(
 	always  @(*)begin
 		case(OP)
 			ADD:begin
-				temp_result[15:0] = srcdata_a[15:0] + srcdata_b[15:0];
+				temp_result[15:0] <= srcdata_a[15:0] + srcdata_b[15:0];
 			end
 			AND:begin
-				temp_result[15:0] = srcdata_a[15:0] & srcdata_b[15:0];
+				temp_result[15:0] <= srcdata_a[15:0] & srcdata_b[15:0];
 			end
 			OR:begin
-				temp_result[15:0] = srcdata_a[15:0] | srcdata_b[15:0];
+				temp_result[15:0] <= srcdata_a[15:0] | srcdata_b[15:0];
 			end
 			SLL:begin
-				temp_result[15:0] = srcdata_a[15:0] << srcdata_b[15:0];
+				temp_result[15:0] <= srcdata_a[15:0] << srcdata_b[15:0];
 			end
 			SRL:begin    
-				temp_result[15:0] = srcdata_a[15:0] >> srcdata_b[15:0];
+				temp_result[15:0] <= srcdata_a[15:0] >> srcdata_b[15:0];
 			end
 			SRA:begin    
-				temp_result[15:0] = srcdata_a[15:0] >>> srcdata_b[15:0];
+				temp_result[15:0] <= srcdata_a[15:0] >>> srcdata_b[15:0];
 			end
 			default:begin   
 			

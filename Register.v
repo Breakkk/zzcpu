@@ -21,20 +21,20 @@
 module Register#(parameter WIDTH = 16, INIT = 0)(
 	input [(WIDTH-1):0]d,
 	input CLK,
-	input en_write,
+	input EN_WRITE,
 	input RESET,
 	output reg [(WIDTH-1):0]q
 
 	);
 
 	
-	always  @(posedge CLK)begin
+	always  @(negedge CLK)begin
 		case(RESET)
 			1'b1:begin
 				q[(WIDTH-1):0] <= 1'h0;
 			end
 			1'b0:begin
-				q[(WIDTH-1):0] <= (en_write) ? d[(WIDTH-1):0] : q[(WIDTH-1):0];
+				q[(WIDTH-1):0] <= (EN_WRITE) ? d[(WIDTH-1):0] : q[(WIDTH-1):0];
 			end
 		endcase
 	end
