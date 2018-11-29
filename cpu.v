@@ -21,7 +21,8 @@
 module zzcpu(
 	input clk,
 	input rst,
-	output reg y,
+	
+	output [15:0] l,
 	
 	output [17:0] Ram1Addr,	//Ram1-data
 	inout [15:0] Ram1Data,
@@ -33,13 +34,74 @@ module zzcpu(
 	inout [15:0] Ram2Data,
 	output Ram2OE,
 	output Ram2WE,
-	output Ram2EN
+	output Ram2EN,
+	output wrn,
+	output rdn
+	
     );
+//assign wrn = 1'b1;		//test ram 
+//assign rdn = 1'b1;
+//assign Ram2Addr = 17'b0;
+//assign Ram2Data = 17'bz;
+//assign Ram2OE = 1'b1;
+//assign Ram2WE = 1'b1;
+//assign Ram2EN = 1'b1;
+//
+//assign Ram1EN = 1'b0;
+//wire [17:0] test_pc;
+//wire [15:0] datatmp;
+//wire t_read;
+//reg [17:0]t;
+//reg [15:0]d;
+//reg tr;
+//assign test_pc = t;
+//assign datatmp = d;
+//assign t_read = tr;
+//
+//ram1 _ram1(
+//	.addr(test_pc),
+//	.data(datatmp),
+//	.Ram1Addr(Ram1Addr),
+//	.Ram1Data(Ram1Data),	//指令内容
+//	.Ram1OE(Ram1OE),
+//	.Ram1WE(Ram1WE),
+//	.read(t_read),
+//	.clk(clk)
+//);
+//
+//reg [5:0] cnt;
+//
+//always@ (posedge clk or negedge rst) begin
+//	if(!rst) begin
+//		cnt <= 0;
+//		t <= 0;	//addr
+//		tr <= 1'b1;	//read
+//		d <= 16'h01ff;	//data
+//	end
+//	else begin
+//		if(cnt == 2) begin
+//			cnt <= cnt + 1;
+//			tr <= 1'b0;
+//			t <= 0;
+//		end
+//		else if (cnt > 2) begin
+//			t <= t + 1;
+//		end
+//		else begin
+//			cnt <= cnt + 1;
+//			t <= t + 1;
+//			d <= d + 16'h0100;
+//		end
+//	end
+//end
+//
+//assign l = Ram1Data;
 
-always@ (posedge clk) begin
-	y <= 1'b1;
-end
 
+//al ways@ (posedge clk) begin
+//	y <= 1'b1;
+//end
+//
 // clock
 wire realclk;
 
@@ -73,18 +135,24 @@ ram2 _ram2(
 	.Ram2Data(Ram2Data),	//指令内容
 	.Ram2OE(Ram2OE),
 	.Ram2WE(Ram2WE),
-	.Ram2EN(Ram2EN),
 	.read(readINST),
 	.clk(clk)
 );
 
 // IF/ID
 
-if_id(
-
+if_id _if_id(
+	.clk(clk),
+	.flush(),
+	.pc_in(if_pc),
+	.pc_out(id_pc),
+	.inst_in(Ram2Data),
+	.inst_out(id_inst)
 );
 
 // ID
+
+
 
 // ID/EXE
 
