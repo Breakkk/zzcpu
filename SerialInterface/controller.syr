@@ -164,8 +164,8 @@ Analyzing top module <controller>.
 	writeRAM1 = 4'b1000
 	writeRAM2 = 4'b1001
 	writeRAM3 = 4'b1010
-WARNING:Xst:883 - "controller.v" line 91: Ignored duplicate item in case statement. 
-WARNING:Xst:852 - "controller.v" line 254: Unconnected input port 'running' of instance 'ram' is tied to GND.
+WARNING:Xst:883 - "controller.v" line 94: Ignored duplicate item in case statement. 
+WARNING:Xst:852 - "controller.v" line 257: Unconnected input port 'running' of instance 'ram' is tied to GND.
 Module <controller> is correct for synthesis.
  
 Analyzing module <RAM> in library <work>.
@@ -240,7 +240,7 @@ INFO:Xst:2371 - HDL ADVISOR - Logic functions respectively driving the data and 
     Found 1-bit register for signal <accept_flag>.
     Found 18-bit register for signal <currAddr>.
     Found 8-bit register for signal <data>.
-    Found 8-bit adder for signal <data$addsub0000> created at line 243.
+    Found 8-bit adder for signal <data$addsub0000> created at line 246.
     Found 8-bit register for signal <read_data>.
     Found 1-bit register for signal <read_ready>.
     Found 1-bit register for signal <running>.
@@ -285,17 +285,17 @@ Optimizing FSM <state_c/FSM> on signal <state_c[1:15]> with one-hot encoding.
  0001  | 000000000000010
  0010  | 000000000000100
  0011  | 000000000001000
- 0100  | 000100000000000
- 0101  | 001000000000000
- 0110  | 010000000000000
- 0111  | 100000000000000
+ 1111  | 000000000010000
  1000  | 000000000100000
  1001  | 000000001000000
  1010  | 000000010000000
  1011  | 000000100000000
  1100  | 000001000000000
  1101  | 000010000000000
- 1111  | 000000000010000
+ 0100  | 000100000000000
+ 0101  | 001000000000000
+ 0110  | 010000000000000
+ 0111  | 100000000000000
 --------------------------
 WARNING:Xst:1710 - FF/Latch <datain_15> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:1710 - FF/Latch <datain_14> (without init value) has a constant value of 0 in block <ram>. This FF/Latch will be trimmed during the optimization process.
@@ -383,18 +383,18 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : No
 
 Design Statistics
-# IOs                              : 69
+# IOs                              : 73
 
 Cell Usage :
-# BELS                             : 111
+# BELS                             : 120
 #      GND                         : 1
 #      INV                         : 2
-#      LUT2                        : 11
+#      LUT2                        : 12
 #      LUT2_L                      : 4
-#      LUT3                        : 20
+#      LUT3                        : 19
 #      LUT3_D                      : 2
 #      LUT3_L                      : 1
-#      LUT4                        : 57
+#      LUT4                        : 66
 #      LUT4_D                      : 1
 #      LUT4_L                      : 11
 #      VCC                         : 1
@@ -407,10 +407,10 @@ Cell Usage :
 # Clock Buffers                    : 2
 #      BUFG                        : 1
 #      BUFGP                       : 1
-# IO Buffers                       : 68
+# IO Buffers                       : 72
 #      IBUF                        : 21
 #      IOBUF                       : 8
-#      OBUF                        : 28
+#      OBUF                        : 32
 #      OBUFT                       : 11
 =========================================================================
 
@@ -419,11 +419,11 @@ Device utilization summary:
 
 Selected Device : 3s1200efg320-4 
 
- Number of Slices:                       59  out of   8672     0%  
+ Number of Slices:                       64  out of   8672     0%  
  Number of Slice Flip Flops:             80  out of  17344     0%  
- Number of 4 input LUTs:                109  out of  17344     0%  
- Number of IOs:                          69
- Number of bonded IOBs:                  69  out of    250    27%  
+ Number of 4 input LUTs:                118  out of  17344     0%  
+ Number of IOs:                          73
+ Number of bonded IOBs:                  73  out of    250    29%  
     IOB Flip Flops:                       1
  Number of GCLKs:                         2  out of     24     8%  
 
@@ -470,9 +470,9 @@ Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 5.267ns (Maximum Frequency: 189.861MHz)
+   Minimum period: 5.323ns (Maximum Frequency: 187.864MHz)
    Minimum input arrival time before clock: 5.617ns
-   Maximum output required time after clock: 6.977ns
+   Maximum output required time after clock: 7.358ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -481,27 +481,27 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'CLK'
-  Clock period: 5.267ns (frequency: 189.861MHz)
-  Total number of paths / destination ports: 360 / 67
+  Clock period: 5.323ns (frequency: 187.864MHz)
+  Total number of paths / destination ports: 361 / 67
 -------------------------------------------------------------------------
-Delay:               5.267ns (Levels of Logic = 3)
-  Source:            state_c_FSM_FFd1 (FF)
+Delay:               5.323ns (Levels of Logic = 3)
+  Source:            state_c_FSM_FFd4 (FF)
   Destination:       L_0 (FF)
   Source Clock:      CLK rising
   Destination Clock: CLK rising
 
-  Data Path: state_c_FSM_FFd1 to L_0
+  Data Path: state_c_FSM_FFd4 to L_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDC:C->Q             12   0.591   1.040  state_c_FSM_FFd1 (state_c_FSM_FFd1)
+     FDC:C->Q             15   0.591   1.096  state_c_FSM_FFd4 (state_c_FSM_FFd4)
      LUT4:I1->O            1   0.704   0.455  L_or00004 (L_or00004)
      LUT4:I2->O            8   0.704   0.761  L_or000014 (L_or0000)
      LUT4:I3->O            1   0.704   0.000  L_mux0000<6>31 (L_mux0000<6>)
      FDE:D                     0.308          L_1
     ----------------------------------------
-    Total                      5.267ns (3.011ns logic, 2.256ns route)
-                                       (57.2% logic, 42.8% route)
+    Total                      5.323ns (3.011ns logic, 2.312ns route)
+                                       (56.6% logic, 43.4% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'clk1'
@@ -539,9 +539,9 @@ Offset:              5.617ns (Levels of Logic = 4)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IOBUF:IO->O           4   1.218   0.762  Ram1Data_3_IOBUF (N16)
+     IOBUF:IO->O           4   1.218   0.762  Ram1Data_3_IOBUF (N22)
      LUT4:I0->O            4   0.704   0.762  Madd_data_addsub0000_cy<3>11 (Madd_data_addsub0000_cy<3>)
-     LUT2:I0->O            1   0.704   0.455  data_mux0000<5>_SW2 (N77)
+     LUT2:I0->O            1   0.704   0.455  data_mux0000<5>_SW2 (N83)
      LUT4:I2->O            1   0.704   0.000  data_mux0000<5> (data_mux0000<5>)
      FDE:D                     0.308          data_5
     ----------------------------------------
@@ -550,23 +550,24 @@ Offset:              5.617ns (Levels of Logic = 4)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK'
-  Total number of paths / destination ports: 52 / 28
+  Total number of paths / destination ports: 81 / 32
 -------------------------------------------------------------------------
-Offset:              6.977ns (Levels of Logic = 2)
-  Source:            accept_flag (FF)
-  Destination:       Ram1Data<0> (PAD)
+Offset:              7.358ns (Levels of Logic = 3)
+  Source:            state_c_FSM_FFd11 (FF)
+  Destination:       test<0> (PAD)
   Source Clock:      CLK rising
 
-  Data Path: accept_flag to Ram1Data<0>
+  Data Path: state_c_FSM_FFd11 to test<0>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q             13   0.591   1.158  accept_flag (accept_flag)
-     LUT2:I0->O           24   0.704   1.252  ram/flag_mux000011 (Ram1Data<10>_MLTSRCEDGE)
-     OBUFT:I->O                3.272          Ram1Data_8_OBUFT (Ram1Data<8>)
+     FDC:C->Q             18   0.591   1.072  state_c_FSM_FFd11 (state_c_FSM_FFd11)
+     LUT4:I3->O            1   0.704   0.595  state_c_or00034 (state_c_or00034)
+     LUT2:I0->O            1   0.704   0.420  state_c_or000310 (test_0_OBUF)
+     OBUF:I->O                 3.272          test_0_OBUF (test<0>)
     ----------------------------------------
-    Total                      6.977ns (4.567ns logic, 2.410ns route)
-                                       (65.5% logic, 34.5% route)
+    Total                      7.358ns (5.271ns logic, 2.087ns route)
+                                       (71.6% logic, 28.4% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'clk1'
@@ -611,11 +612,11 @@ Offset:              4.368ns (Levels of Logic = 1)
 
 
 Total REAL time to Xst completion: 5.00 secs
-Total CPU time to Xst completion: 5.36 secs
+Total CPU time to Xst completion: 5.42 secs
  
 --> 
 
-Total memory usage is 4550112 kilobytes
+Total memory usage is 4550076 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :   34 (   0 filtered)

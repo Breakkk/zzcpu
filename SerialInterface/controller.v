@@ -33,7 +33,8 @@ module controller(
     output reg rdn,
     inout tbre,
     inout tsre,
-    output reg wrn
+    output reg wrn,
+	 output [3:0] test
     );
 	 
 	parameter clear = 2'b00;
@@ -64,6 +65,8 @@ module controller(
 	reg [7:0] data = 8'b00000000;
 	reg [7:0] read_data = 8'b00000000;
 	reg [17:0] currAddr;
+	
+	assign test = state_c;
 	
 	reg running;
 	reg readRam;
@@ -182,7 +185,7 @@ module controller(
 			OE <= 1'b1;
 			WE <= 1'b1;
 			EN <= 1'b1;
-			L[7:0] <= 8'b00000010;
+			L[7:0] <= 8'b10000010;
 		end 
 		
 		//readIT
