@@ -89,6 +89,16 @@ if_id _if_id(
 );
 
 // ID
+// signal from external interception to ID
+wire intercepted;
+// signal from RegHeap to ID
+wire [15:0] regdata1_rh_o;
+wire [15:0] regdata2_rh_o;
+// signal from ID to RegHeap
+wire [3:0] readreg1_id_o;
+wire [3:0] readreg2_id_o;
+wire save_id_o;
+wire restore_id_o;
 // signal from ID to ID/EX
 wire [15:0] alusrc1_id_o;
 wire [15:0] alusrc2_id_o;
@@ -102,11 +112,10 @@ wire memtoreg_id_o;
 wire writereg_id_o;
 wire memread_id_o;
 wire memwrite_id_o;
-wire aluop_id_o;
+wire memdata_id_o;
+wire [:0] aluop_id_o;
 // signal from ID to EX/MEM
 wire flush_ex;
-// signal from external interception to ID
-wire intercepted;
 // signal from ID to Hazard detection unit
 wire isjump_id_o;
 // signal from ID to IF :
@@ -118,11 +127,16 @@ id _id(
 	.instr_i(instr),
 	.epc_i(epc_if),
 	.ex_intcp_i(intercepted),
+	.rdata1_i(regdata1_rh_o),
+	.rdata2_i(regdata2_rh_o),
+	.readreg1_i(readreg1_id_o),
+	.readreg2_i(readreg2_id_o),
 	.regwrite_o(regwrite_id_o),
 	.memtoreg_o(memtoreg_id_o),
 	.writereg_o(writereg_id_o),
 	.memread_o(memread_id_o),
 	.memwrite_o(memwrite_id_o),
+	.memdata_o(memdata_id_o),
 	.aluop_o(aluop_id_o),
 	.alusrc1_o(alusrc1),
 	.alusrc1_o(alusrc2),
@@ -136,10 +150,12 @@ id _id(
 	.address_jr(address_jr_id_o),
 	.isbranch_o(isbranch_id_o),
 	.isintzero_o(isintzero)
-}
+);
 
 // ID/EXE
-
+id_ex _id_ex(
+	.
+);
 // EXE
 
 // EXE/MEM
@@ -149,6 +165,19 @@ id _id(
 // MEM/WB
 
 // WB
+
+// RegHeap
+RegisterHeap _regheap(
+	.rdreg1_i(readreg1_id_o),
+	.rdreg2_i(readreg2_id_o),
+	.wrreg1_i(),
+	.wdata1_i(),
+	.save_i(save_id_o),
+	.restore_i(restore_id_o),
+	.rdata1_o(regdata1_rh_o),
+	.rdata2_o(regdata2_rh_o)
+);
+// Hazard detection unit
 
 endmodule
 
