@@ -35,6 +35,7 @@ module ALU#(parameter OPERRATOR_WIDTH = 4)(
 	parameter SUB = 4'b0110;
 	parameter EQUAL = 4'b0111;
 	parameter LESS = 4'b1000;
+	parameter MOVE = 4'b1000;
 	parameter EMPTY = 4'b1111;
 	
 	always  @(*)begin
@@ -71,6 +72,9 @@ module ALU#(parameter OPERRATOR_WIDTH = 4)(
 					temp_result[15:0] <= 16'h0001;
 				else
 					temp_result[15:0] <= 16'h0000;
+			end
+			MOVE:begin
+				temp_result[15:0] <= srcdata_a[15:0];
 			end
 			default:begin   
 				temp_result[15:0] <= 16'h0000;
