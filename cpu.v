@@ -39,6 +39,105 @@ module zzcpu(
 	output rdn
 	
     );
+	
+wire realclk;
+
+// IF - pc
+// belongs to IF module
+wire [17:0] if_pc;
+wire pc_jump;
+wire hold;
+wire [17:0] pc_jump_val; 
+
+pc _pc(
+	.clk(clk),
+	.rst(rst),
+	.hold(hold),
+	.pc_jump(pc_jump),
+	.pc_jump_val(pc_jump_val),
+	.pc(if_pc)
+);
+
+// IF - IM
+// belongs to IF module
+wire readINST;
+assign readINST = 1'b1;
+
+ram2 _ram2(
+	.addr(if_pc),
+	.data(datatmp),
+	.Ram2Addr(Ram2Addr),
+	.Ram2Data(Ram2Data),	//指令内容
+	.Ram2OE(Ram2OE),
+	.Ram2WE(Ram2WE),
+	.read(readINST),
+	.clk(clk)
+);
+
+// IF/ID
+// signal from IF/ID to ID
+wire [15:0] instr;
+wire [15:0] epc_if_o;
+
+if_id _if_id(
+	.clk(clk),
+	.flush(),
+	.pc_in(if_pc),
+	.pc_out(epc_if_o),
+	.inst_in(Ram2Data),
+	.inst_out(instr)
+);
+
+// ID
+// signal from ID to ID/EX
+wire [15:0] alusrc1_id_o;
+wire [15:0] alusrc2_id_o;
+wire [3:0] regsrc1_id_o;				// name of the ALU src register
+wire [3:0] regsrc2_id_o;
+wire [3:0] regdst_id_o;				// name of the register to which data is written back
+wire [15:0] epc_id_o;
+wire flush_id;
+// signal from ID to EX/MEM
+wire flush_ex;
+// signal from external interception to ID
+wire intercepted;
+// signal from ID to Hazard detection unit
+wire isjump_id_o;
+wire isintcp_id_o;
+// signal from ID to IF :
+wire [15:0] address_jr_id_o;
+
+id _id(
+	.instr_i(instr),
+	.epc_i(epc_if),
+	.ex_intcp_i(intercepted),
+	.alusrc1_o(alusrc1),
+	.alusrc1_o(alusrc2),
+	.regsrc1_o(regsrc1),
+	.regsrc2_o(regsrc2),
+	.regdst_o(regdst),
+	.epc_o(epc_id_o),
+	.flush_id_o(flush_id),
+	.flush_ex_o(flush_ex),
+	.isjump_o(isjump_id_o),
+	.isintcp_o(isintcp_id_o),
+	.address_jr(address_jr_id_o)
+}
+
+// ID/EXE
+
+// EXE
+
+// EXE/MEM
+
+// MEM
+
+// MEM/WB
+
+// WB
+
+endmodule
+
 //assign wrn = 1'b1;		//test ram 
 //assign rdn = 1'b1;
 //assign Ram2Addr = 17'b0;
@@ -103,67 +202,10 @@ module zzcpu(
 //end
 //
 // clock
-wire realclk;
+
+
 
 //clock _clock(
 //	.clk(clk),
 //	.clock(realclk)
 //);
-
-// IF 
-wire [17:0] if_pc;
-wire pc_jump;
-wire hold;
-wire [17:0] pc_jump_val; 
-
-pc _pc(
-	.clk(clk),
-	.rst(rst),
-	.hold(hold),
-	.pc_jump(pc_jump),
-	.pc_jump_val(pc_jump_val),
-	.pc(if_pc)
-);
-
-wire readINST;
-assign readINST = 1'b1;
-
-ram2 _ram2(
-	.addr(if_pc),
-	.data(datatmp),
-	.Ram2Addr(Ram2Addr),
-	.Ram2Data(Ram2Data),	//指令内容
-	.Ram2OE(Ram2OE),
-	.Ram2WE(Ram2WE),
-	.read(readINST),
-	.clk(clk)
-);
-
-// IF/ID
-
-if_id _if_id(
-	.clk(clk),
-	.flush(),
-	.pc_in(if_pc),
-	.pc_out(id_pc),
-	.inst_in(Ram2Data),
-	.inst_out(id_inst)
-);
-
-// ID
-
-
-
-// ID/EXE
-
-// EXE
-
-// EXE/MEM
-
-// MEM
-
-// MEM/WB
-
-// WB
-
-endmodule
