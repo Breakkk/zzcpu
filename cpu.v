@@ -67,12 +67,17 @@ ram2 _ram2(
 	.addr(if_pc),
 	.data(datatmp),
 	.Ram2Addr(Ram2Addr),
-	.Ram2Data(Ram2Data),	//Ö¸ÁîÄÚÈÝ
+	.Ram2Data(Ram2Data),	//Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	.Ram2OE(Ram2OE),
 	.Ram2WE(Ram2WE),
 	.read(readINST),
 	.clk(clk)
 );
+
+// IF 
+wire ifjr_hdu_o;
+wire prewrong_hdu_o;
+wire preresult_if_o;
 
 // IF/ID
 // signal from IF/ID to ID
@@ -81,7 +86,7 @@ wire [15:0] epc_if_o;
 
 if_id _if_id(
 	.clk(clk),
-	.flush(),
+	.flush(flush_if),
 	.pc_in(if_pc),
 	.pc_out(epc_if_o),
 	.inst_in(Ram2Data),
@@ -109,15 +114,15 @@ wire [15:0] epc_id_o;
 wire flush_id;
 wire regwrite_id_o;					// ctrl signal
 wire memtoreg_id_o;
-wire writereg_id_o;
 wire memread_id_o;
 wire memwrite_id_o;
-wire memdata_id_o;
+wire [15:0] memdata_id_o;
 wire [:0] aluop_id_o;
 // signal from ID to EX/MEM
 wire flush_ex;
 // signal from ID to Hazard detection unit
 wire isjump_id_o;
+wire ifbranch_id_o;
 // signal from ID to IF :
 wire [15:0] address_jr_id_o;
 wire isbranch_id_o;
@@ -126,59 +131,201 @@ wire isintzero_id_o;
 id _id(
 	.instr_i(instr),
 	.epc_i(epc_if),
-	.ex_intcp_i(intercepted),
+	.ex_intcp_i(intercepted),			// interception
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
-	.readreg1_i(readreg1_id_o),
-	.readreg2_i(readreg2_id_o),
-	.regwrite_o(regwrite_id_o),
+	.readreg1_o(readreg1_id_o),
+	.readreg2_o(readreg2_id_o),
+	.regwrite_o(regwrite_id_o),			// ctrl code
 	.memtoreg_o(memtoreg_id_o),
-	.writereg_o(writereg_id_o),
 	.memread_o(memread_id_o),
 	.memwrite_o(memwrite_id_o),
 	.memdata_o(memdata_id_o),
-	.aluop_o(aluop_id_o),
-	.alusrc1_o(alusrc1),
-	.alusrc1_o(alusrc2),
-	.regsrc1_o(regsrc1),
-	.regsrc2_o(regsrc2),
-	.regdst_o(regdst),
+	.aluop_o(aluop_id_o),				// alu
+	.alusrc1_o(alusrc1_id_o),
+	.alusrc1_o(alusrc2_id_o),
+	.regsrc1_o(regsrc1_id_o),
+	.regsrc2_o(regsrc2_id_o),
+	.regdst_o(regdst_id_o),
 	.epc_o(epc_id_o),
-	.flush_id_o(flush_id),
+	.flush_id_o(flush_id),				// interception handling
 	.flush_ex_o(flush_ex),
-	.isjump_o(isjump_id_o),
+	.save_o(save_id_o),
+	.restore_o(restore_id_o),
+	.isintzero_o(isintzero_id_o),
+	.isjump_o(isjump_id_o),				// jump & branch handling
+	.ifbranch_o(ifbranch_id_o),
 	.address_jr(address_jr_id_o),
 	.isbranch_o(isbranch_id_o),
-	.isintzero_o(isintzero)
 );
 
 // ID/EXE
+// TODO - EPC
+wire [15:0] epc_idex_o;
+// signal from HDU(Hazard) to ID/EX
+wire stall_LW;
+// signal from ID/EX to EX
+wire [:0] aluop_idex_o;
+wire [16:0] alusrc1_idex_o;
+wire [16:0] alusrc2_idex_o;
+wire [3:0] regsrc1_idex_o;
+wire [3:0] regsrc2_idex_o;
+wire [3:0] regdst_idex_o;
+// signal from ID/EX to EX/MEM
+wire regwrite_idex_o;
+wire memtoreg_idex_o;					//isload = memtoreg & memread --- Hazard
+wire memread_idex_o;
+wire memwrite_idex_o;
+wire [15:0] memdata_idex_o;
+
 id_ex _id_ex(
-	.
+	.regwrite_i(regwrite_id_o),			//input
+	.memtoreg_i(memtoreg_id_o),
+	.memread_i(memread_id_o),
+	.memwrite_i(memwrite_id_o),
+	.memdata_i(memdata_id_o),
+	.aluop_i(aluop_id_o),
+	.alusrc1_i(alusrc1_id_o),
+	.alusrc2_i(alusrc2_id_o),
+	.regsrc1_i(regsrc1_id_o),
+	.regsrc2_i(regsrc2_id_o),
+	.regdst_i(regdst_id_o),
+	.epc_i(epc_id_o),
+	.flush_id_i(flush_id),
+	.stall_LW_o(stall_LW),				//output
+	.regwrite_o(regwrite_idex_o),
+	.memtoreg_o(memtoreg_idex_o),
+	.memread_o(memread_idex_o),
+	.memwrite_o(memwrite_idex_o),
+	.memdata_o(memdata_idex_o),
+	.aluop_o(aluop_idex_o),
+	.alusrc1_o(alusrc1_idex_o),
+	.alusrc2_o(alusrc2_idex_o),
+	.regsrc1_o(regsrc1_idex_o),
+	.regsrc2_o(regsrc2_idex_o),
+	.regdst_o(regdst_idex_o),
+	.epc_o(epc_idex_o)
 );
-// EXE
+
+// EXE ---- contains Forwarding Unit
+// signal from EX/MEM to EX
+wire [3:0] regdst_exmem_o;
+wire regwrite_exmem_o;
+wire [15:0] alures_exmem_o;
+// signal from MEM/WB to EX
+wire [3:0] regdst_memwb_o;
+wire regwrite_memwb_o;
+wire [15:0] res_wb_o;
+// signal from EX to EX/MEM
+wire [15:0] alures_ex_o;
+//wire [3:0] regdst_ex_o;
+
+ex _ex (
+	.aluop_i(aluop_idex_o),					//input
+	.alusrc1_i(alusrc1_idex_o),
+	.alusrc2_i(alusrc2_idex_o),
+	.regsrc1_i(regsrc1_idex_o),
+	.regsrc2_i(regsrc2_idex_o),
+	.regdst_i(regdst_idex_o),				//input -- Forwarding Unit
+	.exregdst_i(regdst_exmem_o),
+	.exregwrite_i(regwrite_exmem_o),
+	.exregdata_i(alures_exmem_o),
+	.memregdst_i(regdst_memwb_o),
+	.memregwrite_i(regwrite_memwb_o),
+	.memregdata_i(res_wb_o),
+	.alures_o(alures_ex_o)
+);
 
 // EXE/MEM
+// signal from EX/MEM to MEM
+wire memread_exmem_o;
+wire memwrite_exmem_o;
+wire [15:0] memdata_exmem_o;
+// signal from EX/MEM to MEM/WB
+wire memtoreg_exmem_o;
+
+ex_mem _ex_mem(
+	.flush_ex_i(flush_ex),					//input
+	.regwrite_i(regwrite_idex_o),
+	.memtoreg_i(memtoreg_idex_o),
+	.memread_i(memread_idex_o),
+	.memwrite_i(memwrite_idex_o),
+	.memdata_i(memdata_idex_o),
+	.regdst_i(regdst_idex_o),
+	.alures_i(alures_ex_o),
+	.regwrite_o(regwrite_exmem_o),			//output
+	.memtoreg_o(memtoreg_exmem_o),
+	.memread_o(memread_exmem_o),
+	.memwrite_o(memwrite_exmem_o),
+	.memdata_o(memdata_exmem_o),
+	.regdst_o(regdst_exmem_o),
+	.alures_o(alures_exmem_o)
+);
 
 // MEM
+wire [15:0] memres_mem_o;
+mem _mem(
+	.memread_i(memread_exmem_o),
+	.memwrite_i(memwrite_exmem_o),
+	.memdata_i(memdata_exmem_o),
+	.alures_i(alures_exmem_o),
+	.memres_o(memres_mem_o)
+);
 
 // MEM/WB
+wire [15:0] alures_memwb_o;
+wire [15:0] memres_memwb_o;
+wire memtoreg_memwb_o;
+mem_wb _mem_wb(
+	.memtoreg_i(memtoreg_exmem_o),
+	.regdst_i(regdst_exmem_o),
+	.regwrite_i(regwrite_exmem_o),
+	.alures_i(alures_exmem_o),
+	.memres_i(memres_mem_o),
+	.memtoreg_o(memtoreg_memwb_o),
+	.regdst_o(regdst_memwb_o),
+	.regwrite_o(regwrite_memwb_o),
+	.alures_o(alures_memwb_o),
+	.memres_o(memres_memwb_o)
+);
 
 // WB
+wb _wb(
+	.memtoreg_i(memtoreg_memwb_o),
+	.regwrite_i(regwrite_memwb_o),
+	.regdst_i(regdst_memwb_o),
+	.alures_i(alures_memwb_o),
+	.memres_i(memres_memwb_o),
+	.res_o(res_wb_o)
+);
 
 // RegHeap
 RegisterHeap _regheap(
 	.rdreg1_i(readreg1_id_o),
 	.rdreg2_i(readreg2_id_o),
-	.wrreg1_i(),
-	.wdata1_i(),
+	.wrreg_i(regdst_memwb_o),
+	.wdata_i(res_wb_o),
 	.save_i(save_id_o),
 	.restore_i(restore_id_o),
 	.rdata1_o(regdata1_rh_o),
 	.rdata2_o(regdata2_rh_o)
 );
-// Hazard detection unit
 
+// Hazard detection unit
+hazard _hazard(
+	.memtoreg_i(memtoreg_idex_o),			// LW hazard detection
+	.memread_i(memread_idex_o),
+	.regsrc1_i(regsrc1_id_o),
+	.regsrc2_i(regsrc2_id_o),
+	.regdst_i(regdst_idex_o),
+	.stall_LW_o(stall_LW),					// LW hazard --- stall --- to ID/EX & IF/ID(ifid write) & IF(pc write)
+	.isjump_i(isjump_id_o),					// jr instruction
+	.jr_o(ifjr_hdu_o),						// jr giving order to IF
+	.ifbranch_i(ifbranch_id_o),				// branch instruction --- do branch
+	.prediction_i(preresult_if_o),			// branch instruction --- prediction res
+	.prewrong_o(prewrong_hdu_o),			// branch instruction --- prediction wrong
+
+);
 endmodule
 
 //assign wrn = 1'b1;		//test ram 
@@ -204,7 +351,7 @@ endmodule
 //	.addr(test_pc),
 //	.data(datatmp),
 //	.Ram1Addr(Ram1Addr),
-//	.Ram1Data(Ram1Data),	//Ö¸ÁîÄÚÈÝ
+//	.Ram1Data(Ram1Data),	//Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	.Ram1OE(Ram1OE),
 //	.Ram1WE(Ram1WE),
 //	.read(t_read),
