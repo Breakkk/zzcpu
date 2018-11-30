@@ -92,25 +92,38 @@ if_id _if_id(
 // signal from ID to ID/EX
 wire [15:0] alusrc1_id_o;
 wire [15:0] alusrc2_id_o;
-wire [3:0] regsrc1_id_o;				// name of the ALU src register
+wire [3:0] regsrc1_id_o;			// name of the ALU src register
 wire [3:0] regsrc2_id_o;
 wire [3:0] regdst_id_o;				// name of the register to which data is written back
 wire [15:0] epc_id_o;
 wire flush_id;
+wire regwrite_id_o;					// ctrl signal
+wire memtoreg_id_o;
+wire writereg_id_o;
+wire memread_id_o;
+wire memwrite_id_o;
+wire aluop_id_o;
 // signal from ID to EX/MEM
 wire flush_ex;
 // signal from external interception to ID
 wire intercepted;
 // signal from ID to Hazard detection unit
 wire isjump_id_o;
-wire isintcp_id_o;
 // signal from ID to IF :
 wire [15:0] address_jr_id_o;
+wire isbranch_id_o;
+wire isintzero_id_o;
 
 id _id(
 	.instr_i(instr),
 	.epc_i(epc_if),
 	.ex_intcp_i(intercepted),
+	.regwrite_o(regwrite_id_o),
+	.memtoreg_o(memtoreg_id_o),
+	.writereg_o(writereg_id_o),
+	.memread_o(memread_id_o),
+	.memwrite_o(memwrite_id_o),
+	.aluop_o(aluop_id_o),
 	.alusrc1_o(alusrc1),
 	.alusrc1_o(alusrc2),
 	.regsrc1_o(regsrc1),
@@ -120,8 +133,9 @@ id _id(
 	.flush_id_o(flush_id),
 	.flush_ex_o(flush_ex),
 	.isjump_o(isjump_id_o),
-	.isintcp_o(isintcp_id_o),
-	.address_jr(address_jr_id_o)
+	.address_jr(address_jr_id_o),
+	.isbranch_o(isbranch_id_o),
+	.isintzero_o(isintzero)
 }
 
 // ID/EXE
