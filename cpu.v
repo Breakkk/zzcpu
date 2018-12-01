@@ -103,8 +103,6 @@ wire [15:0] regdata2_rh_o;
 // signal from ID to RegHeap
 wire [3:0] readreg1_id_o;
 wire [3:0] readreg2_id_o;
-wire save_id_o;
-wire restore_id_o;
 // signal from ID to ID/EX
 wire [15:0] alusrc1_id_o;
 wire [15:0] alusrc2_id_o;
@@ -152,8 +150,6 @@ id _id(
 	.epc_o(epc_id_o),
 	.flush_id_o(flush_id),				// interception handling
 	.flush_ex_o(flush_ex),
-	.save_o(save_id_o),
-	.restore_o(restore_id_o),
 	.isintzero_o(isintzero_id_o),
 	.isjump_o(isjump_id_o),				// jump & branch handling
 	.ifbranch_o(ifbranch_id_o),
@@ -305,10 +301,9 @@ wb _wb(
 RegisterHeap _regheap(
 	.rdreg1_i(readreg1_id_o),
 	.rdreg2_i(readreg2_id_o),
+	.regwrite_i(regwrite_memwb_o),
 	.wrreg_i(regdst_memwb_o),
 	.wdata_i(res_wb_o),
-	.save_i(save_id_o),
-	.restore_i(restore_id_o),
 	.rdata1_o(regdata1_rh_o),
 	.rdata2_o(regdata2_rh_o)
 );
