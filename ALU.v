@@ -63,9 +63,9 @@ module ALU#(parameter OPERRATOR_WIDTH = 4)(
 			end
 			EQUAL:begin    
 				if(srcdata_a == srcdata_b)
-					temp_result[15:0] <= 16'h0001;
-				else
 					temp_result[15:0] <= 16'h0000;
+				else
+					temp_result[15:0] <= 16'h0001;
 			end
 			LESS:begin    
 				if(srcdata_a < srcdata_b)
