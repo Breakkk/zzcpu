@@ -68,7 +68,7 @@ module ALU#(parameter OPERRATOR_WIDTH = 4)(
 					temp_result[15:0] <= 16'h0001;
 			end
 			LESS:begin    
-				if(srcdata_a < srcdata_b)
+				if($signed(srcdata_a) < $signed(srcdata_b))
 					temp_result[15:0] <= 16'h0001;
 				else
 					temp_result[15:0] <= 16'h0000;

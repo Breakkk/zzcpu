@@ -39,8 +39,6 @@ module extest;
 
 	// Outputs
 	wire [15:0] alures_o;
-	wire [15:0] alusrc1_o;
-	wire [15:0] alusrc2_o;
 
 	// Bidirs
 
@@ -57,9 +55,7 @@ module extest;
 		.memregdst_i(memregdst_i), 
 		.memregwrite_i(memregwrite_i), 
 		.memregdata_i(memregdata_i), 
-		.alures_o(alures_o),
-		.alusrc1_o(alusrc1_o),
-		.alusrc2_o(alusrc2_o)
+		.alures_o(alures_o)
 	);
 
 	initial begin
@@ -93,16 +89,16 @@ module extest;
 		memregwrite_i = 1;
 		memregdata_i = 16'h000F;
 		#5;
-		aluop_i = 4'b0000;
-		alusrc1_i = 16'h000F;
-		alusrc2_i = 16'h00F0;
+		aluop_i = 4'b1000;
+		alusrc1_i = 16'hFFFF;
+		alusrc2_i = 16'h0000;
 		regsrc1_i = 4'b0101;
 		regsrc2_i = 4'b0111;
 		exregdst_i = 4'b0111;
-		exregwrite_i = 1;
+		exregwrite_i = 0;
 		exregdata_i = 16'h0F00;
 		memregdst_i = 4'b0111;
-		memregwrite_i = 1;
+		memregwrite_i = 0;
 		memregdata_i = 16'hF000;
 	end
       

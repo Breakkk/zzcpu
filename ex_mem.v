@@ -54,10 +54,10 @@ module ex_mem(
 	assign alures_o = alures;
 	
 	always@(posedge CLK) begin
-		memtoreg <= (flush_ex_i & memtoreg_i);
-		memread <= (flush_ex_i & memread_i);
-		memwrite <= (flush_ex_i & memwrite_i);
-		regwrite <= (flush_ex_i & regwrite_i);
+		memtoreg <= ((!flush_ex_i) & memtoreg_i);
+		memread <= ((!flush_ex_i) & memread_i);
+		memwrite <= ((!flush_ex_i) & memwrite_i);
+		regwrite <= ((!flush_ex_i) & regwrite_i);
 		memdata <= memdata_i;
 		alures <= alures_i;
 		regdst <= regdst_i;
