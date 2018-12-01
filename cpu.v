@@ -305,6 +305,7 @@ wb _wb(
 RegisterHeap _regheap(
 	.rdreg1_i(readreg1_id_o),
 	.rdreg2_i(readreg2_id_o),
+	.regwrite_i(regwrite_memwb_o),
 	.wrreg_i(regdst_memwb_o),
 	.wdata_i(res_wb_o),
 	.save_i(save_id_o),
