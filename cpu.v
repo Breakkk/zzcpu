@@ -82,13 +82,14 @@ wire preresult_if_o;
 // IF/ID
 // signal from IF/ID to ID
 wire [15:0] instr;
-wire [15:0] epc_if_o;
+wire [15:0] epc_ifid_o;
+wire [15:0] pcplus1_ifid_o;
 
 if_id _if_id(
 	.clk(clk),
 	.flush(flush_if),
 	.pc_in(if_pc),
-	.pc_out(epc_if_o),
+	.pc_out(epc_ifid_o),
 	.inst_in(Ram2Data),
 	.inst_out(instr)
 );
@@ -130,10 +131,11 @@ wire isintzero_id_o;
 
 id _id(
 	.instr_i(instr),
-	.epc_i(epc_if),
+	.epc_i(epc_ifid_o),
 	.ex_intcp_i(intercepted),			// interception
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
+	.pcplus1_i(pcplus1_ifid_o),
 	.readreg1_o(readreg1_id_o),
 	.readreg2_o(readreg2_id_o),
 	.regwrite_o(regwrite_id_o),			// ctrl code
