@@ -42,8 +42,6 @@ module regheaptest;
 		.rdreg1_i(rdreg1_i), 
 		.rdreg2_i(rdreg2_i), 
 		.regwrite_i(regwrite_i),
-		.save_i(save_i),
-		.restore_i(restore_i),
 		.wrreg_i(wrreg_i), 
 		.wdata_i(wdata_i), 
 		.rdata1_o(rdata1_o), 
