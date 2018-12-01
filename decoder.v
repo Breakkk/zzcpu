@@ -20,18 +20,19 @@
 //////////////////////////////////////////////////////////////////////////////////
 module decoder#(
 		parameter ADDRESS_WIDTH = 16,
-		parameter INS_WIDTH =16,
+		parameter INSTR_WIDTH =16,
 		parameter OPERRATOR_WIDTH = 4,
 		parameter REG_WIDTH = 4)(
 		
 		input [ADDRESS_WIDTH-1:0] PC,
-		input [INS_WIDTH-1:0] instruction,
+		input [INSTR_WIDTH-1:0] instruction,
 
-		//ID   SP 1000 T 1001
+		//ID
 		output reg [REG_WIDTH-1:0] r_reg_A,//A¶Á¼Ä´æÆ÷µØÖ·
 		output reg [REG_WIDTH-1:0] r_reg_B,//B¶Á¼Ä´æÆ÷µØÖ·
 		output reg [15:0]immediate,
 		output reg [3:0] expandWid,
+		output reg [2:0] ALU_SRC,
 		
 		output reg save,
 		output reg restore,
@@ -67,13 +68,22 @@ module decoder#(
 	parameter LESS = 4'b1000;
 	parameter EMPTY = 4'b1111;
 
+	parameter null = 3'b000;
+	parameter r1_r2 = 3'b001;
+	parameter r1_im = 3'b010;
+	parameter r1_nu = 3'b011;
+	parameter im_nu = 3'b100;
+	parameter r2_r1 = 3'b101;
+	
+	
 	always @(*) begin
 		case (instruction[15:11])
 			5'b01001:begin 	//ADDIU
 				ALU_OP <= ADD;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				expandWid <= 4'd8;
-				immediate[7:0] = instruction[7:0];
+				immediate[7:0] <= instruction[7:0];
+				ALU_SRC <= r1_im;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -87,6 +97,7 @@ module decoder#(
 				r_reg_A <= {1'b0,instruction[10:8]};
 				expandWid <= 4'd12;
 				immediate[3:0] <= instruction[3:0];
+				ALU_SRC <= r1_im;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -102,6 +113,7 @@ module decoder#(
 						r_reg_A <= SP;
 						expandWid <= 4'd8;
 						immediate[7:0] <= instruction[7:0];
+						ALU_SRC <= r1_im;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -115,6 +127,8 @@ module decoder#(
 						r_reg_A <= T;
 						expandWid <= 4'd8;
 						immediate[7:0] <= instruction[7:0];
+						ALU_SRC <= null;
+
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -125,6 +139,7 @@ module decoder#(
 					3'b100:begin	//MTSP
 						ALU_OP <= MOVE;
 						r_reg_A <= {1'b0,instruction[7:5]};
+						ALU_SRC <= r1_nu;
 
 						mem_read = 1'b0;
 						mem_write = 1'b0;
@@ -138,6 +153,7 @@ module decoder#(
 						r_reg_A <= T;
 						expandWid <= 4'd8;
 						immediate[7:0] <= instruction[7:0];
+						ALU_SRC <= null;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -146,10 +162,11 @@ module decoder#(
 						MemToReg <= 1'b0;
 					end
 					3'b010:begin	//SW_RS
-						ALU_OP <= EMPTY;
+						ALU_OP <= ADD;
 						r_reg_A <= RS;
 						expandWid <= 4'd8;
 						immediate[7:0] <= instruction[7:0];
+						ALU_SRC <= r1_im;
 						
 						mem_read <= 1'b0;
 						mem_write <= 1'b1;
@@ -166,6 +183,8 @@ module decoder#(
 						ALU_OP <= ADD;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
+						expandWid <= 4'd0;
+						ALU_SRC <= r1_r2;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -178,6 +197,8 @@ module decoder#(
 						ALU_OP <= SUB;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
+						expandWid <= 4'd0;
+						ALU_SRC <= r1_r2;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -193,6 +214,7 @@ module decoder#(
 				ALU_OP <= EMPTY;
 				expandWid <= 4'd5;
 				immediate[10:0] <= instruction[10:0];
+				ALU_SRC <= nu;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -205,6 +227,7 @@ module decoder#(
 				r_reg_A <= {1'b0,instruction[10:8]};
 				expandWid <= 4'd8;
 				immediate[7:0] <= instruction[7:0];
+				ALU_SRC <= nu;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -217,6 +240,7 @@ module decoder#(
 				r_reg_A <= {1'b0,instruction[10:8]};
 				expandWid <= 4'd8;
 				immediate[7:0] <= instruction[7:0];
+				ALU_SRC <= nu;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -231,6 +255,7 @@ module decoder#(
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						expandWid <= 4'd0;
+						ALU_SRC <= r1_r2;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -244,6 +269,7 @@ module decoder#(
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						expandWid = 4'd0;
+						ALU_SRC <= r1_r2;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -259,6 +285,7 @@ module decoder#(
 								ALU_OP <= EMPTY;
 								r_reg_A <= {1'b0,instruction[10:8]};
 								expandWid <= 4'd0;
+								ALU_SRC <= null;
 
 								mem_read <= 1'b0;
 								mem_write <= 1'b0;
@@ -270,6 +297,7 @@ module decoder#(
 								ALU_OP <= MOVE;
 								expandWid <= 4'd0;
 								immediate[15:0] <= PC[15:0];
+								ALU_SRC <= r1_nu;
 								
 								mem_read <= 1'b0;
 								mem_write <= 1'b0;
@@ -285,6 +313,7 @@ module decoder#(
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						expandWid <= 4'd0;
+						ALU_SRC <= r1_r2;
 						
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -298,6 +327,7 @@ module decoder#(
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						expandWid <= 4'd0;
+						ALU_SRC <= r1_r2;
 						
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -312,6 +342,7 @@ module decoder#(
 						r_reg_A <= {1'b0,instruction[7:5]};
 						r_reg_B <= {1'b0,instruction[10:8]};
 						expandWid <= 4'd0;
+						ALU_SRC <= r1_r2;
 						
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -322,9 +353,10 @@ module decoder#(
 				endcase
 			end
 			5'b01101:begin		//LI
-				ALU_OP <= EMPTY;
+				ALU_OP <= MOVE;
 				expandWid = 4'd8;
-				immediate[7:0] <= instruction[7:0];
+				immediate[15:0] <= {8'b00000000,instruction[7:0]};
+				ALU_SRC <= im_nu;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -338,6 +370,7 @@ module decoder#(
 				r_reg_A <= {1'b0,instruction[10:8]};
 				expandWid = 4'd11;
 				immediate[4:0] <= instruction[4:0];
+				ALU_SRC <= r1_im;
 				
 				mem_read <= 1'b1;
 				mem_write <= 1'b0;
@@ -352,6 +385,7 @@ module decoder#(
 				r_reg_A <= SP;
 				expandWid = 4'd8;
 				immediate[7:0] <= instruction[7:0];
+				ALU_SRC <= r1_im;
 				
 				mem_read <= 1'b1;
 				mem_write <= 1'b0;
@@ -367,6 +401,7 @@ module decoder#(
 						ALU_OP <= MOVE;
 						r_reg_A <= IH;
 						expandWid <= 4'd0;
+						ALU_SRC <= r1_nu;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -379,6 +414,7 @@ module decoder#(
 						ALU_OP <= MOVE;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						expandWid <= 4'd0;
+						ALU_SRC <= r1_nu;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
@@ -392,6 +428,7 @@ module decoder#(
 			5'b00001:begin		//NOP
 				ALU_OP <= EMPTY;
 				expandWid <= 4'd0;
+				ALU_SRC <= null;
 				
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -413,6 +450,7 @@ module decoder#(
 					begin
 						immediate[3:0] <= {1'b0,instruction[4:2]};
 					end
+					ALU_SRC <= r1_im;
 					
 					mem_read <= 1'b0;
 					mem_write <= 1'b0;
@@ -433,6 +471,7 @@ module decoder#(
 					begin
 						immediate[3:0] <= {1'b0,instruction[4:2]};
 					end
+					ALU_SRC <= r1_im;
 					
 					mem_read <= 1'b0;
 					mem_write <= 1'b0;
@@ -445,9 +484,11 @@ module decoder#(
 			end
 			5'b11011:begin		//SW
 				ALU_OP <= ADD;
-				r_reg_A <= RS;
+				r_reg_A <= instruction[10:8];
+				r_reg_B <= instruction[7:5];
 				expandWid <= 4'd8;
 				immediate[7:0] <= instruction[7:0];
+				ALU_SRC <= r1_im;
 				
 				mem_read <= 1'b0;
 				mem_write <= 1'b1;
@@ -456,13 +497,25 @@ module decoder#(
 				MemToReg <= 1'b0;
 			end
 			5'b11010:begin		//SW_SP
-
+				ALU_OP <= ADD;
+				r_reg_A <= SP;
+				r_reg_B <= RA;
+				expandWid <= 4'd8;
+				immediate[7:0] <= instruction[7:0];
+				ALU_SRC <= r1_im;
+				
+				mem_read <= 1'b0;
+				mem_write <= 1'b1;
+				
+				REG_WRI <= 1'b0;
+				MemToReg <= 1'b0;
 			end
 			5'b01110:begin		//CMPI
 				ALU_OP <= EQUAL;
 				r_reg_A <= instruction[10:8];
 				expandWid <= 4'd8;
 				immediate[7:0] <= instruction[7:0];
+				ALU_SRC <= r1_im;
 				
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
@@ -473,6 +526,8 @@ module decoder#(
 			end
 			5'b11111:begin
 				ALU_OP <= EMPTY;
+				expandWid <= 4'd0;
+				ALU_SRC <= null;
 				case(instruction[3:0])
 				4'b1111:begin
 					r_reg_A <= EPC;
@@ -481,6 +536,12 @@ module decoder#(
 					r_reg_A <= IH;
 				end
 				endcase
+				
+				mem_read <= 1'b0;
+				mem_write <= 1'b0;
+				
+				REG_WRI <= 1'b0;
+				MemToReg <= 1'b0;
 			end
 			
 		endcase
