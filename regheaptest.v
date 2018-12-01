@@ -56,15 +56,37 @@ module regheaptest;
 		regwrite_i = 0;
 		wrreg_i = 0;
 		wdata_i = 0;
-		save_i = 0;
-		restore_i = 0;
-
 		// Wait 100 ns for global reset to finish
 		#100;
         
 		// Add stimulus here
+		CLK = 1;
+		wrreg_i = 4'b1000;
+		wdata_i = 16'hf0f0;
 		rdreg1_i = 4'b1000;
 		rdreg2_i = 4'b1001;
+		regwrite_i = 1;
+		#10;
+		CLK = 0;
+		#10;
+		CLK = 1;
+		rdreg1_i = 4'b1000;
+		rdreg2_i = 4'b1001;
+		wrreg_i = 4'b0011;
+		wdata_i = 16'hABCD;
+		regwrite_i = 0;
+		#10;
+		CLK = 0;
+		#10;
+		CLK = 1;
+		rdreg1_i = 4'b0011;
+		rdreg2_i = 4'b1001;
+		wrreg_i = 4'b1001;
+		wdata_i = 16'hDDDD;
+		regwrite_i = 1;
+		#10;
+		CLK = 0;
+		
 	end
       
 endmodule
