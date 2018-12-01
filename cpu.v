@@ -77,6 +77,7 @@ ram2 _ram2(
 // IF 
 wire ifjr_hdu_o;
 wire prewrong_hdu_o;
+wire precorrc_hdu_o;
 wire preresult_if_o;
 
 // IF/ID
@@ -116,7 +117,7 @@ wire memtoreg_id_o;
 wire memread_id_o;
 wire memwrite_id_o;
 wire [15:0] memdata_id_o;
-wire [:0] aluop_id_o;
+wire [3:0] aluop_id_o;
 // signal from ID to EX/MEM
 wire flush_ex;
 // signal from ID to Hazard detection unit
@@ -143,7 +144,7 @@ id _id(
 	.memdata_o(memdata_id_o),
 	.aluop_o(aluop_id_o),				// alu
 	.alusrc1_o(alusrc1_id_o),
-	.alusrc1_o(alusrc2_id_o),
+	.alusrc2_o(alusrc2_id_o),
 	.regsrc1_o(regsrc1_id_o),
 	.regsrc2_o(regsrc2_id_o),
 	.regdst_o(regdst_id_o),
@@ -163,7 +164,7 @@ wire [15:0] epc_idex_o;
 // signal from HDU(Hazard) to ID/EX
 wire stall_LW;
 // signal from ID/EX to EX
-wire [:0] aluop_idex_o;
+wire [3:0] aluop_idex_o;
 wire [16:0] alusrc1_idex_o;
 wire [16:0] alusrc2_idex_o;
 wire [3:0] regsrc1_idex_o;
@@ -224,8 +225,7 @@ ex _ex (
 	.alusrc2_i(alusrc2_idex_o),
 	.regsrc1_i(regsrc1_idex_o),
 	.regsrc2_i(regsrc2_idex_o),
-	.regdst_i(regdst_idex_o),				//input -- Forwarding Unit
-	.exregdst_i(regdst_exmem_o),
+	.exregdst_i(regdst_exmem_o),			//input -- Forwarding Unit
 	.exregwrite_i(regwrite_exmem_o),
 	.exregdata_i(alures_exmem_o),
 	.memregdst_i(regdst_memwb_o),
@@ -321,7 +321,7 @@ hazard _hazard(
 	.ifbranch_i(ifbranch_id_o),				// branch instruction --- do branch
 	.prediction_i(preresult_if_o),			// branch instruction --- prediction res
 	.prewrong_o(prewrong_hdu_o),			// branch instruction --- prediction wrong
-
+	.precorrc_o(precorrc_hdu_o)
 );
 endmodule
 
