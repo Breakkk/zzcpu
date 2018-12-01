@@ -290,8 +290,6 @@ mem_wb _mem_wb(
 // WB
 wb _wb(
 	.memtoreg_i(memtoreg_memwb_o),
-	.regwrite_i(regwrite_memwb_o),
-	.regdst_i(regdst_memwb_o),
 	.alures_i(alures_memwb_o),
 	.memres_i(memres_memwb_o),
 	.res_o(res_wb_o)
