@@ -35,7 +35,7 @@ module ALU#(parameter OPERRATOR_WIDTH = 4)(
 	parameter SUB = 4'b0110;
 	parameter EQUAL = 4'b0111;
 	parameter LESS = 4'b1000;
-	parameter MOVE = 4'b1000;
+	parameter MOVE = 4'b1001;
 	parameter EMPTY = 4'b1111;
 	
 	always  @(*)begin

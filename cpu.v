@@ -135,7 +135,7 @@ id _id(
 	.ex_intcp_i(intercepted),			// interception
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
-	.pcplus1_i(pcplus1_ifid_o),
+	.pcplus1_i(pcplus1_ifid_o),		//MFPC
 	.readreg1_o(readreg1_id_o),
 	.readreg2_o(readreg2_id_o),
 	.regwrite_o(regwrite_id_o),			// ctrl code
