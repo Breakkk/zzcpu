@@ -25,8 +25,10 @@ module ALUSrc#(parameter DATA_WID = 16)(
 		input [DATA_WID-1:0] read_data_B,
 		input [DATA_WID-1:0] immediate,
 		
-		output reg [DATA_WID-1:0]srcdata_a,
-		output reg [DATA_WID-1:0]srcdata_b
+		output reg [DATA_WID-1:0] srcdata_a,
+		output reg [DATA_WID-1:0] srcdata_b
+		
+		output [DATA_WID-1:0] memdata;
     );
 	
 	parameter null = 3'b000;
@@ -65,4 +67,5 @@ module ALUSrc#(parameter DATA_WID = 16)(
 		endcase
 	end
 
+	assign memdata = srcdata_b;
 endmodule
