@@ -109,6 +109,7 @@ wire [15:0] alusrc1_id_o;
 wire [15:0] alusrc2_id_o;
 wire [3:0] regsrc1_id_o;			// name of the ALU src register
 wire [3:0] regsrc2_id_o;
+wire [3:0] regsrc_sw_id_o;
 wire [3:0] regdst_id_o;				// name of the register to which data is written back
 wire [15:0] epc_id_o;
 wire flush_id;
@@ -147,6 +148,7 @@ id _id(
 	.alusrc2_o(alusrc2_id_o),
 	.regsrc1_o(regsrc1_id_o),
 	.regsrc2_o(regsrc2_id_o),
+	.regsrc_sw_o(regsrc_sw_id_o),
 	.regdst_o(regdst_id_o),
 	.epc_o(epc_id_o),
 	.flush_id_o(flush_id),				// interception handling
@@ -155,7 +157,7 @@ id _id(
 	.isjump_o(isjump_id_o),				// jump & branch handling
 	.ifbranch_o(ifbranch_id_o),
 	.address_jr(address_jr_id_o),
-	.isbranch_o(isbranch_id_o),
+	.isbranch_o(isbranch_id_o)
 );
 
 // ID/EXE
@@ -169,13 +171,14 @@ wire [16:0] alusrc1_idex_o;
 wire [16:0] alusrc2_idex_o;
 wire [3:0] regsrc1_idex_o;
 wire [3:0] regsrc2_idex_o;
+wire [3:0] regsrc_sw_idex_o;
+wire [15:0] memdata_idex_o;
 wire [3:0] regdst_idex_o;
 // signal from ID/EX to EX/MEM
 wire regwrite_idex_o;
 wire memtoreg_idex_o;					//isload = memtoreg & memread --- Hazard
 wire memread_idex_o;
 wire memwrite_idex_o;
-wire [15:0] memdata_idex_o;
 
 id_ex _id_ex(
 	.regwrite_i(regwrite_id_o),			//input
@@ -188,6 +191,7 @@ id_ex _id_ex(
 	.alusrc2_i(alusrc2_id_o),
 	.regsrc1_i(regsrc1_id_o),
 	.regsrc2_i(regsrc2_id_o),
+	.regsrc_sw_i(regsrc_sw_id_o),
 	.regdst_i(regdst_id_o),
 	.epc_i(epc_id_o),
 	.flush_id_i(flush_id),
@@ -196,12 +200,13 @@ id_ex _id_ex(
 	.memtoreg_o(memtoreg_idex_o),
 	.memread_o(memread_idex_o),
 	.memwrite_o(memwrite_idex_o),
-	.memdata_o(memdata_idex_o),
 	.aluop_o(aluop_idex_o),
 	.alusrc1_o(alusrc1_idex_o),
 	.alusrc2_o(alusrc2_idex_o),
 	.regsrc1_o(regsrc1_idex_o),
 	.regsrc2_o(regsrc2_idex_o),
+	.regsrc_sw_o(regsrc_sw_idex_o),
+	.memdata_o(memdata_idex_o),
 	.regdst_o(regdst_idex_o),
 	.epc_o(epc_idex_o)
 );
@@ -217,6 +222,7 @@ wire regwrite_memwb_o;
 wire [15:0] res_wb_o;
 // signal from EX to EX/MEM
 wire [15:0] alures_ex_o;
+wire [15:0] memdata_ex_o;
 //wire [3:0] regdst_ex_o;
 
 ex _ex (
@@ -225,13 +231,16 @@ ex _ex (
 	.alusrc2_i(alusrc2_idex_o),
 	.regsrc1_i(regsrc1_idex_o),
 	.regsrc2_i(regsrc2_idex_o),
+	.regsrc_sw_i(regsrc_sw_idex_o),
+	.memdata_i(memdata_idex_o),
 	.exregdst_i(regdst_exmem_o),			//input -- Forwarding Unit
 	.exregwrite_i(regwrite_exmem_o),
 	.exregdata_i(alures_exmem_o),
 	.memregdst_i(regdst_memwb_o),
 	.memregwrite_i(regwrite_memwb_o),
 	.memregdata_i(res_wb_o),
-	.alures_o(alures_ex_o)
+	.alures_o(alures_ex_o),
+	.memdata_o(memdata_ex_o)
 );
 
 // EXE/MEM
@@ -248,7 +257,7 @@ ex_mem _ex_mem(
 	.memtoreg_i(memtoreg_idex_o),
 	.memread_i(memread_idex_o),
 	.memwrite_i(memwrite_idex_o),
-	.memdata_i(memdata_idex_o),
+	.memdata_i(memdata_ex_o),
 	.regdst_i(regdst_idex_o),
 	.alures_i(alures_ex_o),
 	.regwrite_o(regwrite_exmem_o),			//output

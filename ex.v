@@ -24,13 +24,16 @@ module ex(
     input [15:0] alusrc2_i,
     input [3:0] regsrc1_i,
     input [3:0] regsrc2_i,
+	input [3:0] regsrc_sw_i,
+	input [15:0] memdata_i,
     input [3:0] exregdst_i,
     input exregwrite_i,
     input [15:0] exregdata_i,
     input [3:0] memregdst_i,
     input memregwrite_i,
     input [15:0] memregdata_i,
-    output [15:0] alures_o
+    output [15:0] alures_o,
+	output [15:0] memdata_o
     );
 
 	// ATTENTION:  reg name in regsrc1(2)_i must refer to the source of alusrc1(2)_i
@@ -44,11 +47,14 @@ module ex(
 	
 	assign conflict_src1_ex = ((exregwrite_i) && (exregdst_i === regsrc1_i));
 	assign conflict_src2_ex = ((exregwrite_i) && (exregdst_i === regsrc2_i));
+	assign conflict_src_sw_ex = ((exregwrite_i) && (exregdst_i === regsrc_sw_i));
 	assign conflict_src1_mem = ((memregwrite_i) && (memregdst_i === regsrc1_i));
 	assign conflict_src2_mem = ((memregwrite_i) && (memregdst_i === regsrc2_i));
+	assign conflict_src_sw_mem = ((memregwrite_i) && (memregdst_i === regsrc_sw_i));
 	
 	assign alusrc1 = ((conflict_src1_ex) ? (exregdata_i) : ((conflict_src1_mem) ? (memregdata_i) : (alusrc1_i)));
 	assign alusrc2 = ((conflict_src2_ex) ? (exregdata_i) : ((conflict_src2_mem) ? (memregdata_i) : (alusrc2_i)));
+	assign memdata_o = ((conflict_src_sw_ex) ? (exregdata_i) : ((conflict_src_sw_mem) ? (memregdata_i) : (memdata_i)));
 	
 	//assign alusrc1_o = alusrc1;
 	//assign alusrc2_o = alusrc2;
