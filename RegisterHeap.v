@@ -33,7 +33,7 @@ module RegisterHeap(
 		
     );
 
-	reg [15:0] REG_Heaps[0:15];
+	reg [15:0] REG_Heaps[0:15] = 16'H0000;
 	// 4'b0000 - 4'b0111: R0 - R7;
 	// 4'b1000 - 4'b1011(4'b1100): SP T IH RA(EPC)
 	assign rdata1_o = REG_Heaps[rdreg1_i];
