@@ -37,15 +37,18 @@ module hazard(
     output flush_id_o,
     output flush_ex_o,
     output isintzero_o,
-    input epc_i,
-    output epc_o
+    input [15:0] epc_i,
+    output [15:0] epc_o
     );
 	
     // priority : Interception > LW > jr/branch
     
 	wire stall_LW;
     wire precorrc;
-    wire intercepted;
+	
+    reg intercepted;
+	reg [15:0] epc;
+	assign epc_o = epc;
 
     assign precorrc = (isbranch_i && (prediction_i === ifbranch_i));
 	assign stall_LW = ((memtoreg_i && memread_i) && ((regsrc1_i === regdst_i) || (regsrc2_i === regdst_i)));
@@ -67,7 +70,7 @@ module hazard(
                 intercepted <= 1;
             end else begin 
                 intercepted <= 0;
-                epc_o <= epc_i;
+                epc <= epc_i;
             end
         end
     end
