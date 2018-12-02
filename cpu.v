@@ -22,15 +22,16 @@ module zzcpu(
 	input clk,
 	input rst,
 	
-	output [15:0] l,
+	output [15:0] light,
+	input [15:0] l,
 	
-	output [15:0] Ram1Addr,	//Ram1-data
+	output [17:0] Ram1Addr,	//Ram1-data
 	inout [15:0] Ram1Data,
 	output Ram1OE,
 	output Ram1WE,
 	output Ram1EN,
 	
-	output [15:0] Ram2Addr,	//Ram2-program
+	output [17:0] Ram2Addr,	//Ram2-program
 	inout [15:0] Ram2Data,
 	output Ram2OE,
 	output Ram2WE,
@@ -276,7 +277,7 @@ mem _mem(
 );
 
 ram1 _ram1(
-	.addr(alures_exmem_o),
+	.addr({2'b00,alures_exmem_o}),
 	.data(memdata_exmem_o),
 	.Ram1Addr(Ram1Addr),
 	.Ram1Data(Ram1Data),	//ָ������
