@@ -32,8 +32,15 @@ module RegisterHeap(
 		output [15:0] rdata2_o
 		
     );
-
-	reg [15:0] REG_Heaps[0:15] = 16'H0000;
+	integer i;
+	reg [15:0] REG_Heaps[0:15];
+	initial
+	begin
+		for(i=15;i>=0;i=i-1)
+		begin
+			REG_Heaps[i] = 16'h0000;
+		end
+	end
 	// 4'b0000 - 4'b0111: R0 - R7;
 	// 4'b1000 - 4'b1011(4'b1100): SP T IH RA(EPC)
 	assign rdata1_o = REG_Heaps[rdreg1_i];
