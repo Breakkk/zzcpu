@@ -42,12 +42,19 @@ module zzcpu(
 	
 wire realclk;
 
+wire flush_id;
+wire flush_ex;
+wire flush_if;
+wire intercepted;
+
+
 // IF - pc
 // belongs to IF module
 wire [17:0] if_pc;
 wire pc_jump;
 wire hold;
 wire [17:0] pc_jump_val; 
+wire isintzero;
 
 pc _pc(
 	.clk(clk),
@@ -96,8 +103,6 @@ if_id _if_id(
 );
 
 // ID
-// signal from external interception to ID
-wire intercepted;
 // signal from RegHeap to ID
 wire [15:0] regdata1_rh_o;
 wire [15:0] regdata2_rh_o;
@@ -111,15 +116,12 @@ wire [3:0] regsrc1_id_o;			// name of the ALU src register
 wire [3:0] regsrc2_id_o;
 wire [3:0] regsrc_sw_id_o;
 wire [3:0] regdst_id_o;				// name of the register to which data is written back
-wire flush_id;
 wire regwrite_id_o;					// ctrl signal
 wire memtoreg_id_o;
 wire memread_id_o;
 wire memwrite_id_o;
 wire [15:0] memdata_id_o;
 wire [3:0] aluop_id_o;
-// signal from ID to EX/MEM
-wire flush_ex;
 // signal from ID to Hazard detection unit
 wire isjump_id_o;
 wire ifbranch_id_o;
@@ -129,7 +131,6 @@ wire isbranch_id_o;
 
 id _id(
 	.instr_i(instr),
-	.ex_intcp_i(intercepted),			// interception
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
 	.pcplus1_i(pcplus1_ifid_o),		//MFPC
@@ -147,9 +148,6 @@ id _id(
 	.regsrc2_o(regsrc2_id_o),
 	.regsrc_sw_o(regsrc_sw_id_o),
 	.regdst_o(regdst_id_o),
-	.flush_id_o(flush_id),				// interception handling
-	.flush_ex_o(flush_ex),
-	.isintzero_o(isintzero_id_o),
 	.isjump_o(isjump_id_o),				// jump & branch handling
 	.ifbranch_o(ifbranch_id_o),
 	.address_jr(address_jr_id_o),
@@ -158,8 +156,6 @@ id _id(
 
 // ID/EXE
 wire [15:0] epc_idex_o;
-// signal from HDU(Hazard) to ID/EX
-wire stall_LW;
 // signal from ID/EX to EX
 wire [3:0] aluop_idex_o;
 wire [16:0] alusrc1_idex_o;
@@ -190,7 +186,6 @@ id_ex _id_ex(
 	.regdst_i(regdst_id_o),
 	.epc_i(epc_ifid_o),
 	.flush_id_i(flush_id),
-	.stall_LW_o(stall_LW),				//output
 	.regwrite_o(regwrite_idex_o),
 	.memtoreg_o(memtoreg_idex_o),
 	.memread_o(memread_idex_o),
@@ -300,31 +295,39 @@ wb _wb(
 );
 
 // RegHeap
+wire [15:0] epc_hdu_o;
 RegisterHeap _regheap(
 	.rdreg1_i(readreg1_id_o),
 	.rdreg2_i(readreg2_id_o),
 	.regwrite_i(regwrite_memwb_o),
 	.wrreg_i(regdst_memwb_o),
 	.wdata_i(res_wb_o),
-	.epc_i(epc_idex_o),
+	.epc_i(epc_hdu_o),
 	.rdata1_o(regdata1_rh_o),
 	.rdata2_o(regdata2_rh_o)
 );
 
 // Hazard detection unit
 hazard _hazard(
+	.interception_i(intercepted),
 	.memtoreg_i(memtoreg_idex_o),			// LW hazard detection
 	.memread_i(memread_idex_o),
 	.regsrc1_i(regsrc1_id_o),
 	.regsrc2_i(regsrc2_id_o),
 	.regdst_i(regdst_idex_o),
-	.stall_LW_o(stall_LW),					// LW hazard --- stall --- to ID/EX & IF/ID(ifid write) & IF(pc write)
 	.isjump_i(isjump_id_o),					// jr instruction
 	.jr_o(ifjr_hdu_o),						// jr giving order to IF
+	.isbranch_i(isbranch_id_o),
 	.ifbranch_i(ifbranch_id_o),				// branch instruction --- do branch
 	.prediction_i(preresult_if_o),			// branch instruction --- prediction res
-	.prewrong_o(prewrong_hdu_o),			// branch instruction --- prediction wrong
-	.precorrc_o(precorrc_hdu_o)
+	.prewrong_o(prewrong_hdu_o),			// branch instruction --- prediction wrong  -- IF.Flush
+	.precorrc_o(precorrc_hdu_o),
+	.flush_if_o(flush_if),
+	.flush_id_o(flush_id),
+	.flush_ex_o(flush_ex),
+	.isintzero_o(isintzero),
+	.epc_i(epc_idex_o),
+	.epc_o(epc_hdu_o)
 );
 
 endmodule

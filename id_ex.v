@@ -34,7 +34,6 @@ module id_ex(
     input [3:0] regdst_i,
     input [15:0] epc_i,
     input flush_id_i,
-    input stall_LW_i,
     output regwrite_o,
     output memtoreg_o,
     output memread_o,
@@ -78,14 +77,11 @@ module id_ex(
 	assign regdst_o = regdst;
 	assign epc_o = epc;
 	
-	wire flush = 0;
-	assign flush = (flush_ex_i && stall_LW_i);
-	
 	always@(posedge CLK) begin
-		regwrite <= ((!flush) & regwrite_i);
-		memtoreg <= ((!flush) & memtoreg_i);
-		memread <= ((!flush) & memread_i);
-		memwrite <= ((!flush) & memwrite_i);
+		regwrite <= ((!flush_id_i) & regwrite_i);
+		memtoreg <= ((!flush_id_i) & memtoreg_i);
+		memread <= ((!flush_id_i) & memread_i);
+		memwrite <= ((!flush_id_i) & memwrite_i);
 		memdata <= memdata_i;
 		aluop <= aluop_i;
 		alusrc1 <= alusrc1_i;
