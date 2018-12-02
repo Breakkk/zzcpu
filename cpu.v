@@ -90,7 +90,8 @@ wire preresult_if_o;
 
 // IF/ID
 // signal from IF/ID to ID
-// wire [15:0] instr;
+wire [15:0] instr;
+assign instr = l;
 // wire [15:0] epc_ifid_o;
 // wire [15:0] pcplus1_ifid_o;
 
@@ -266,6 +267,8 @@ ex_mem _ex_mem(
 wire [15:0] memres_mem_o;
 wire is_read; //0-read 1-write
 assign memres_mem_o = Ram1Data;
+
+assign light = res_wb_o;
 mem _mem(
 	.memread_i(memread_exmem_o),
 	.memwrite_i(memwrite_exmem_o),
