@@ -111,7 +111,6 @@ wire [3:0] regsrc1_id_o;			// name of the ALU src register
 wire [3:0] regsrc2_id_o;
 wire [3:0] regsrc_sw_id_o;
 wire [3:0] regdst_id_o;				// name of the register to which data is written back
-wire [15:0] epc_id_o;
 wire flush_id;
 wire regwrite_id_o;					// ctrl signal
 wire memtoreg_id_o;
@@ -127,11 +126,9 @@ wire ifbranch_id_o;
 // signal from ID to IF :
 wire [15:0] address_jr_id_o;
 wire isbranch_id_o;
-wire isintzero_id_o;
 
 id _id(
 	.instr_i(instr),
-	.epc_i(epc_ifid_o),
 	.ex_intcp_i(intercepted),			// interception
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
@@ -150,7 +147,6 @@ id _id(
 	.regsrc2_o(regsrc2_id_o),
 	.regsrc_sw_o(regsrc_sw_id_o),
 	.regdst_o(regdst_id_o),
-	.epc_o(epc_id_o),
 	.flush_id_o(flush_id),				// interception handling
 	.flush_ex_o(flush_ex),
 	.isintzero_o(isintzero_id_o),
@@ -161,7 +157,6 @@ id _id(
 );
 
 // ID/EXE
-// TODO - EPC
 wire [15:0] epc_idex_o;
 // signal from HDU(Hazard) to ID/EX
 wire stall_LW;
@@ -193,7 +188,7 @@ id_ex _id_ex(
 	.regsrc2_i(regsrc2_id_o),
 	.regsrc_sw_i(regsrc_sw_id_o),
 	.regdst_i(regdst_id_o),
-	.epc_i(epc_id_o),
+	.epc_i(epc_ifid_o),
 	.flush_id_i(flush_id),
 	.stall_LW_o(stall_LW),				//output
 	.regwrite_o(regwrite_idex_o),
@@ -311,6 +306,7 @@ RegisterHeap _regheap(
 	.regwrite_i(regwrite_memwb_o),
 	.wrreg_i(regdst_memwb_o),
 	.wdata_i(res_wb_o),
+	.epc_i(epc_idex_o),
 	.rdata1_o(regdata1_rh_o),
 	.rdata2_o(regdata2_rh_o)
 );
@@ -330,6 +326,7 @@ hazard _hazard(
 	.prewrong_o(prewrong_hdu_o),			// branch instruction --- prediction wrong
 	.precorrc_o(precorrc_hdu_o)
 );
+
 endmodule
 
 //assign wrn = 1'b1;		//test ram 

@@ -62,7 +62,6 @@ module id_ex(
 	reg [3:0] regsrc2;
 	reg [3:0] regsrc_sw;
 	reg [3:0] regdst;
-	
 	reg [15:0] epc;
 	
 	assign regwrite_o = regwrite;
@@ -77,6 +76,7 @@ module id_ex(
 	assign regsrc2_o = regsrc2;
 	assign regsrc_sw_o = regsrc_sw;
 	assign regdst_o = regdst;
+	assign epc_o = epc;
 	
 	wire flush = 0;
 	assign flush = (flush_ex_i && stall_LW_i);
@@ -94,5 +94,6 @@ module id_ex(
 		regsrc2 <= regsrc2_i;
 		regsrc_sw <= regsrc_sw_i;
 		regdst <= regdst_i;
+		epc <= epc_i;
 	end
 endmodule

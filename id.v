@@ -25,8 +25,6 @@ module id#(
 		parameter REG_WIDTH = 4)(
 		
 	input [INSTR_WIDTH-1:0] instr_i,
-	input [INSTR_WIDTH-1:0] epc_i,
-	input ex_intcp_i,			// interception
 	input [ADDRESS_WIDTH-1:0] rdata1_i,
 	input [ADDRESS_WIDTH-1:0] rdata2_i,
 	input [INSTR_WIDTH-1:0] pcplus1_i,
@@ -46,16 +44,11 @@ module id#(
 	output reg [REG_WIDTH-1:0] regsrc1_o,  		//-		// name of the ALU src register
 	output reg [REG_WIDTH-1:0] regsrc2_o,			//-
 	output reg [REG_WIDTH-1:0] regdst_o,			//-
-	output [REG_WIDTH-1:0] epc_o,						//-
 	
-	output reg flush_id_o,											// interception handling
-	// signal from ID to EX/MEM
-	output reg flush_ex_o,
 	// signal from ID to Hazard detection unit
 	output isjump_o,										//-			// jump & branch handling
 	output isbranch_o,									//-
 	// signal from ID to IF :
-	output reg isintzero_o,								//?
 	output reg ifbranch_o,
 	output [ADDRESS_WIDTH-1:0] address_jr			//-
     );
@@ -144,7 +137,6 @@ module id#(
 		.memdata(memdata_o)
 	);
 	
-	assign epc_o = epc_i;
 	assign address_jr = rdata1_i;
 	
 	assign isjump_o = IS_JUMP;
