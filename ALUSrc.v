@@ -26,9 +26,9 @@ module ALUSrc#(parameter DATA_WID = 16)(
 		input [DATA_WID-1:0] immediate,
 		
 		output reg [DATA_WID-1:0] srcdata_a,
-		output reg [DATA_WID-1:0] srcdata_b
+		output reg [DATA_WID-1:0] srcdata_b,
 		
-		output [DATA_WID-1:0] memdata;
+		output [DATA_WID-1:0] memdata
     );
 	
 	parameter null = 3'b000;

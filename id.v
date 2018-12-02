@@ -47,21 +47,57 @@ module id#(
 	output reg [REG_WIDTH-1:0] regsrc2_o,			//-
 	output reg [REG_WIDTH-1:0] regdst_o,			//-
 	output [REG_WIDTH-1:0] epc_o,						//-
+	
 	output reg flush_id_o,											// interception handling
 	// signal from ID to EX/MEM
 	output reg flush_ex_o,
 	// signal from ID to Hazard detection unit
-	output reg isjump_o(isjump_id_o),							// jump & branch handling
-	output reg isbranch_o(isbranch_id_o),
+	output isjump_o,										//-			// jump & branch handling
+	output isbranch_o,									//-
 	// signal from ID to IF :
-	output reg isintzero_o,
-	output reg ifbranch_o(ifbranch_id_o),
-	output reg [ADDRESS_WIDTH-1:0] address_jr(address_jr_id_o)
+	output reg isintzero_o,								//?
+	output reg ifbranch_o,
+	output [ADDRESS_WIDTH-1:0] address_jr			//-
     );
+ 
+	parameter B_IMME = 2'b00;
+	parameter EQU_ZERO = 2'b01;
+	parameter NOT_EQU_ZERO = 2'b10;
+	
 
 	wire [2:0] ALU_src;
 	wire [15:0] im_data;
-
+	wire IS_JUMP;
+	wire IS_BRANCH;
+	wire [1:0] equal_zero;
+	
+	always @(*) begin
+		case(IS_BRANCH)
+			1'b1:begin
+				case(equal_zero)
+					B_IMME:begin
+						ifbranch_o <= 1'b1;
+					end
+					EQU_ZERO:begin
+						case(rdata1_i)
+						16'h0000:begin ifbranch_o <= 1'b1; end 
+						default:begin ifbranch_o <= 1'b0; end 
+						endcase
+					end	
+					NOT_EQU_ZERO:begin
+						case(rdata1_i)
+							16'h0000:begin ifbranch_o <= 1'b0; end 
+							default:begin ifbranch_o <= 1'b1; end 
+						endcase
+					end
+				endcase
+			end
+			1'b0:begin
+				ifbranch_o <= 1'b0;
+			end
+		endcase
+		
+	end
 	decoder _decoder(
 		//in
 		.PC(pcplus1_i),
@@ -76,7 +112,11 @@ module id#(
 
 		.regsrc_A(regsrc1_o),
 		.regsrc_B(regsrc2_o),
-
+		
+		.is_jump(IS_JUMP),
+		.is_branch(IS_BRANCH),
+		.eqz(equal_zero),
+		
 		//Ex
 		.ALU_OP(aluop_o),
 
@@ -103,5 +143,10 @@ module id#(
 		
 		.memdata(memdata_o)
 	);
+	
 	assign epc_o = epc_i;
+	assign address_jr = rdata1_i;
+	
+	assign isjump_o = IS_JUMP;
+	assign isbranch_o = IS_BRANCH;
 endmodule
