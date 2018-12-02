@@ -21,7 +21,7 @@
 module ram1(
 		input [17:0] addr,
 		input [15:0] data,
-		output reg [17:0] Ram1Addr,
+		output [17:0] Ram1Addr,
 		inout [15:0] Ram1Data,
 		output Ram1EN,
 		output Ram1OE,

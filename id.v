@@ -30,20 +30,21 @@ module id#(
 	input [INSTR_WIDTH-1:0] pcplus1_i,
 	
 	// signal from ID to RegHeap
-	output reg [REG_WIDTH-1:0] readreg1_o,			//-
-	output reg [REG_WIDTH-1:0] readreg2_o,			//-
+	output [REG_WIDTH-1:0] readreg1_o,			//-
+	output [REG_WIDTH-1:0] readreg2_o,			//-
 	
-	output reg regwrite_o,		// ctrl code		//-   
-	output reg memtoreg_o,								//-
-	output reg memread_o,								//-
-	output reg memwrite_o,								//-
-	output reg [ADDRESS_WIDTH-1:0] memdata_o,		//-
-	output reg [OPERRATOR_WIDTH-1:0] aluop_o,		//-		// alu
-	output reg [ADDRESS_WIDTH-1:0] alusrc1_o,		//-
-	output reg [ADDRESS_WIDTH-1:0] alusrc2_o,		//-
-	output reg [REG_WIDTH-1:0] regsrc1_o,  		//-		// name of the ALU src register
-	output reg [REG_WIDTH-1:0] regsrc2_o,			//-
-	output reg [REG_WIDTH-1:0] regdst_o,			//-
+	output regwrite_o,		// ctrl code		//-   
+	output memtoreg_o,								//-
+	output memread_o,								//-
+	output memwrite_o,								//-
+	output [ADDRESS_WIDTH-1:0] memdata_o,		//-
+	output [OPERRATOR_WIDTH-1:0] aluop_o,		//-		// alu
+	output [ADDRESS_WIDTH-1:0] alusrc1_o,		//-
+	output [ADDRESS_WIDTH-1:0] alusrc2_o,		//-
+	output [REG_WIDTH-1:0] regsrc1_o,  		//-		// name of the ALU src register
+	output [REG_WIDTH-1:0] regsrc2_o,			//-
+	output [REG_WIDTH-1:0] regsrc_sw_o,
+	output [REG_WIDTH-1:0] regdst_o,			//-
 	
 	// signal from ID to Hazard detection unit
 	output isjump_o,										//-			// jump & branch handling
@@ -105,6 +106,7 @@ module id#(
 
 		.regsrc_A(regsrc1_o),
 		.regsrc_B(regsrc2_o),
+		.regsrc_sw(regsrc_sw_o),
 		
 		.is_jump(IS_JUMP),
 		.is_branch(IS_BRANCH),

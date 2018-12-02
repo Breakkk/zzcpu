@@ -24,9 +24,9 @@ module mem(
 	input [15:0] memdata_i,
 	input [15:0] alures_i,
 	//output [15:0] memres_o,
-	output read_o,	//0-read 1-write
+	output reg read_o,	//0-read 1-write
 	
-	output Ram1EN
+	output reg Ram1EN
     );
 	always @(*) begin
 		case({memread_i,memwrite_i})

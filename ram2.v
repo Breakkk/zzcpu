@@ -21,7 +21,7 @@
 module ram2(
 	input [17:0] addr,
 	input [15:0] data,
-	output reg [17:0] Ram2Addr,
+	output [17:0] Ram2Addr,
 	inout [15:0] Ram2Data,
 	output Ram2OE,
 	output Ram2WE,
