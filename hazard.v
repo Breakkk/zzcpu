@@ -65,7 +65,7 @@ module hazard(
         end else begin
             if (interception_i) begin
                 intercepted <= 1;
-            else begin 
+            end else begin 
                 intercepted <= 0;
                 epc_o <= epc_i;
             end
