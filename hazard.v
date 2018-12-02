@@ -63,15 +63,11 @@ module hazard(
     assign flush_ex_o = intercepted;
 
     always@(posedge CLK or posedge interception_i) begin
-        if (intercepted) begin
-            intercepted <= 0;
+		if (interception_i) begin
+            intercepted <= 1;
         end else begin
-            if (interception_i) begin
-                intercepted <= 1;
-            end else begin 
-                intercepted <= 0;
-                epc <= epc_i;
-            end
+			intercepted <= 0;
+            epc <= epc_i;
         end
     end
     
