@@ -51,9 +51,9 @@ module hazard(
 	assign stall_LW = ((memtoreg_i && memread_i) && ((regsrc1_i === regdst_i) || (regsrc2_i === regdst_i)));
 	
 	//while stalling: prediction judgment and jump order is "stalled", too
-	assign prewrong_o = (!precorrc) && (!stall) && (!intercepted);
-	assign precorrc_o = (precorrc) && (!stall) && (!intercepted);
-	assign jr_o = isjump_i && (!stall) && (!intercepted);
+	assign prewrong_o = (!precorrc) && (!stall_LW) && (!intercepted);
+	assign precorrc_o = (precorrc) && (!stall_LW) && (!intercepted);
+	assign jr_o = isjump_i && (!stall_LW) && (!intercepted);
     assign isintzero_o = intercepted;
     assign flush_if_o = (((!precorrc) || stall_LW) && (!intercepted));
     assign flush_id_o = intercepted;
