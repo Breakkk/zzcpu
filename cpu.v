@@ -40,7 +40,7 @@ module zzcpu(
 	
     );
 	
-wire realclk;
+// wire realclk;
 
 wire flush_id;
 wire flush_ex;
@@ -50,36 +50,36 @@ wire intercepted;
 
 // IF - pc
 // belongs to IF module
-wire [17:0] if_pc;
-wire pc_jump;
-wire hold;
-wire [17:0] pc_jump_val; 
+// wire [17:0] if_pc;
+// wire pc_jump;
+// wire hold;
+// wire [17:0] pc_jump_val; 
 wire isintzero;
 
-pc _pc(
-	.clk(clk),
-	.rst(rst),
-	.hold(hold),
-	.pc_jump(pc_jump),
-	.pc_jump_val(pc_jump_val),
-	.pc(if_pc)
-);
+// pc _pc(
+// 	.clk(clk),
+// 	.rst(rst),
+// 	.hold(hold),
+// 	.pc_jump(pc_jump),
+// 	.pc_jump_val(pc_jump_val),
+// 	.pc(if_pc)
+// );
 
 // IF - IM
 // belongs to IF module
-wire readINST;
-assign readINST = 1'b1;
+// wire readINST;
+// assign readINST = 1'b1;
 
-ram2 _ram2(
-	.addr(if_pc),
-	.data(datatmp),
-	.Ram2Addr(Ram2Addr),
-	.Ram2Data(Ram2Data),	//ָ������
-	.Ram2OE(Ram2OE),
-	.Ram2WE(Ram2WE),
-	.read(readINST),
-	.clk(clk)
-);
+// ram2 _ram2(
+// 	.addr(if_pc),
+// 	.data(datatmp),
+// 	.Ram2Addr(Ram2Addr),
+// 	.Ram2Data(Ram2Data),	//ָ������
+// 	.Ram2OE(Ram2OE),
+// 	.Ram2WE(Ram2WE),
+// 	.read(readINST),
+// 	.clk(clk)
+// );
 
 // IF 
 wire ifjr_hdu_o;
@@ -89,18 +89,18 @@ wire preresult_if_o;
 
 // IF/ID
 // signal from IF/ID to ID
-wire [15:0] instr;
-wire [15:0] epc_ifid_o;
-wire [15:0] pcplus1_ifid_o;
+// wire [15:0] instr;
+// wire [15:0] epc_ifid_o;
+// wire [15:0] pcplus1_ifid_o;
 
-if_id _if_id(
-	.clk(clk),
-	.flush(flush_if),
-	.pc_in(if_pc),
-	.pc_out(epc_ifid_o),
-	.inst_in(Ram2Data),
-	.inst_out(instr)
-);
+// if_id _if_id(
+// 	.clk(clk),
+// 	.flush(flush_if),
+// 	.pc_in(if_pc),
+// 	.pc_out(epc_ifid_o),
+// 	.inst_in(Ram2Data),
+// 	.inst_out(instr)
+// );
 
 // ID
 // signal from RegHeap to ID
@@ -172,6 +172,7 @@ wire memread_idex_o;
 wire memwrite_idex_o;
 
 id_ex _id_ex(
+	.CLK(clk),
 	.regwrite_i(regwrite_id_o),			//input
 	.memtoreg_i(memtoreg_id_o),
 	.memread_i(memread_id_o),
@@ -242,6 +243,7 @@ wire [15:0] memdata_exmem_o;
 wire memtoreg_exmem_o;
 
 ex_mem _ex_mem(
+	.CLK(clk),
 	.flush_ex_i(flush_ex),					//input
 	.regwrite_i(regwrite_idex_o),
 	.memtoreg_i(memtoreg_idex_o),
@@ -274,6 +276,7 @@ wire [15:0] alures_memwb_o;
 wire [15:0] memres_memwb_o;
 wire memtoreg_memwb_o;
 mem_wb _mem_wb(
+	.CLK(clk),
 	.memtoreg_i(memtoreg_exmem_o),
 	.regdst_i(regdst_exmem_o),
 	.regwrite_i(regwrite_exmem_o),
@@ -297,6 +300,7 @@ wb _wb(
 // RegHeap
 wire [15:0] epc_hdu_o;
 RegisterHeap _regheap(
+	.CLK(clk),
 	.rdreg1_i(readreg1_id_o),
 	.rdreg2_i(readreg2_id_o),
 	.regwrite_i(regwrite_memwb_o),
@@ -309,6 +313,7 @@ RegisterHeap _regheap(
 
 // Hazard detection unit
 hazard _hazard(
+	.CLK(clk),
 	.interception_i(intercepted),
 	.memtoreg_i(memtoreg_idex_o),			// LW hazard detection
 	.memread_i(memread_idex_o),
