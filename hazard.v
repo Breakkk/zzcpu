@@ -46,7 +46,7 @@ module hazard(
 	wire stall_LW;
     wire precorrc;
 	
-    reg intercepted;
+    reg intercepted = 0;
 	reg [15:0] epc;
 	assign epc_o = epc;
 
