@@ -51,23 +51,24 @@ module hazard(
 	assign epc_o = epc;
 
     assign precorrc = (isbranch_i && (prediction_i === ifbranch_i));
+	assign prewrong = (isbranch_i && (prediction_i ^ ifbranch_i));
 	assign stall_LW = ((memtoreg_i && memread_i) && ((regsrc1_i === regdst_i) || (regsrc2_i === regdst_i)));
 	
 	//while stalling: prediction judgment and jump order is "stalled", too
-	assign prewrong_o = (!precorrc) && (!stall_LW) && (!intercepted);
+	assign prewrong_o = (prewrong) && (!stall_LW) && (!intercepted);
 	assign precorrc_o = (precorrc) && (!stall_LW) && (!intercepted);
 	assign jr_o = isjump_i && (!stall_LW) && (!intercepted);
     assign isintzero_o = intercepted;
-    assign flush_if_o = (((!precorrc) || stall_LW) && (!intercepted));
+    assign flush_if_o = (((prewrong) || stall_LW) && (!intercepted));
     assign flush_id_o = intercepted;
     assign flush_ex_o = intercepted;
 
-    always@(posedge CLK or posedge interception_i) begin
+    always@(negedge CLK or posedge interception_i) begin
 		if (interception_i) begin
             intercepted <= 1;
+			epc <= epc_i;
         end else begin
 			intercepted <= 0;
-            epc <= epc_i;
         end
     end
     
