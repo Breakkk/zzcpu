@@ -87,8 +87,8 @@ module id_sim;
 		#100;
         
 		// Add stimulus here
-		instr_i = 16'b0110100011110000;
-		rdata1_i = 16'b0000000000000000;
+		instr_i = 16'b0100000011101100;
+		rdata1_i = 16'b0000000000010000;
 		rdata2_i = 16'b0000000000000000;
 		pcplus1_i = 16'b0000000000000001;
 	end

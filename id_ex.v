@@ -64,9 +64,9 @@ module id_ex(
 	reg [15:0] epc;
 	
 	assign regwrite_o = regwrite;
-	assign memtoreg_o = memtoreg_o;
-	assign memread_o = memread_o;
-	assign memwrite_o = memwrite_o;
+	assign memtoreg_o = memtoreg;
+	assign memread_o = memread;
+	assign memwrite_o = memwrite;
 	assign memdata_o = memdata;
 	assign aluop_o = aluop;
 	assign alusrc1_o = alusrc1;

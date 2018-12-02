@@ -29,7 +29,7 @@ module zzcpu(
 	inout [15:0] Ram1Data,
 	output Ram1OE,
 	output Ram1WE,
-	output Ram1EN
+	output Ram1EN,
 	
 	/*output [17:0] Ram2Addr,	//Ram2-program
 	inout [15:0] Ram2Data,
@@ -37,11 +37,30 @@ module zzcpu(
 	output Ram2WE,
 	output Ram2EN,
 	output wrn,
-	output rdn*/
-	
+	output rdn
+	output flush_id_output,
+	output regwrite_idex_output,
+	output memtoreg_idex_output,
+	output [3:0] aluop_idex_output,
+	output [3:0] regsrc1_idex_output,
+	output [3:0] regdst_exmem_output,
+	output [15:0] alures_exmem_output,
+	output regwrite_exmem_output,
+	output memtoreg_memwb_output,
+	output [15:0] memres_memwb_output*/
     );
 	
 // wire realclk;
+// assign flush_id_output = flush_id;
+// assign regwrite_idex_output = regwrite_idex_o;
+// assign memtoreg_idex_output = memtoreg_idex_o;
+// assign aluop_idex_output = aluop_idex_o;
+// assign regsrc1_idex_output = regsrc1_idex_o;
+// assign regdst_exmem_output = regdst_exmem_o;
+// assign alures_exmem_output = alures_exmem_o;
+// assign regwrite_exmem_output = regwrite_exmem_o;
+// assign memtoreg_memwb_output = memtoreg_memwb_o;
+// assign memres_memwb_output = memres_memwb_o;
 
 wire flush_id;
 wire flush_ex;
