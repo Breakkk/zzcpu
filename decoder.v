@@ -519,7 +519,7 @@ module decoder#(
 
 					end
 					5'b00111:begin		//SRAV
-						ALU_OP <= EMPTY;
+						ALU_OP <= SRA;
 						r_reg_A <= {1'b0,instruction[7:5]};
 						r_reg_B <= {1'b0,instruction[10:8]};
 						immediate <= 16'h0000;
@@ -743,9 +743,9 @@ module decoder#(
 				ALU_OP <= ADD;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= {1'b0,instruction[7:5]};
-				case(instruction[7])
-					1'b1:begin immediate[15:0] <= {8'b11111111,instruction[7:0]};end
-					1'b0:begin immediate[15:0] <= {8'b00000000,instruction[7:0]};end
+				case(instruction[4])
+					1'b1:begin immediate[15:0] <= {11'b11111111111,instruction[4:0]};end
+					1'b0:begin immediate[15:0] <= {11'b00000000000,instruction[4:0]};end
 				endcase
 				ALU_SRC <= r1_im;
 
