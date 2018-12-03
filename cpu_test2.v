@@ -4,9 +4,9 @@
 // Company: 
 // Engineer:
 //
-// Create Date:   02:02:00 12/03/2018
+// Create Date:   23:10:15 12/03/2018
 // Design Name:   zzcpu
-// Module Name:   G:/ISE_Project/zzcpu/cpu_sim.v
+// Module Name:   G:/ISE_Project/zzcpu/cpu_test2.v
 // Project Name:  CPU
 // Target Device:  
 // Tool versions:  
@@ -22,7 +22,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module cpu_sim;
+module cpu_test2;
 
 	// Inputs
 	reg clk;
@@ -62,7 +62,43 @@ module cpu_sim;
 		#100;
         
 		// Add stimulus here
-
+		l = 16'b0110110000000100;
+		#50;
+		clk = 1;
+		#50;
+		clk = 0;
+		l = 16'b0110111100000111;
+		#50;
+		clk = 1;
+		#50;
+		clk = 0;
+		l = 16'b0000100000000000;
+		#50;
+		clk = 1;
+		#50;
+		clk = 0;
+		#50;
+		clk = 1;
+		#50;
+		clk = 0;
+		l = 16'b1101111110000000;
+		#50;
+		clk = 1;
+		#50;
+		clk = 0;
+		l = 16'b0000100000000000;
+		#50
+		clk = 1;
+		#50;
+		clk = 0;
+		#50
+		clk = 1;
+		#50;
+		clk = 0;
+		#50
+		clk = 1;
+		#50;
+		clk = 0;
 	end
       
 endmodule
