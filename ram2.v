@@ -25,9 +25,12 @@ module ram2(
 	inout [15:0] Ram2Data,
 	output Ram2OE,
 	output Ram2WE,
+	output [15:0] memres2_o,
 	input read,	//0-read 1-write
 	input clk
     );
+reg [15:0] memres2;
+assign memres_o = memres2;
 
 wire oe;
 wire we;
@@ -41,5 +44,9 @@ assign Ram2Addr = addr;
 assign oe = !read ? !clk : 1'b1;
 assign we = !read ? 1'b1 : !clk;
 
-
+always@(negedge clk) begin
+	if (read) begin
+		memres2 <= Ram2Data;
+	end
+end
 endmodule

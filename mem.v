@@ -34,8 +34,9 @@ module mem(
 		//inout [15:0] Ram2Data,
     );
 	 
-	//assign Ram1Data = !read_o ? 16'bz : memdata_i;
-	//assign Ram2Data = !read_o ? 16'bz : memdata_i;
+	//reg ram_from;  //0 - ram1   1 - ram2
+	
+	//assign memres_o = !ram_from ? memres_1 : memres_2;
 	always @(*) begin
 		case({memread_i,memwrite_i})
 			2'b01:begin	//write
@@ -54,6 +55,7 @@ module mem(
 			end
 		endcase
 		/*if(alures_i<=16'hbeff)begin			//ram2
+			ram_from = 1'b1;
 			case({memread_i,memwrite_i})
 				2'b01:begin							//write
 					Ram2EN_o <= 1'b0;
@@ -71,6 +73,7 @@ module mem(
 			Ram1EN = 1'b1;
 		end
 		else if(alures_i>=16'hbf02)begin  	//ram1
+			ram_from = 1'b0;
 			case({memread_i,memwrite_i})
 				2'b01:begin							//write
 					Ram1EN <= 1'b0;
@@ -88,6 +91,7 @@ module mem(
 			Ram2EN_o = 1'b1;
 		end
 		else begin  //s_port
+			ram_from = 1'b1;
 			Ram1EN = 1'b1;
 			Ram2EN_o = 1'b1;
 		end*/
