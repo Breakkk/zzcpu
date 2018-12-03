@@ -497,7 +497,7 @@ module decoder#(
 						MemToReg <= 1'b0;
 					end
 					5'b00010:begin		//SLT
-						ALU_OP <= EMPTY;
+						ALU_OP <= LESS;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						immediate <= 16'h0000;

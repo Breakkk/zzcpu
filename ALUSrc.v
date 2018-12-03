@@ -67,5 +67,5 @@ module ALUSrc#(parameter DATA_WID = 16)(
 		endcase
 	end
 
-	assign memdata = srcdata_b;
+	assign memdata = read_data_B;
 endmodule

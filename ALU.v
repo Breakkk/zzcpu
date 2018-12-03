@@ -59,7 +59,7 @@ module ALU#(parameter OPERRATOR_WIDTH = 4)(
 				temp_result[15:0] <= srcdata_a[15:0] >> srcdata_b[15:0];
 			end
 			SRA:begin    
-				temp_result[15:0] <= srcdata_a[15:0] >>> srcdata_b[15:0];
+				temp_result[15:0] <= ($signed(srcdata_a[15:0])) >>> srcdata_b[15:0];
 			end
 			EQUAL:begin    
 				if(srcdata_a == srcdata_b)

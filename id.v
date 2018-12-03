@@ -50,7 +50,7 @@ module id#(
 	output isjump_o,										//-			// jump & branch handling
 	output isbranch_o,									//-
 	// signal from ID to IF :
-	output reg ifbranch_o,
+	output reg ifbranch_o,								//-
 	output [ADDRESS_WIDTH-1:0] address_jr			//-
     );
  

@@ -29,7 +29,7 @@ module zzcpu(
 	inout [15:0] Ram1Data,
 	output Ram1OE,
 	output Ram1WE,
-	output Ram1EN,
+	output Ram1EN
 	
 	/*output [17:0] Ram2Addr,	//Ram2-program
 	inout [15:0] Ram2Data,
