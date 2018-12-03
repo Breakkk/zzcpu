@@ -49,7 +49,8 @@ module mem(
 			end
 			default:begin
 				Ram1EN <= 1'b1;
-			
+				read_o <= 1'b0;
+				
 			end
 		endcase
 		/*if(alures_i<=16'hbeff)begin			//ram2
