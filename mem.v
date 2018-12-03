@@ -23,6 +23,14 @@ module mem(
 		input memwrite_i,
 		input [15:0] memdata_i,
 		input [15:0] alures_i,
+		
+		/*input data_ready_in,
+		input tbre_in,
+		input tsre_in,
+		input 
+		*/
+		
+		output is_RAM2_o,
 		//output [15:0] memres_o,
 		output reg read_o,	//0-read 1-write
 		
@@ -34,9 +42,11 @@ module mem(
 		//inout [15:0] Ram2Data,
     );
 	 
-	//reg ram_from;  //0 - ram1   1 - ram2
+	reg [1:0] res_from;  //00 - s_port 01 - ram1   10 - ram2
+	//reg [15:0] port_result;
 	
 	//assign memres_o = !ram_from ? memres_1 : memres_2;
+	assign is_RAM2_o = res_from[1];
 	always @(*) begin
 		case({memread_i,memwrite_i})
 			2'b01:begin	//write
@@ -55,7 +65,8 @@ module mem(
 			end
 		endcase
 		/*if(alures_i<=16'hbeff)begin			//ram2
-			ram_from = 1'b1;
+			res_from = 2'b10;
+			Ram1EN <= 1'b1;
 			case({memread_i,memwrite_i})
 				2'b01:begin							//write
 					Ram2EN_o <= 1'b0;
@@ -67,13 +78,14 @@ module mem(
 				end
 				default:begin
 					Ram2EN_o <= 1'b1;
+					read_o <= 1'b0;
 				
 				end
 			endcase
-			Ram1EN = 1'b1;
 		end
 		else if(alures_i>=16'hbf02)begin  	//ram1
-			ram_from = 1'b0;
+			res_from = 2'b01;
+			Ram2EN_o <= 1'b1;
 			case({memread_i,memwrite_i})
 				2'b01:begin							//write
 					Ram1EN <= 1'b0;
@@ -85,15 +97,37 @@ module mem(
 				end
 				default:begin
 					Ram1EN <= 1'b1;
+					read_o <= 1'b0;
 				
 				end
 			endcase
-			Ram2EN_o = 1'b1;
 		end
+		
 		else begin  //s_port
-			ram_from = 1'b1;
+			res_from = 2'b00;
 			Ram1EN = 1'b1;
 			Ram2EN_o = 1'b1;
+			case(alures_i)
+				16'hbbf01:begin
+					port_result [15:0] <= {14'b00000000000000,data_ready_in,(tbre_in & tsre_in)};
+				end
+				
+				16'hbbf00:begin
+				end
+			endcase
+			
+			case({memread_i,memwrite_i})
+				2'b01:begin							//write
+					read_o <= 1'b1;
+				end
+				2'b10:begin							//read
+					read_o <= 1'b0;
+				end
+				default:begin
+					Ram1EN <= 1'b1;
+				
+				end
+			endcase
 		end*/
 	end
 

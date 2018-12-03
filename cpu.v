@@ -265,6 +265,7 @@ ex_mem _ex_mem(
 // MEM
 wire [15:0] memres_mem_o;
 wire is_read; //0-read 1-write
+wire is_RAM2;
 //assign memres_mem_o = Ram1Data;
 
 assign light = res_wb_o;
@@ -273,6 +274,7 @@ mem _mem(
 	.memwrite_i(memwrite_exmem_o),
 	.memdata_i(memdata_exmem_o),
 	.alures_i(alures_exmem_o),
+	.is_RAM2_o(is_RAM2),
 	//.memres_o(memres_mem_o),
 	.read_o(is_read),
 	.Ram1EN(Ram1EN)
