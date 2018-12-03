@@ -29,7 +29,7 @@ module zzcpu(
 	inout [15:0] Ram1Data,
 	output Ram1OE,
 	output Ram1WE,
-	output Ram1EN
+	output Ram1EN,
 	
 	/*output [17:0] Ram2Addr,	//Ram2-program
 	inout [15:0] Ram2Data,
@@ -37,7 +37,7 @@ module zzcpu(
 	output Ram2WE,
 	output Ram2EN,
 	output wrn,
-	output rdn
+	output rdn*/
 	output flush_id_output,
 	output regwrite_idex_output,
 	output memtoreg_idex_output,
@@ -47,20 +47,41 @@ module zzcpu(
 	output [15:0] alures_exmem_output,
 	output regwrite_exmem_output,
 	output memtoreg_memwb_output,
-	output [15:0] memres_memwb_output*/
+	output [15:0] memres_memwb_output,
+	output [15:0] memdata_id_output,
+	output [15:0] rdata2_rh_output,
+	output [15:0] memdata_idex_output,
+	output [15:0] memdata_ex_output,
+	output [15:0] memdata_exmem_output,
+	output flush_ex_output,
+	output memread_idex_output,
+	output memwrite_idex_output,
+	output [3:0] regdst_idex_output,
+	output [15:0] alures_ex_output
     );
 	
-// wire realclk;
-// assign flush_id_output = flush_id;
-// assign regwrite_idex_output = regwrite_idex_o;
-// assign memtoreg_idex_output = memtoreg_idex_o;
-// assign aluop_idex_output = aluop_idex_o;
-// assign regsrc1_idex_output = regsrc1_idex_o;
-// assign regdst_exmem_output = regdst_exmem_o;
-// assign alures_exmem_output = alures_exmem_o;
-// assign regwrite_exmem_output = regwrite_exmem_o;
-// assign memtoreg_memwb_output = memtoreg_memwb_o;
-// assign memres_memwb_output = memres_memwb_o;
+assign memdata_id_output = memdata_id_o;
+assign rdata2_rh_output = regdata2_rh_o;
+assign memdata_ex_output = memdata_ex_o;
+assign memdata_exmem_output = memdata_exmem_o;
+assign memdata_idex_output = memdata_idex_o;
+wire realclk;
+assign flush_id_output = flush_id;
+assign regwrite_idex_output = regwrite_idex_o;
+assign memtoreg_idex_output = memtoreg_idex_o;
+assign aluop_idex_output = aluop_idex_o;
+assign regsrc1_idex_output = regsrc1_idex_o;
+assign flush_ex_output = flush_ex;
+assign memread_idex_output = memread_idex_o;
+assign memwrite_idex_output = memwrite_idex_o;
+assign regdst_idex_output = regdst_idex_o;
+assign alures_ex_output = alures_ex_o;
+
+assign regdst_exmem_output = regdst_exmem_o;
+assign alures_exmem_output = alures_exmem_o;
+assign regwrite_exmem_output = regwrite_exmem_o;
+assign memtoreg_memwb_output = memtoreg_memwb_o;
+assign memres_memwb_output = memres_memwb_o;
 
 wire flush_id;
 wire flush_ex;
@@ -285,7 +306,7 @@ ex_mem _ex_mem(
 // MEM
 wire [15:0] memres_mem_o;
 wire is_read; //0-read 1-write
-assign memres_mem_o = Ram1Data;
+//assign memres_mem_o = Ram1Data;
 
 assign light = res_wb_o;
 mem _mem(
@@ -306,6 +327,7 @@ ram1 _ram1(
 	.Ram1OE(Ram1OE),
 	.Ram1WE(Ram1WE),
 	.read(is_read),
+	.memres_o(memres_mem_o),
 	.clk(clk)
 );
 // MEM/WB

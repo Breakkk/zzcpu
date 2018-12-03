@@ -45,6 +45,16 @@ module cputest1;
 	wire regwrite_exmem_output;
 	wire memtoreg_memwb_output;
 	wire [15:0] memres_memwb_output;
+	wire [15:0] memdata_id_output;
+	wire [15:0] memdata_idex_output;
+	wire [15:0] memdata_exmem_output;
+	wire [15:0] memdata_ex_output;
+	wire [15:0] rdata2_rh_output;
+	wire [15:0] flush_ex_output;
+	wire memread_idex_output;
+	wire memwrite_idex_output;
+	wire [3:0] regdst_idex_output;
+	wire [15:0] alures_ex_output;
 
 	// Bidirs
 	wire [15:0] Ram1Data;
@@ -69,7 +79,17 @@ module cputest1;
 		.alures_exmem_output(alures_exmem_output),
 		.regwrite_exmem_output(regwrite_exmem_output),
 		.memtoreg_memwb_output(memtoreg_memwb_output),
-		.memres_memwb_output(memres_memwb_output)
+		.memres_memwb_output(memres_memwb_output),
+		.memdata_id_output(memdata_id_output),
+		.rdata2_rh_output(rdata2_rh_output),
+		.memdata_exmem_output(memdata_exmem_output),
+		.memdata_ex_output(memdata_ex_output),
+		.memdata_idex_output(memdata_idex_output),
+		.flush_ex_output(flush_ex_output),
+		.memread_idex_output(memread_idex_output),
+		.memwrite_idex_output(memwrite_idex_output),
+		.regdst_idex_output(regdst_idex_output),
+		.alures_ex_output(alures_ex_output)
 	);
 
 	initial begin
@@ -82,22 +102,44 @@ module cputest1;
 		#100;
         
 		// Add stimulus here
-		l = 16'b0110100011110000;
-		#100;
+		l = 16'b0110110000000100;
+		#50;
 		clk = 1;
-		#100;
+		#50;
 		clk = 0;
-		l = 16'b0100111100001111;
-		#100;
+		l = 16'b0110111100000111;
+		#50;
 		clk = 1;
-		#100;
+		#50;
 		clk = 0;
-		#100;
+		l = 16'b0000100000000000;
+		#50;
 		clk = 1;
-		#100;
+		#50;
 		clk = 0;
-		#100;
+		#50;
 		clk = 1;
+		#50;
+		clk = 0;
+		l = 16'b1101111110000000;
+		#50;
+		clk = 1;
+		#50;
+		clk = 0;
+		l = 16'b0000100000000000;
+		#50
+		clk = 1;
+		#50;
+		clk = 0;
+		#50
+		clk = 1;
+		#50;
+		clk = 0;
+		#50
+		clk = 1;
+		#50;
+		clk = 0;
+
 	end
       
 endmodule

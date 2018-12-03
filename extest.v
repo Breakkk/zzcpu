@@ -36,9 +36,12 @@ module extest;
 	reg [3:0] memregdst_i;
 	reg memregwrite_i;
 	reg [15:0] memregdata_i;
+	reg [15:0] memdata_i;
+	reg [3:0] regsrc_sw_i;
 
 	// Outputs
 	wire [15:0] alures_o;
+	wire [15:0] memdata_o;
 
 	// Bidirs
 
@@ -55,7 +58,10 @@ module extest;
 		.memregdst_i(memregdst_i), 
 		.memregwrite_i(memregwrite_i), 
 		.memregdata_i(memregdata_i), 
-		.alures_o(alures_o)
+		.alures_o(alures_o),
+		.memdata_i(memdata_i),
+		.regsrc_sw_i(regsrc_sw_i),
+		.memdata_o(memdata_o)
 	);
 
 	initial begin
@@ -81,25 +87,18 @@ module extest;
 		alusrc1_i = 16'hFFF1;
 		alusrc2_i = 16'h001F;
 		regsrc1_i = 4'b0101;
-		regsrc2_i = 4'b0011;
-		exregdst_i = 4'b0101;
-		exregwrite_i = 1;
-		exregdata_i = 16'hFFF0;
-		memregdst_i = 4'b0011;
-		memregwrite_i = 1;
-		memregdata_i = 16'h000F;
-		#5;
-		aluop_i = 4'b1000;
-		alusrc1_i = 16'hFFFF;
-		alusrc2_i = 16'h0000;
-		regsrc1_i = 4'b0101;
-		regsrc2_i = 4'b0111;
-		exregdst_i = 4'b0111;
+		regsrc2_i = 4'b1111;
+
+		regsrc_sw_i = 4'b0100;
+		memdata_i = 16'h0F0F;
+
+		exregdst_i = 4'b1111;
 		exregwrite_i = 0;
-		exregdata_i = 16'h0F00;
-		memregdst_i = 4'b0111;
-		memregwrite_i = 0;
-		memregdata_i = 16'hF000;
+		exregdata_i = 16'hFFF0;
+
+		memregdst_i = 4'b0100;
+		memregwrite_i = 1;
+		memregdata_i = 16'hF0F0;
 	end
       
 endmodule

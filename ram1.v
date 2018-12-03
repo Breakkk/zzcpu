@@ -26,10 +26,12 @@ module ram1(
 		output Ram1EN,
 		output Ram1OE,
 		output Ram1WE,
+		output [15:0] memres_o,
 		input read,	//0-read 1-write
 		input clk
     );
-
+reg [15:0] memres;
+assign memres_o = memres;
 wire oe;
 wire we;
 
@@ -42,4 +44,9 @@ assign Ram1Addr = addr;
 assign oe = !read ? !clk : 1'b1;
 assign we = !read ? 1'b1 : !clk;
 
+always@(negedge clk) begin
+	if (read) begin
+		memres <= Ram1Data;
+	end
+end
 endmodule
