@@ -23,7 +23,6 @@ module ram1(
 		input [15:0] data,
 		output [17:0] Ram1Addr,
 		inout [15:0] Ram1Data,
-		output Ram1EN,
 		output Ram1OE,
 		output Ram1WE,
 		output [15:0] memres_o,
