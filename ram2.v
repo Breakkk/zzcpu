@@ -45,7 +45,7 @@ assign oe = !read ? !clk : 1'b1;
 assign we = !read ? 1'b1 : !clk;
 
 always@(negedge clk) begin
-	if (read) begin
+	if (read == 1'b0) begin
 		memres2 <= Ram2Data;
 	end
 end

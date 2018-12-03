@@ -27,7 +27,9 @@ module mem(
 		/*input data_ready_in,
 		input tbre_in,
 		input tsre_in,
-		input 
+		input [15:0] mem1_res,
+		input [15:0] mem2_res,
+		
 		*/
 		
 		output is_RAM2_o,
@@ -37,15 +39,12 @@ module mem(
 		output reg Ram1EN
 		//output reg Ram2EN_o
 		
-		
-		//inout [15:0] Ram1Data,
-		//inout [15:0] Ram2Data,
     );
 	 
 	reg [1:0] res_from;  //00 - s_port 01 - ram1   10 - ram2
-	//reg [15:0] port_result;
+	//reg [15:0] temp_result;
 	
-	//assign memres_o = !ram_from ? memres_1 : memres_2;
+	//assign memres_o = temp_result;
 	assign is_RAM2_o = res_from[1];
 	always @(*) begin
 		case({memread_i,memwrite_i})
@@ -109,7 +108,7 @@ module mem(
 			Ram2EN_o = 1'b1;
 			case(alures_i)
 				16'hbbf01:begin
-					port_result [15:0] <= {14'b00000000000000,data_ready_in,(tbre_in & tsre_in)};
+					temp_result [15:0] <= {14'b00000000000000,data_ready_in,(tbre_in & tsre_in)};
 				end
 				
 				16'hbbf00:begin
