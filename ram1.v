@@ -83,7 +83,7 @@ always @(*) begin
 					is_check <= 1'b1;
 					is_uart_read <= 1'b0;
 					is_uart_write <= 1'b0;
-					uart_check [15:0] <= {14'b10101000000000,data_ready_i,(tbre_i & tsre_i)};
+					uart_check [15:0] <= {14'b00000000000000,data_ready_i,(tbre_i & tsre_i)};
 				end
 				16'hbf00:begin
 					is_check <= 1'b0;
@@ -109,6 +109,7 @@ always @(*) begin
 	case(is_RAM1_i)
 		1'b0:begin
 			en <= 1'b1;
+			is_ram_read <= 1'b1;
 		end
 		1'b1:begin
 			case({isread_i,iswrite_i})
