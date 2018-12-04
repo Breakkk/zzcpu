@@ -121,7 +121,7 @@ ifetch _if(
 wire isintzero;
 // signal from IF/ID to ID
 wire [15:0] instr_ifid_o;
-assign instr_ifid_o = l;
+//assign instr_ifid_o = l;
 wire [15:0] epc_ifid_o;
 wire [15:0] pcplus1_ifid_o;
 
@@ -134,7 +134,7 @@ if_id _if_id(
 	.pcplus1_i(pcplus1_if_o),
 	.instr_i(ram2res_ram2_o),
 	.epc_o(epc_ifid_o),
-	.pcpuls1_o(pcplus1_ifid_o),
+	.pcplus1_o(pcplus1_ifid_o),
 	.instr_o(instr_ifid_o)
 );
 
@@ -303,12 +303,14 @@ wire [15:0] memres_mem_o;
 
 assign light = memres_mem_o;
 
-assign wrn = 1'b1;
-assign rdn = 1'b1;
+// assign wrn = 1'b1;
+// assign rdn = 1'b1;
 mem _mem(
 	.alures_i(alures_exmem_o),
 	.mem1_res_i(ram1res_ram1_o),
 	.mem2_res_i(ram2res_ram2_o),
+	.memread_i(memread_exmem_o),
+	.memwrite_i(memwrite_exmem_o),
 	.is_RAM2_o(is_RAM2_mem_o),
 	.is_RAM1_o(is_RAM1_mem_o),
 	.is_UART_o(is_UART_mem_o),
