@@ -25,12 +25,12 @@ module ram1(
 		inout wire [15:0] Ram1Data,
 		output Ram1OE,
 		output Ram1WE,
-		output [15:0] memres_o,
+		output [15:0] mem1res_o,
 		input read,	//0-read 1-write
 		input clk
     );
 reg [15:0] memres;
-assign memres_o = memres;
+assign mem1res_o = memres;
 wire oe;
 wire we;
 

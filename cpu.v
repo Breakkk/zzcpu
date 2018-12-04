@@ -21,6 +21,7 @@
 module zzcpu(
 	input clk,
 	input rst,
+
 	
 	output [15:0] light,
 	input [15:0] l,
@@ -31,11 +32,15 @@ module zzcpu(
 	output Ram1WE,
 	output Ram1EN,
 	
-	/*output [17:0] Ram2Addr,	//Ram2-program
+	output [17:0] Ram2Addr,	//Ram2-program
 	inout [15:0] Ram2Data,
 	output Ram2OE,
 	output Ram2WE,
-	output Ram2EN,*/
+	output Ram2EN,
+	
+	input data_ready,
+	input tbre,
+	input tsre,
 	output wrn,
 	output rdn
     );
@@ -263,12 +268,14 @@ ex_mem _ex_mem(
 );
 
 // MEM
-wire [15:0] memres_mem_o;
+wire [15:0] mem1res;
+wire [15:0] mem2res;
 wire is_read; //0-read 1-write
 wire is_RAM2;
+wire [15:0] memres_mem_o;
 //assign memres_mem_o = Ram1Data;
 
-assign light = Ram1Data;
+assign light = memres_mem_o;
 
 assign wrn = 1'b1;
 assign rdn = 1'b1;
@@ -277,10 +284,16 @@ mem _mem(
 	.memwrite_i(memwrite_exmem_o),
 	.memdata_i(memdata_exmem_o),
 	.alures_i(alures_exmem_o),
+	.data_ready_in(data_ready),
+	.tbre_in(tbre),
+	.tsre_in(tsre),
 	.is_RAM2_o(is_RAM2),
-	//.memres_o(memres_mem_o),
+	.mem1_res_i(mem1res_mem_o),
+	.mem2_res_i(mem2res_mem_o),
+	.memres_o(memres_mem_o),
 	.read_o(is_read),
-	.Ram1EN(Ram1EN)
+	.Ram1EN_o(Ram1EN),
+	.Ram2EN_o(Ram2EN)
 	
 );
 
@@ -292,7 +305,19 @@ ram1 _ram1(
 	.Ram1OE(Ram1OE),
 	.Ram1WE(Ram1WE),
 	.read(is_read),
-	.memres_o(memres_mem_o),
+	.mem1res_o(mem1res),
+	.clk(clk)
+);
+
+ram2 _ram2(
+	.addr({2'b00,alures_exmem_o}),
+	.data(memdata_exmem_o),
+	.Ram2Addr(Ram2Addr),
+	.Ram2Data(Ram2Data),	//ָ������
+	.Ram2OE(Ram2OE),
+	.Ram2WE(Ram2WE),
+	.read(is_read),
+	.mem2res_o(mem2res),
 	.clk(clk)
 );
 // MEM/WB
