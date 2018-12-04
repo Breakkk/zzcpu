@@ -39,6 +39,8 @@ module mem(
 		output reg Ram1EN
 		//output reg Ram2EN_o
 		
+		/*output rdn_o,
+		output wrd_o*/
     );
 	 
 	reg [1:0] res_from;  //00 - s_port 01 - ram1   10 - ram2

@@ -58,7 +58,6 @@ NET "Ram1OE" LOC = M16;
 NET "Ram1WE" LOC = M18;
 NET "rst" LOC = U10;
 
-# PlanAhead Generated physical constraints 
 
 NET "light[15]" LOC = A14;
 NET "light[14]" LOC = E13;
@@ -76,3 +75,8 @@ NET "light[3]" LOC = B11;
 NET "light[2]" LOC = A11;
 NET "light[1]" LOC = E10;
 NET "light[0]" LOC = D10;
+
+# PlanAhead Generated physical constraints 
+
+NET "rdn" LOC = C14;
+NET "wrn" LOC = U5;
