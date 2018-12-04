@@ -104,17 +104,17 @@ assign instr_ifid_o = l;
 wire [15:0] epc_ifid_o;
 wire [15:0] pcplus1_ifid_o;
 
-// if_id _if_id(
-// 	.CLK(clk),
-// 	.flush_if_i(flush_if),
-// 	.isintzero_i(isintzero),
-// 	.epc_i(epc_id_o),
-// 	.pcplus1_i(pcplus1_if_o),
-// 	.epc_o(epc_id_o),
-// 	.pcpuls1_o(pcplus1_ifid_o),
-// 	.instr_i(Ram2Data),
-// 	.instr_o(instr_ifid_o)
-// );
+if_id _if_id(
+	.CLK(clk),
+	.flush_if_i(flush_if),
+	.isintzero_i(isintzero),
+	.epc_i(epc_id_o),
+	.pcplus1_i(pcplus1_if_o),
+	.epc_o(epc_id_o),
+	.pcpuls1_o(pcplus1_ifid_o),
+	.instr_i(ram2res_ram2_o),
+	.instr_o(instr_ifid_o)
+);
 
 // ID
 // signal from RegHeap to ID
@@ -282,7 +282,6 @@ wire is_RAM2_mem_o;
 wire is_RAM1_mem_o;
 wire is_UART_mem_o;
 wire [15:0] memres_mem_o;
-//assign memres_mem_o = Ram1Data;
 
 assign light = memres_mem_o;
 
@@ -290,8 +289,8 @@ assign wrn = 1'b1;
 assign rdn = 1'b1;
 mem _mem(
 	.alures_i(alures_exmem_o),
-	.mem1_res_i(mem1res),
-	.mem2_res_i(mem2res),
+	.mem1_res_i(ram1res_ram1_o),
+	.mem2_res_i(ram2res_ram2_o),
 	.is_RAM2_o(is_RAM2_mem_o),
 	.is_RAM1_o(is_RAM1_mem_o),
 	.is_UART_o(is_UART_mem_o),
@@ -305,7 +304,7 @@ ram1 _ram1(
 	.wrn_o(wrn),
 	.rdn_o(rdn),
 	.Ram1Addr_o(Ram1Addr),
-	.Ram1Data_o(Ram1Data),
+	.Ram1Data_io(Ram1Data),
 	.Ram1OE_o(Ram1OE),
 	.Ram1WE_o(Ram1WE),
 	.Ram1EN_o(Ram1EN),
@@ -321,7 +320,7 @@ ram1 _ram1(
 
 ram2 _ram2(
 	.Ram2Addr_o(Ram2Addr),
-	.Ram2Data_o(Ram2Data),
+	.Ram2Data_io(Ram2Data),
 	.Ram2OE_o(Ram2OE),
 	.Ram2WE_o(Ram2WE),
 	.Ram2EN_o(Ram2EN),
