@@ -109,6 +109,7 @@ always @(*) begin
 	case(is_RAM1_i)
 		1'b0:begin
 			en <= 1'b1;
+			is_ram_read <= 1'b1;
 		end
 		1'b1:begin
 			case({isread_i,iswrite_i})
