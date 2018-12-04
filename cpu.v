@@ -54,7 +54,6 @@ wire intercepted;
 // wire pc_jump;
 // wire hold;
 // wire [17:0] pc_jump_val; 
-wire isintzero;
 
 // pc _pc(
 // 	.clk(clk),
@@ -88,20 +87,28 @@ wire precorrc_hdu_o;
 wire preresult_if_o;
 
 // IF/ID
+// signal from HDU to IF/ID
+wire isintzero;
+// signal from IF to IF/ID
+wire [15:0] epc_id_o;
+wire [15:0] pcplus1_if_o;
 // signal from IF/ID to ID
-wire [15:0] instr;
-assign instr = l;
-// wire [15:0] epc_ifid_o;
-// wire [15:0] pcplus1_ifid_o;
+wire [15:0] instr_ifid_o;
+//assign instr = l;
+wire [15:0] epc_ifid_o;
+wire [15:0] pcplus1_ifid_o;
 
-// if_id _if_id(
-// 	.clk(clk),
-// 	.flush(flush_if),
-// 	.pc_in(if_pc),
-// 	.pc_out(epc_ifid_o),
-// 	.inst_in(Ram2Data),
-// 	.inst_out(instr)
-// );
+if_id _if_id(
+	.CLK(clk),
+	.flush_if_i(flush_if),
+	.isintzero_i(isintzero),
+	.epc_i(epc_id_o),
+	.pcplus1_i(pcplus1_if_o),
+	.epc_o(epc_id_o)
+	.pcpuls1_o(pcplus1_ifid_o),
+	.instr_i(Ram2Data),
+	.instr_o(instr_ifid_o)
+);
 
 // ID
 // signal from RegHeap to ID
@@ -131,7 +138,7 @@ wire [15:0] address_jr_id_o;
 wire isbranch_id_o;
 
 id _id(
-	.instr_i(instr),
+	.instr_i(instr_ifid_o),
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
 	.pcplus1_i(pcplus1_ifid_o),		//MFPC
