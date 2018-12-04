@@ -1,50 +1,50 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    15:46:56 11/29/2018 
-// Design Name: 
-// Module Name:    cpu 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    15:46:56 11/29/2018
+// Design Name:
+// Module Name:    cpu
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module zzcpu(
 	input clk,
 	input rst,
 
-	
+
 	output [15:0] light,
 	input [15:0] l,
-	
+
 	output [17:0] Ram1Addr,	//Ram1-data
 	inout [15:0] Ram1Data,
 	output Ram1OE,
 	output Ram1WE,
 	output Ram1EN,
-	
+
 	output [17:0] Ram2Addr,	//Ram2-program
 	inout [15:0] Ram2Data,
 	output Ram2OE,
 	output Ram2WE,
 	output Ram2EN,
-	
+
 	input data_ready,
 	input tbre,
 	input tsre,
 	output wrn,
 	output rdn
     );
-	
+
 
 
 wire flush_id;
@@ -58,8 +58,7 @@ wire intercepted;
 // wire [17:0] if_pc;
 // wire pc_jump;
 // wire hold;
-// wire [17:0] pc_jump_val; 
-wire isintzero;
+// wire [17:0] pc_jump_val;
 
 // pc _pc(
 // 	.clk(clk),
@@ -86,27 +85,35 @@ wire isintzero;
 // 	.clk(clk)
 // );
 
-// IF 
+// IF
 wire ifjr_hdu_o;
 wire prewrong_hdu_o;
 wire precorrc_hdu_o;
 wire preresult_if_o;
 
 // IF/ID
+// signal from HDU to IF/ID
+wire isintzero;
+// signal from IF to IF/ID
+wire [15:0] epc_id_o;
+wire [15:0] pcplus1_if_o;
 // signal from IF/ID to ID
-wire [15:0] instr;
-assign instr = l;
-// wire [15:0] epc_ifid_o;
-// wire [15:0] pcplus1_ifid_o;
+wire [15:0] instr_ifid_o;
+//assign instr = l;
+wire [15:0] epc_ifid_o;
+wire [15:0] pcplus1_ifid_o;
 
-// if_id _if_id(
-// 	.clk(clk),
-// 	.flush(flush_if),
-// 	.pc_in(if_pc),
-// 	.pc_out(epc_ifid_o),
-// 	.inst_in(Ram2Data),
-// 	.inst_out(instr)
-// );
+if_id _if_id(
+	.CLK(clk),
+	.flush_if_i(flush_if),
+	.isintzero_i(isintzero),
+	.epc_i(epc_id_o),
+	.pcplus1_i(pcplus1_if_o),
+	.epc_o(epc_id_o)
+	.pcpuls1_o(pcplus1_ifid_o),
+	.instr_i(Ram2Data),
+	.instr_o(instr_ifid_o)
+);
 
 // ID
 // signal from RegHeap to ID
@@ -136,7 +143,7 @@ wire [15:0] address_jr_id_o;
 wire isbranch_id_o;
 
 id _id(
-	.instr_i(instr),
+	.instr_i(instr_ifid_o),
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
 	.pcplus1_i(pcplus1_ifid_o),		//MFPC
@@ -294,7 +301,7 @@ mem _mem(
 	.read_o(is_read),
 	.Ram1EN_o(Ram1EN),
 	.Ram2EN_o(Ram2EN)
-	
+
 );
 
 ram1 _ram1(
@@ -386,7 +393,7 @@ hazard _hazard(
 
 endmodule
 
-//assign wrn = 1'b1;		//test ram 
+//assign wrn = 1'b1;		//test ram
 //assign rdn = 1'b1;
 //assign Ram2Addr = 17'b0;
 //assign Ram2Data = 17'bz;
