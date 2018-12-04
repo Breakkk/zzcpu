@@ -23,6 +23,8 @@ module mem(
 		
 		input [15:0] mem1_res_i,
 		input [15:0] mem2_res_i,
+		input memread_i,
+		input memwrite_i,
 		
 		output is_RAM1_o,
 		output is_UART_o,
