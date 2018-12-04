@@ -19,53 +19,63 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module mem(
-		input memread_i,
-		input memwrite_i,
-		input [15:0] memdata_i,
 		input [15:0] alures_i,
 		
-		input data_ready_in,
-		input tbre_in,
-		input tsre_in,
 		input [15:0] mem1_res_i,
 		input [15:0] mem2_res_i,
 		
+		output is_RAM1_o,
+		output is_UART_o,
 		output is_RAM2_o,
-		output reg read_o,	//0-read 1-write
-		output [15:0] memres_o,
-		
-		output reg Ram1EN_o,
-		output reg Ram2EN_o,
-		
-		output reg rdn_o,
-		output reg wrd_o
+		output [15:0] memres_o
     );
 	 
 	reg [1:0] res_from;  //00 - s_port 01 - ram1   10 - ram2
-	reg is_uart;
-	reg [15:0] uart_result;
+	reg is_RAM1;
+	reg is_UART;
+	reg is_RAM2;
 	
 	assign memres_o = res_from[1] ? mem2_res_i : mem1_res_i;
-	assign is_RAM2_o = res_from[1];
+	assign is_RAM1_o = is_RAM1;
+	assign is_UART_o = is_UART;
+	assign is_RAM2_o = is_RAM2;
 	
 	always @(*) begin
-		/*case({memread_i,memwrite_i})
-			2'b01:begin	//write
-				Ram1EN <= 1'b0;
-				read_o <= 1'b1;
-			end
-			2'b10:begin	//read
-				Ram1EN <= 1'b0;
-				read_o <= 1'b0;
-				
-			end
-			default:begin
-				Ram1EN <= 1'b1;
-				read_o <= 1'b0;
-				
-			end
-		endcase*/
-		if(alures_i<=16'hbeff)begin			//ram2
+		if(alures_i <= 16'h7Fff & alures_i >= 16'h0000)begin			//ram2
+			is_RAM1 <= 1'b0;
+			is_UART <= 1'b0;
+			is_RAM2 <= 1'b1;
+			res_from <=2'b10;
+		end
+		else if(alures_i >= 16'h8000 & alures_i <= 16'hffff)begin  	//ram1
+			is_RAM2 <= 1'b0;
+			case(alures_i)
+				16'hbf01:begin
+					is_RAM1 <= 1'b0;
+					is_UART <= 1'b1;
+					res_from <=2'b00;
+					//uart_result [15:0] <= {14'b00000000000000,data_ready_in,(tbre_in & tsre_in)};
+				end
+				16'hbf00:begin
+					is_RAM1 <= 1'b0;
+					is_UART <= 1'b1;
+					res_from <=2'b00;
+				end
+				default:begin
+					is_RAM1 <= 1'b1;
+					is_UART <= 1'b0;
+					res_from <= 2'b01;
+				end
+			endcase
+		end
+		else begin
+			is_RAM2 <= 1'b0;
+			is_RAM1 <= 1'b0;
+			is_UART <= 1'b0;
+		end
+		
+		
+		/*if(alures_i<=16'hbeff)begin			//ram2
 			res_from <= 2'b10;
 			is_uart <= 1'b0;
 			Ram1EN_o <= 1'b1;
@@ -112,7 +122,6 @@ module mem(
 		
 		else begin  //s_port
 			res_from <= 2'b00;
-			is_uart <= 1'b1;
 			Ram1EN_o <= 1'b1;
 			Ram2EN_o <= 1'b1;
 			case(alures_i)
@@ -120,23 +129,29 @@ module mem(
 					uart_result [15:0] <= {14'b00000000000000,data_ready_in,(tbre_in & tsre_in)};
 				end
 				16'hbf00:begin
-					
+					case({memread_i,memwrite_i})
+						2'b01:begin							//write
+							is_uart <= 1'b1;
+							read_o <= 1'b1;
+							rdn_o <= 1'b1;
+						end
+						2'b10:begin							//read
+							is_uart <= 1'b1;
+							read_o <= 1'b0;
+							wrd_o <= 1'b1;
+						end
+					endcase
+				end
+				
+				default:begin
+					is_uart <= 1'b0;
+					read_o <= 1'b0;
+					rdn_o <= 1'b1;
+					wrd_o <= 1'b1;
 				end
 			endcase
-			
-			/*case({memread_i,memwrite_i})
-				2'b01:begin							//write
-					read_o <= 1'b1;
-				end
-				2'b10:begin							//read
-					read_o <= 1'b0;
-				end
-				default:begin
-					Ram1EN <= 1'b1;
-				
-				end
-			endcase*/
-		end
+		
+		end*/
 	end
-
+	
 endmodule

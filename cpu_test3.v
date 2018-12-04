@@ -4,9 +4,9 @@
 // Company: 
 // Engineer:
 //
-// Create Date:   23:10:15 12/03/2018
+// Create Date:   23:44:19 12/04/2018
 // Design Name:   zzcpu
-// Module Name:   G:/ISE_Project/zzcpu/cpu_test2.v
+// Module Name:   G:/ISE_Project/zzcpu/cpu_test3.v
 // Project Name:  CPU
 // Target Device:  
 // Tool versions:  
@@ -22,12 +22,15 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module cpu_test2;
+module cpu_test3;
 
 	// Inputs
 	reg clk;
 	reg rst;
 	reg [15:0] l;
+	reg data_ready;
+	reg tbre;
+	reg tsre;
 
 	// Outputs
 	wire [15:0] light;
@@ -35,9 +38,16 @@ module cpu_test2;
 	wire Ram1OE;
 	wire Ram1WE;
 	wire Ram1EN;
+	wire [17:0] Ram2Addr;
+	wire Ram2OE;
+	wire Ram2WE;
+	wire Ram2EN;
+	wire wrn;
+	wire rdn;
 
 	// Bidirs
 	wire [15:0] Ram1Data;
+	wire [15:0] Ram2Data;
 
 	// Instantiate the Unit Under Test (UUT)
 	zzcpu uut (
@@ -49,7 +59,17 @@ module cpu_test2;
 		.Ram1Data(Ram1Data), 
 		.Ram1OE(Ram1OE), 
 		.Ram1WE(Ram1WE), 
-		.Ram1EN(Ram1EN)
+		.Ram1EN(Ram1EN), 
+		.Ram2Addr(Ram2Addr), 
+		.Ram2Data(Ram2Data), 
+		.Ram2OE(Ram2OE), 
+		.Ram2WE(Ram2WE), 
+		.Ram2EN(Ram2EN), 
+		.data_ready(data_ready), 
+		.tbre(tbre), 
+		.tsre(tsre), 
+		.wrn(wrn), 
+		.rdn(rdn)
 	);
 
 	initial begin
@@ -57,6 +77,9 @@ module cpu_test2;
 		clk = 0;
 		rst = 0;
 		l = 0;
+		data_ready = 0;
+		tbre = 0;
+		tsre = 0;
 
 		// Wait 100 ns for global reset to finish
 		#100;
