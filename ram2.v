@@ -76,7 +76,7 @@ always @(*) begin
 					is_ram_read <= 1'b1;
 				end
 				default:begin
-					en <= 1'b1;
+					en <= 1'b0;
 					is_ram_read <= 1'b1;
 				end
 			endcase

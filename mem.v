@@ -35,7 +35,7 @@ module mem(
 	reg is_UART;
 	reg is_RAM2;
 	
-	assign memres_o = res_from[1] ? mem2_res_i : mem1_res_i;
+	assign memres_o = is_RAM2 ? mem2_res_i : mem1_res_i;
 	assign is_RAM1_o = is_RAM1;
 	assign is_UART_o = is_UART;
 	assign is_RAM2_o = is_RAM2;
