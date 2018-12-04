@@ -25,12 +25,12 @@ module ram2(
 	inout [15:0] Ram2Data,
 	output Ram2OE,
 	output Ram2WE,
-	output [15:0] memres2_o,
+	output [15:0] mem2res_o,
 	input read,	//0-read 1-write
 	input clk
     );
 reg [15:0] memres2;
-assign memres_o = memres2;
+assign mem2res_o = memres2;
 
 wire oe;
 wire we;
