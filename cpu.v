@@ -22,7 +22,6 @@ module zzcpu(
 	input clk,
 	input rst,
 
-
 	output [15:0] light,
 	input [15:0] l,
 
@@ -47,10 +46,12 @@ module zzcpu(
 
 
 
+wire intercepted;
 wire flush_id;
 wire flush_ex;
 wire flush_if;
-wire intercepted;
+wire stall_pc;
+wire stall_if;
 
 
 // IF - pc
@@ -86,18 +87,38 @@ wire intercepted;
 // );
 
 // IF
-wire pc_if_o;
+wire [15:0] pc_if_o;
 wire ifjr_hdu_o;
 wire prewrong_hdu_o;
 wire precorrc_hdu_o;
 wire preresult_if_o;
+// signal from IM(RAM2) to IF & IF/ID
+wire [15:0] ram2res_ram2_o;
+// signal from ID to IF :
+wire [15:0] address_jr_id_o;
+wire isbranch_id_o;	// to HDU & IF
+// signal from IF to IF/ID
+wire [15:0] epc_if_o;
+wire [15:0] pcplus1_if_o;
+
+ifetch _if(
+	.CLK(clk),
+	.stall_pc_i(stall_pc),
+	.jr_i(ifjr_hdu_o),
+	.address_jr_i(address_jr_id_o),
+	.isbranch_i(isbranch_id_o),
+	.prewrong_i(prewrong_hdu_o),
+	.precorrc_i(precorrc_hdu_o),
+	.preresult_o(preresult_if_o),
+	.instr_i(ram2res_ram2_o),
+	.pc_o(pc_if_o),
+	.pcplus1_o(pcplus1_if_o),
+	.epc_o(epc_if_o)
+);
 
 // IF/ID
 // signal from HDU to IF/ID
 wire isintzero;
-// signal from IF to IF/ID
-wire [15:0] epc_id_o;
-wire [15:0] pcplus1_if_o;
 // signal from IF/ID to ID
 wire [15:0] instr_ifid_o;
 assign instr_ifid_o = l;
@@ -108,11 +129,12 @@ if_id _if_id(
 	.CLK(clk),
 	.flush_if_i(flush_if),
 	.isintzero_i(isintzero),
-	.epc_i(epc_id_o),
+	.stall_if_i(stall_if),
+	.epc_i(epc_if_o),
 	.pcplus1_i(pcplus1_if_o),
-	.epc_o(epc_id_o),
-	.pcpuls1_o(pcplus1_ifid_o),
 	.instr_i(ram2res_ram2_o),
+	.epc_o(epc_ifid_o),
+	.pcpuls1_o(pcplus1_ifid_o),
 	.instr_o(instr_ifid_o)
 );
 
@@ -139,9 +161,6 @@ wire [3:0] aluop_id_o;
 // signal from ID to Hazard detection unit
 wire isjump_id_o;
 wire ifbranch_id_o;
-// signal from ID to IF :
-wire [15:0] address_jr_id_o;
-wire isbranch_id_o;
 
 id _id(
 	.instr_i(instr_ifid_o),
@@ -277,7 +296,6 @@ ex_mem _ex_mem(
 
 // MEM
 wire [15:0] ram1res_ram1_o;
-wire [15:0] ram2res_ram2_o;
 wire is_RAM2_mem_o;
 wire is_RAM1_mem_o;
 wire is_UART_mem_o;
@@ -377,23 +395,26 @@ RegisterHeap _regheap(
 // Hazard detection unit
 hazard _hazard(
 	.CLK(clk),
-	.interception_i(intercepted),
-	.memtoreg_i(memtoreg_idex_o),			// LW hazard detection
+	.interception_i(intercepted),			// Interception
+	.ram2_conflict_i(is_RAM2_mem_o),			// SRAM Hazard
+	.memtoreg_i(memtoreg_idex_o),			// Data Hazard -- LW
 	.memread_i(memread_idex_o),
 	.regsrc1_i(regsrc1_id_o),
 	.regsrc2_i(regsrc2_id_o),
 	.regdst_i(regdst_idex_o),
-	.isjump_i(isjump_id_o),					// jr instruction
+	.isjump_i(isjump_id_o),					// Control Hazard -- Jump
 	.jr_o(ifjr_hdu_o),						// jr giving order to IF
-	.isbranch_i(isbranch_id_o),
-	.ifbranch_i(ifbranch_id_o),				// branch instruction --- do branch
-	.prediction_i(preresult_if_o),			// branch instruction --- prediction res
-	.prewrong_o(prewrong_hdu_o),			// branch instruction --- prediction wrong  -- IF.Flush
-	.precorrc_o(precorrc_hdu_o),
+	.isbranch_i(isbranch_id_o),				// Control Hazard -- Branch
+	.ifbranch_i(ifbranch_id_o),				// do branch
+	.prediction_i(preresult_if_o),			// prediction res
+	.prewrong_o(prewrong_hdu_o),			// prediction wrong
+	.precorrc_o(precorrc_hdu_o),			// prediction correct 
 	.flush_if_o(flush_if),
 	.flush_id_o(flush_id),
 	.flush_ex_o(flush_ex),
 	.isintzero_o(isintzero),
+	.stall_pc_o(stall_pc),
+	.stall_if_o(stall_if),
 	.epc_i(epc_idex_o),
 	.epc_o(epc_hdu_o)
 );
