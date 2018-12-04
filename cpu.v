@@ -86,6 +86,7 @@ wire intercepted;
 // );
 
 // IF
+wire pc_if_o;
 wire ifjr_hdu_o;
 wire prewrong_hdu_o;
 wire precorrc_hdu_o;
@@ -99,21 +100,21 @@ wire [15:0] epc_id_o;
 wire [15:0] pcplus1_if_o;
 // signal from IF/ID to ID
 wire [15:0] instr_ifid_o;
-//assign instr = l;
+assign instr_ifid_o = l;
 wire [15:0] epc_ifid_o;
 wire [15:0] pcplus1_ifid_o;
 
-if_id _if_id(
-	.CLK(clk),
-	.flush_if_i(flush_if),
-	.isintzero_i(isintzero),
-	.epc_i(epc_id_o),
-	.pcplus1_i(pcplus1_if_o),
-	.epc_o(epc_id_o)
-	.pcpuls1_o(pcplus1_ifid_o),
-	.instr_i(Ram2Data),
-	.instr_o(instr_ifid_o)
-);
+// if_id _if_id(
+// 	.CLK(clk),
+// 	.flush_if_i(flush_if),
+// 	.isintzero_i(isintzero),
+// 	.epc_i(epc_id_o),
+// 	.pcplus1_i(pcplus1_if_o),
+// 	.epc_o(epc_id_o),
+// 	.pcpuls1_o(pcplus1_ifid_o),
+// 	.instr_i(Ram2Data),
+// 	.instr_o(instr_ifid_o)
+// );
 
 // ID
 // signal from RegHeap to ID
@@ -275,10 +276,11 @@ ex_mem _ex_mem(
 );
 
 // MEM
-wire [15:0] mem1res;
-wire [15:0] mem2res;
-wire is_read; //0-read 1-write
-wire is_RAM2;
+wire [15:0] ram1res_ram1_o;
+wire [15:0] ram2res_ram2_o;
+wire is_RAM2_mem_o;
+wire is_RAM1_mem_o;
+wire is_UART_mem_o;
 wire [15:0] memres_mem_o;
 //assign memres_mem_o = Ram1Data;
 
@@ -287,46 +289,52 @@ assign light = memres_mem_o;
 assign wrn = 1'b1;
 assign rdn = 1'b1;
 mem _mem(
-	.memread_i(memread_exmem_o),
-	.memwrite_i(memwrite_exmem_o),
-	.memdata_i(memdata_exmem_o),
 	.alures_i(alures_exmem_o),
-	.data_ready_in(data_ready),
-	.tbre_in(tbre),
-	.tsre_in(tsre),
-	.is_RAM2_o(is_RAM2),
 	.mem1_res_i(mem1res),
 	.mem2_res_i(mem2res),
-	.memres_o(memres_mem_o),
-	.read_o(is_read),
-	.Ram1EN_o(Ram1EN),
-	.Ram2EN_o(Ram2EN)
-
+	.is_RAM2_o(is_RAM2_mem_o),
+	.is_RAM1_o(is_RAM1_mem_o),
+	.is_UART_o(is_UART_mem_o),
+	.memres_o(memres_mem_o)
 );
 
 ram1 _ram1(
-	.addr({2'b00,alures_exmem_o}),
-	.data(memdata_exmem_o),
-	.Ram1Addr(Ram1Addr),
-	.Ram1Data(Ram1Data),	//ָ������
-	.Ram1OE(Ram1OE),
-	.Ram1WE(Ram1WE),
-	.read(is_read),
-	.mem1res_o(mem1res),
+	.data_ready_i(data_ready),
+	.tbre_i(tbre),
+	.tsre_i(tsre),
+	.wrn_o(wrn),
+	.rdn_o(rdn),
+	.Ram1Addr_o(Ram1Addr),
+	.Ram1Data_o(Ram1Data),
+	.Ram1OE_o(Ram1OE),
+	.Ram1WE_o(Ram1WE),
+	.Ram1EN_o(Ram1EN),
+	.is_RAM1_i(is_RAM1_mem_o),
+	.is_UART_i(is_UART_mem_o),
+	.addr_i({2'b00,alures_exmem_o}),
+	.data_i(memdata_exmem_o),
+	.isread_i(memread_exmem_o),
+	.iswrite_i(memwrite_exmem_o),
+	.ram1res_o(ram1res_ram1_o),
 	.clk(clk)
 );
 
 ram2 _ram2(
-	.addr({2'b00,alures_exmem_o}),
-	.data(memdata_exmem_o),
-	.Ram2Addr(Ram2Addr),
-	.Ram2Data(Ram2Data),	//ָ������
-	.Ram2OE(Ram2OE),
-	.Ram2WE(Ram2WE),
-	.read(is_read),
-	.mem2res_o(mem2res),
+	.Ram2Addr_o(Ram2Addr),
+	.Ram2Data_o(Ram2Data),
+	.Ram2OE_o(Ram2OE),
+	.Ram2WE_o(Ram2WE),
+	.Ram2EN_o(Ram2EN),
+	.is_RAM2_mem_i(is_RAM2_mem_o),
+	.addr_mem_i({2'b00,alures_exmem_o}),
+	.data_mem_i(memdata_exmem_o),
+	.isread_mem_i(memread_exmem_o),
+	.iswrite_mem_i(memwrite_exmem_o),
+	.addr_if_i(pc_if_o),
+	.ram2res_o(ram2res_ram2_o),
 	.clk(clk)
 );
+
 // MEM/WB
 wire [15:0] alures_memwb_o;
 wire [15:0] memres_memwb_o;
