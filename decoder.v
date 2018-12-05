@@ -91,8 +91,8 @@ module decoder#(
 	reg is_branch_temp = 1'b0;
 	reg REG_WRI_temp_temp = 1'b0;
 	reg [OPERRATOR_WIDTH-1:0] ALU_OP_temp = EMPTY;
-	reg mem_read_temp;
-	reg mem_write_temp;
+	reg mem_read_temp = 1'b0;
+	reg mem_write_temp = 1'b0;
 	reg REG_WRI_temp = 1'b0;
 	reg MemToReg_temp = 1'b0;
 
