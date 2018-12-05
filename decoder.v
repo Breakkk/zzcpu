@@ -46,8 +46,8 @@ module decoder#(
 		output [OPERRATOR_WIDTH-1:0] ALU_OP,
 
 		//MEM
-		output reg mem_read,
-		output reg mem_write,
+		output mem_read,
+		output mem_write,
 
 		//WB
 		output REG_WRI,
@@ -91,12 +91,17 @@ module decoder#(
 	reg is_branch_temp = 1'b0;
 	reg REG_WRI_temp_temp = 1'b0;
 	reg [OPERRATOR_WIDTH-1:0] ALU_OP_temp = EMPTY;
+	reg mem_read_temp;
+	reg mem_write_temp;
 	reg REG_WRI_temp = 1'b0;
 	reg MemToReg_temp = 1'b0;
+
 	assign is_jump = is_jump_temp;
 	assign is_branch = is_branch_temp;
 	assign REG_WRI_tempTE = REG_WRI_temp_temp;
 	assign ALU_OP = ALU_OP_temp;
+	assign mem_read = mem_read_temp;
+	assign mem_write = mem_write_temp;
 	assign REG_WRI = REG_WRI_temp;
 	assign MemToReg = MemToReg_temp;
 
@@ -119,8 +124,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[10:8]};
@@ -143,8 +148,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[7:5]};
@@ -169,8 +174,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= SP;
@@ -194,8 +199,8 @@ module decoder#(
 						is_branch_temp <= 1'b1;
 						eqz <= EQU_ZERO;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b0;
 						w_reg <= EMP_REG;
@@ -215,8 +220,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= SP;
@@ -240,8 +245,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b1;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b0;
 						w_reg <= EMP_REG;
@@ -264,8 +269,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b1;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b1;
 
 						REG_WRI_temp_temp <= 1'b0;
 						w_reg <= EMP_REG;
@@ -290,8 +295,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[4:2]};
@@ -311,8 +316,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[4:2]};
@@ -339,8 +344,8 @@ module decoder#(
 				is_branch_temp <= 1'b1;
 				eqz <= B_IMME;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
@@ -364,8 +369,8 @@ module decoder#(
 				is_branch_temp <= 1'b1;
 				eqz <= EQU_ZERO;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
@@ -389,8 +394,8 @@ module decoder#(
 				is_branch_temp <= 1'b1;
 				eqz <= NOT_EQU_ZERO;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
@@ -412,8 +417,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[10:8]};
@@ -433,8 +438,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= T;
@@ -457,8 +462,8 @@ module decoder#(
 								is_jump_temp <= 1'b1;
 								is_branch_temp <= 1'b0;
 
-								mem_read <= 1'b0;
-								mem_write <= 1'b0;
+								mem_read_temp <= 1'b0;
+								mem_write_temp <= 1'b0;
 
 								REG_WRI_temp_temp <= 1'b0;
 								w_reg <= EMP_REG;
@@ -478,8 +483,8 @@ module decoder#(
 								is_jump_temp <= 1'b0;
 								is_branch_temp <= 1'b0;
 
-								mem_read <= 1'b0;
-								mem_write <= 1'b0;
+								mem_read_temp <= 1'b0;
+								mem_write_temp <= 1'b0;
 
 								REG_WRI_temp_temp <= 1'b1;
 								w_reg <= {1'b0,instruction[10:8]};
@@ -501,8 +506,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[10:8]};
@@ -522,8 +527,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= T;
@@ -544,8 +549,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[7:5]};
@@ -567,8 +572,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[10:8]};
@@ -591,8 +596,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b1;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b1;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[7:5]};
@@ -616,8 +621,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b1;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b1;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[10:8]};
@@ -640,8 +645,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[10:8]};
@@ -661,8 +666,8 @@ module decoder#(
 						is_jump_temp <= 1'b0;
 						is_branch_temp <= 1'b0;
 
-						mem_read <= 1'b0;
-						mem_write <= 1'b0;
+						mem_read_temp <= 1'b0;
+						mem_write_temp <= 1'b0;
 
 						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= IH;
@@ -684,8 +689,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
@@ -714,8 +719,8 @@ module decoder#(
 					is_jump_temp <= 1'b0;
 					is_branch_temp <= 1'b0;
 
-					mem_read <= 1'b0;
-					mem_write <= 1'b0;
+					mem_read_temp <= 1'b0;
+					mem_write_temp <= 1'b0;
 
 					REG_WRI_temp_temp <= 1'b1;
 					w_reg <= {1'b0,instruction[10:8]};
@@ -742,8 +747,8 @@ module decoder#(
 					is_jump_temp <= 1'b0;
 					is_branch_temp <= 1'b0;
 
-					mem_read <= 1'b0;
-					mem_write <= 1'b0;
+					mem_read_temp <= 1'b0;
+					mem_write_temp <= 1'b0;
 
 					REG_WRI_temp_temp <= 1'b1;
 					w_reg <= {1'b0,instruction[10:8]};
@@ -768,8 +773,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b1;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b1;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
@@ -792,8 +797,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b1;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b1;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
@@ -816,8 +821,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= T;
@@ -844,8 +849,8 @@ module decoder#(
 				is_jump_temp <= 1'b1;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
@@ -866,8 +871,8 @@ module decoder#(
 				is_jump_temp <= 1'b0;
 				is_branch_temp <= 1'b0;
 
-				mem_read <= 1'b0;
-				mem_write <= 1'b0;
+				mem_read_temp <= 1'b0;
+				mem_write_temp <= 1'b0;
 
 				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
