@@ -41,9 +41,9 @@ module ram1(
 		input clk
     );
 	 
-reg is_uart_read;			
-reg is_uart_write;
-reg is_ram_read;			
+reg is_uart_read = 1'b0;			
+reg is_uart_write = 1'b0;
+reg is_ram_read = 1'b0;			
 
 wire read; 					
 assign read = is_ram_read | is_uart_read; 				
@@ -53,7 +53,7 @@ assign wrn_o = !is_uart_write ? 1'b1 : !clk;
 
 wire oe;
 wire we;
-reg en;
+reg en = 1'b0;
 assign Ram1OE_o = !is_ram_read ? 1'b1 : !clk;
 assign Ram1WE_o = !is_ram_read ? !clk : 1'b1;
 assign Ram1EN_o = en;

@@ -24,7 +24,7 @@ module ALU#(parameter OPERRATOR_WIDTH = 4)(
 		input [15:0] srcdata_b,
 		output [15:0] result
     );
-	reg [15:0] temp_result;
+	reg [15:0] temp_result = 16'h0000;
 	
 	parameter ADD = 4'b0000;
 	parameter AND = 4'b0001;

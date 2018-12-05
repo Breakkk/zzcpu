@@ -32,11 +32,11 @@ module mem_wb(
     output [15:0] memres_o
     );
 	
-    reg memtoreg;
-    reg [3:0] regdst;
-    reg regwrite;
-    reg [15:0] alures;
-    reg [15:0] memres;
+    reg memtoreg = 1'b0;
+    reg [3:0] regdst = 4'b1111;
+    reg regwrite = 1'b0;
+    reg [15:0] alures = 16'h0000;
+    reg [15:0] memres = 16'h0000;
 	
 	assign memtoreg_o = memtoreg;
 	assign regdst_o = regdst;

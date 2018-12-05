@@ -44,14 +44,14 @@ module ram2(
 		output [15:0] mem2res_o,
 		input read,	//0-read 1-write*/
     );
-reg [15:0] memres2;
+reg [15:0] memres2 = 16'h0000;
 assign ram2res_o = memres2;
 
-reg is_ram_read;
+reg is_ram_read = 1'b0;
 
 wire oe;
 wire we;
-reg en;
+reg en = 1'b0;
 assign Ram2OE_o = !is_ram_read ? 1'b1 : !clk;
 assign Ram2WE_o = !is_ram_read ? !clk : 1'b1;
 assign Ram2EN_o = en;

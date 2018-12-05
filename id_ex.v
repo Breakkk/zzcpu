@@ -49,19 +49,19 @@ module id_ex(
     output [15:0] epc_o
     );
 
-	reg regwrite;
-	reg memtoreg;
-	reg memread;
-	reg memwrite;
-	reg [15:0] memdata;
-	reg [3:0] aluop;
-	reg [15:0] alusrc1;
-	reg [15:0] alusrc2;
-	reg [3:0] regsrc1;
-	reg [3:0] regsrc2;
-	reg [3:0] regsrc_sw;
-	reg [3:0] regdst;
-	reg [15:0] epc;
+	reg regwrite = 1'b0;
+	reg memtoreg = 1'b0;
+	reg memread = 1'b0;
+	reg memwrite = 1'b0;
+	reg [15:0] memdata = 16'h0000;
+	reg [3:0] aluop = 4'b0000;
+	reg [15:0] alusrc1 = 16'h0000;
+	reg [15:0] alusrc2 = 16'h0000;
+	reg [3:0] regsrc1 = 4'b1111;
+	reg [3:0] regsrc2 = 4'b1111;
+	reg [3:0] regsrc_sw = 4'b1111;
+	reg [3:0] regdst = 4'b1111;
+	reg [15:0] epc = 16'h0000;
 	
 	assign regwrite_o = regwrite;
 	assign memtoreg_o = memtoreg;

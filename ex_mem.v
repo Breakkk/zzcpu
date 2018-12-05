@@ -37,13 +37,13 @@ module ex_mem(
     output [15:0] alures_o
     );
 
-    reg regwrite;
-    reg memtoreg;
-	reg memread;
-	reg memwrite;
-	reg [15:0] memdata;
-    reg [3:0] regdst;
-    reg [15:0] alures;
+    reg regwrite = 1'b0;
+    reg memtoreg = 1'b0;
+	reg memread = 1'b0;
+	reg memwrite = 1'b0;
+	reg [15:0] memdata = 16'h0000;
+    reg [3:0] regdst = 4'b1111;
+    reg [15:0] alures = 16'h0000;
 	
 	assign regwrite_o = regwrite;
 	assign memtoreg_o = memtoreg;
