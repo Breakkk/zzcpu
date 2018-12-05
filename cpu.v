@@ -126,6 +126,10 @@ wire [15:0] instr_ifid_o;
 wire [15:0] epc_ifid_o;
 wire [15:0] pcplus1_ifid_o;
 
+//assign light[15] = ifjr_hdu_o;
+//assign light[14] = isbranch_id_o;
+assign light[14:8] = instr_ifid_o[5:0];
+assign light[6:0] = ram2res_ram2_o[6:0];
 if_id _if_id(
 	.CLK(clk),
 	.flush_if_i(flush_if),
@@ -163,6 +167,8 @@ wire [3:0] aluop_id_o;
 wire isjump_id_o;
 wire ifbranch_id_o;
 
+
+assign light[7] = isjump_id_o;
 id _id(
 	.instr_i(instr_ifid_o),
 	.rdata1_i(regdata1_rh_o),
@@ -302,8 +308,8 @@ wire is_RAM1_mem_o;
 wire is_UART_mem_o;
 wire [15:0] memres_mem_o;
 
-assign light = memres_mem_o;
-
+//assign light = memres_mem_o;
+assign light[15] = is_RAM2_mem_o;
 // assign wrn = 1'b1;
 // assign rdn = 1'b1;
 mem _mem(
@@ -411,7 +417,7 @@ hazard _hazard(
 	.ifbranch_i(ifbranch_id_o),				// do branch
 	.prediction_i(preresult_if_o),			// prediction res
 	.prewrong_o(prewrong_hdu_o),			// prediction wrong
-	.precorrc_o(precorrc_hdu_o),			// prediction correct 
+	.precorrc_o(precorrc_hdu_o),			// prediction correct
 	.flush_if_o(flush_if),
 	.flush_id_o(flush_id),
 	.flush_ex_o(flush_ex),

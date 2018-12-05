@@ -46,7 +46,7 @@ module mem(
 		if(alures_i <= 16'h7Fff & alures_i >= 16'h0000)begin			//ram2
 			is_RAM1 <= 1'b0;
 			is_UART <= 1'b0;
-			is_RAM2 <= 1'b1;
+			is_RAM2 <= (memread_i | memwrite_i);
 			res_from <=2'b10;
 		end
 		else if(alures_i >= 16'h8000 & alures_i <= 16'hffff)begin  	//ram1
