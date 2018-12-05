@@ -34,7 +34,7 @@ module ifetch(
     output [15:0] epc_o
     );
     
-    reg resetpc;
+    reg reset;  // reset pc
 
     // fake prediction
     assign preresult_o = 1'b0;
