@@ -56,10 +56,10 @@ module ex_mem(
 	
 	always@(posedge CLK or negedge RST) begin
 		if (!RST) begin
-			regwrite = 1'b0;
-			memtoreg = 1'b0;
-			memread = 1'b0;
-			memwrite = 1'b0;
+			regwrite <= 1'b0;
+			memtoreg <= 1'b0;
+			memread <= 1'b0;
+			memwrite <= 1'b0;
 		end else begin
 			memtoreg <= ((!flush_ex_i) & memtoreg_i);
 			memread <= ((!flush_ex_i) & memread_i);
