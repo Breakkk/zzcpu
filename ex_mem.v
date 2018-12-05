@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module ex_mem(
 	input CLK,
+	input RST,
     input flush_ex_i,
     input regwrite_i,
     input memtoreg_i,
@@ -53,14 +54,21 @@ module ex_mem(
 	assign regdst_o = regdst;
 	assign alures_o = alures;
 	
-	always@(posedge CLK) begin
-		memtoreg <= ((!flush_ex_i) & memtoreg_i);
-		memread <= ((!flush_ex_i) & memread_i);
-		memwrite <= ((!flush_ex_i) & memwrite_i);
-		regwrite <= ((!flush_ex_i) & regwrite_i);
-		memdata <= memdata_i;
-		alures <= alures_i;
-		regdst <= regdst_i;
+	always@(posedge CLK or negedge RST) begin
+		if (!RST) begin
+			regwrite = 1'b0;
+			memtoreg = 1'b0;
+			memread = 1'b0;
+			memwrite = 1'b0;
+		end else begin
+			memtoreg <= ((!flush_ex_i) & memtoreg_i);
+			memread <= ((!flush_ex_i) & memread_i);
+			memwrite <= ((!flush_ex_i) & memwrite_i);
+			regwrite <= ((!flush_ex_i) & regwrite_i);
+			memdata <= memdata_i;
+			alures <= alures_i;
+			regdst <= regdst_i;
+		end
 	end
 
 endmodule

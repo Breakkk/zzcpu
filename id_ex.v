@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module id_ex(
 	input CLK,
+	input RST,
     input regwrite_i,
     input memtoreg_i,
     input memread_i,
@@ -77,19 +78,26 @@ module id_ex(
 	assign regdst_o = regdst;
 	assign epc_o = epc;
 	
-	always@(posedge CLK) begin
-		regwrite <= ((!flush_id_i) & regwrite_i);
-		memtoreg <= ((!flush_id_i) & memtoreg_i);
-		memread <= ((!flush_id_i) & memread_i);
-		memwrite <= ((!flush_id_i) & memwrite_i);
-		memdata <= memdata_i;
-		aluop <= aluop_i;
-		alusrc1 <= alusrc1_i;
-		alusrc2 <= alusrc2_i;
-		regsrc1 <= regsrc1_i;
-		regsrc2 <= regsrc2_i;
-		regsrc_sw <= regsrc_sw_i;
-		regdst <= regdst_i;
-		epc <= epc_i;
+	always@(posedge CLK or negedge RST) begin
+		if (!RST) begin
+			regwrite <= 1'b0;
+			memtoreg <= 1'b0;
+			memread <= 1'b0;
+			memwrite <= 1'b0;
+		end else begin
+			regwrite <= ((!flush_id_i) & regwrite_i);
+			memtoreg <= ((!flush_id_i) & memtoreg_i);
+			memread <= ((!flush_id_i) & memread_i);
+			memwrite <= ((!flush_id_i) & memwrite_i);
+			memdata <= memdata_i;
+			aluop <= aluop_i;
+			alusrc1 <= alusrc1_i;
+			alusrc2 <= alusrc2_i;
+			regsrc1 <= regsrc1_i;
+			regsrc2 <= regsrc2_i;
+			regsrc_sw <= regsrc_sw_i;
+			regdst <= regdst_i;
+			epc <= epc_i;
+		end
 	end
 endmodule

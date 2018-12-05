@@ -132,6 +132,7 @@ assign light[14:8] = instr_ifid_o[5:0];
 assign light[6:0] = ram2res_ram2_o[6:0];
 if_id _if_id(
 	.CLK(clk),
+	.RST(rst),
 	.flush_if_i(flush_if),
 	.isintzero_i(isintzero),
 	.stall_if_i(stall_if),
@@ -213,6 +214,7 @@ wire memwrite_idex_o;
 
 id_ex _id_ex(
 	.CLK(clk),
+	.RST(rst),
 	.regwrite_i(regwrite_id_o),			//input
 	.memtoreg_i(memtoreg_id_o),
 	.memread_i(memread_id_o),
@@ -284,6 +286,7 @@ wire memtoreg_exmem_o;
 
 ex_mem _ex_mem(
 	.CLK(clk),
+	.RST(rst),
 	.flush_ex_i(flush_ex),					//input
 	.regwrite_i(regwrite_idex_o),
 	.memtoreg_i(memtoreg_idex_o),
@@ -367,6 +370,7 @@ wire [15:0] memres_memwb_o;
 wire memtoreg_memwb_o;
 mem_wb _mem_wb(
 	.CLK(clk),
+	.RST(rst),
 	.memtoreg_i(memtoreg_exmem_o),
 	.regdst_i(regdst_exmem_o),
 	.regwrite_i(regwrite_exmem_o),

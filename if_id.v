@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module if_id(
 	input CLK,
+	input RST,
 	input flush_if_i,
 	input isintzero_i,
 	input stall_if_i,
@@ -31,16 +32,22 @@ module if_id(
 	output reg [15:0] instr_o
     );
 	
-	always@(posedge CLK) begin
-		if (isintzero_i) begin
-	  		instr_o <= 16'b1111100000000000;		// instrcution code of INT 0
-		end else if (!stall_if_i) begin
-			if (flush_if_i) begin
-				instr_o <= 16'b0000100000000000;		// instruction code of NOP
-			end else begin
-				epc_o <= epc_i;
-				pcplus1_o <= pcplus1_i;
-				instr_o <= instr_i;
+	always@(posedge CLK or negedge RST) begin
+		if (!RST) begin
+			instr_o <= 16'b0000100000000000;
+			epc_o <= 16'h0000;
+			pcplus1_o <= 16'h0000;
+		end else begin
+			if (isintzero_i) begin
+				instr_o <= 16'b1111100000000000;		// instrcution code of INT 0
+			end else if (!stall_if_i) begin
+				if (flush_if_i) begin
+					instr_o <= 16'b0000100000000000;		// instruction code of NOP
+				end else begin
+					epc_o <= epc_i;
+					pcplus1_o <= pcplus1_i;
+					instr_o <= instr_i;
+				end
 			end
 		end
 	end

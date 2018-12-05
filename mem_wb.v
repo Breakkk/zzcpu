@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module mem_wb(
 	input CLK,
+	input RST,
     input memtoreg_i,
     input [3:0] regdst_i,
     input regwrite_i,
@@ -32,24 +33,30 @@ module mem_wb(
     output [15:0] memres_o
     );
 	
-    reg memtoreg = 1'b0;
-    reg [3:0] regdst = 4'b1111;
-    reg regwrite = 1'b0;
-    reg [15:0] alures = 16'h0000;
-    reg [15:0] memres = 16'h0000;
+    reg memtoreg;
+    reg [3:0] regdst;
+    reg regwrite;
+    reg [15:0] alures;
+    reg [15:0] memres;
 	
 	assign memtoreg_o = memtoreg;
 	assign regdst_o = regdst;
-	assign regwrite_o =regwrite;
+	assign regwrite_o = regwrite;
 	assign alures_o = alures;
 	assign memres_o = memres;
 	
-	always@(posedge CLK) begin
-		memtoreg <= memtoreg_i;
-		regdst <= regdst_i;
-		regwrite <= regwrite_i;
-		alures <= alures_i;
-		memres <= memres_i;
+	always@(posedge CLK or negedge RST) begin
+		if (!RST) begin
+			memtoreg <= 1'b0;
+			regdst <= 1'b1111;
+			regwrite <= 1'b0;
+		end else begin
+			memtoreg <= memtoreg_i;
+			regdst <= regdst_i;
+			regwrite <= regwrite_i;
+			alures <= alures_i;
+			memres <= memres_i;
+		end
 	end
 
 endmodule
