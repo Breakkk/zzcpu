@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module ifetch(
     input CLK,
+    input RST,
     input stall_pc_i,
     input jr_i,
     input [15:0] address_jr_i,
@@ -33,6 +34,8 @@ module ifetch(
     output [15:0] epc_o
     );
     
+    reg resetpc;
+
     // fake prediction
     assign preresult_o = 1'b0;
 
@@ -66,12 +69,21 @@ module ifetch(
     assign pc_o = pc;
     assign pcplus1_o = pcplus1;
 
-    always@(posedge CLK) begin
-        if (!stall_pc_i) begin
-            pc_lock = pc;
-            pcplus1_lock = pcplus1;
-            pcplusimm_lock = pc;
-            pc = nextpc;
+    always@(posedge CLK or negedge RST) begin
+        if (!RST) begin
+            reset = 1'b1;
+        end else begin
+            if (!stall_pc_i) begin
+                if (reset) begin
+                    pc = 16'h0000;
+                    reset = 1'b0;
+                end else begin
+                    pc_lock = pc;
+                    pcplus1_lock = pcplus1;
+                    pcplusimm_lock = pc;
+                    pc = nextpc;
+                end
+            end
         end
     end
 endmodule

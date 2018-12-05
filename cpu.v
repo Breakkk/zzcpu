@@ -103,6 +103,7 @@ wire [15:0] pcplus1_if_o;
 
 ifetch _if(
 	.CLK(clk),
+	.RST(rst),
 	.stall_pc_i(stall_pc),
 	.jr_i(ifjr_hdu_o),
 	.address_jr_i(address_jr_id_o),
