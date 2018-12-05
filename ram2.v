@@ -45,7 +45,7 @@ module ram2(
 		input read,	//0-read 1-write*/
     );
 reg [15:0] memres2;
-assign mem2res_o = memres2;
+assign ram2res_o = memres2;
 
 reg is_ram_read;
 
@@ -62,7 +62,7 @@ assign Ram2Addr_o = is_RAM2_mem_i ? addr_mem_i : {2'b00,addr_if_i};
 always @(*) begin
 	case(is_RAM2_mem_i)
 		1'b0:begin
-			en <= 1'b1;
+			en <= 1'b0;
 			is_ram_read <= 1'b1;
 		end
 		1'b1:begin
@@ -86,6 +86,8 @@ end
 
 
 always@(negedge clk) begin
-	memres2 <= Ram2Data_io;
+	if (is_ram_read == 1'b1) begin
+		memres2 <= Ram2Data_io;
+	end
 end
 endmodule
