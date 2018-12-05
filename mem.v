@@ -1,47 +1,47 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    22:32:16 12/02/2018 
-// Design Name: 
-// Module Name:    mem 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    22:32:16 12/02/2018
+// Design Name:
+// Module Name:    mem
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module mem(
 		input [15:0] alures_i,
-		
+
 		input [15:0] mem1_res_i,
 		input [15:0] mem2_res_i,
 		input memread_i,
 		input memwrite_i,
-		
+
 		output is_RAM1_o,
 		output is_UART_o,
 		output is_RAM2_o,
 		output [15:0] memres_o
     );
-	 
+
 	reg [1:0] res_from;  //00 - s_port 01 - ram1   10 - ram2
-	reg is_RAM1;
-	reg is_UART;
-	reg is_RAM2;
-	
+	reg is_RAM1 = 1'b0;
+	reg is_UART = 1'b0;
+	reg is_RAM2 = 1'b0;
+
 	assign memres_o = is_RAM2 ? mem2_res_i : mem1_res_i;
 	assign is_RAM1_o = is_RAM1;
 	assign is_UART_o = is_UART;
 	assign is_RAM2_o = is_RAM2;
-	
+
 	always @(*) begin
 		if(alures_i <= 16'h7Fff & alures_i >= 16'h0000)begin			//ram2
 			is_RAM1 <= 1'b0;
@@ -75,8 +75,8 @@ module mem(
 			is_RAM1 <= 1'b0;
 			is_UART <= 1'b0;
 		end
-		
-		
+
+
 		/*if(alures_i<=16'hbeff)begin			//ram2
 			res_from <= 2'b10;
 			is_uart <= 1'b0;
@@ -95,7 +95,7 @@ module mem(
 				default:begin
 					Ram2EN_o <= 1'b1;
 					read_o <= 1'b0;
-				
+
 				end
 			endcase
 		end
@@ -117,11 +117,11 @@ module mem(
 				default:begin
 					Ram1EN_o <= 1'b1;
 					read_o <= 1'b0;
-				
+
 				end
 			endcase
 		end
-		
+
 		else begin  //s_port
 			res_from <= 2'b00;
 			Ram1EN_o <= 1'b1;
@@ -144,7 +144,7 @@ module mem(
 						end
 					endcase
 				end
-				
+
 				default:begin
 					is_uart <= 1'b0;
 					read_o <= 1'b0;
@@ -152,8 +152,8 @@ module mem(
 					wrd_o <= 1'b1;
 				end
 			endcase
-		
+
 		end*/
 	end
-	
+
 endmodule

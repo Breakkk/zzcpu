@@ -47,7 +47,7 @@ module ram2(
 reg [15:0] memres2 = 16'h0000;
 assign ram2res_o = memres2;
 
-reg is_ram_read = 1'b0;
+reg is_ram_read = 1'b1;
 
 wire oe;
 wire we;

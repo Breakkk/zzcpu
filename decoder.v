@@ -37,22 +37,22 @@ module decoder#(
 		output reg [REG_WIDTH-1:0] regsrc_B,
 		output reg [REG_WIDTH-1:0] regsrc_sw,
 
-		output reg is_jump,
-		output reg is_branch,
+		output is_jump,
+		output is_branch,
 
 		output reg [1:0] eqz,
 
 		//Ex
-		output reg [OPERRATOR_WIDTH-1:0] ALU_OP,
+		output [OPERRATOR_WIDTH-1:0] ALU_OP,
 
 		//MEM
 		output reg mem_read,
 		output reg mem_write,
 
 		//WB
-		output reg REG_WRI,
+		output REG_WRI,
 		output reg [REG_WIDTH-1:0] w_reg,//д�Ĵ�����ַ
-		output reg MemToReg         //д���Ĵ�����������Դ��ALU 0 or MEM 1)
+		output MemToReg         //д���Ĵ�����������Դ��ALU 0 or MEM 1)
 
     );
 
@@ -87,11 +87,23 @@ module decoder#(
 	parameter EQU_ZERO = 2'b01;
 	parameter NOT_EQU_ZERO = 2'b10;
 
+	reg is_jump_temp = 1'b0;
+	reg is_branch_temp = 1'b0;
+	reg REG_WRI_temp_temp = 1'b0;
+	reg [OPERRATOR_WIDTH-1:0] ALU_OP_temp = EMPTY;
+	reg REG_WRI_temp = 1'b0;
+	reg MemToReg_temp = 1'b0;
+	assign is_jump = is_jump_temp;
+	assign is_branch = is_branch_temp;
+	assign REG_WRI_tempTE = REG_WRI_temp_temp;
+	assign ALU_OP = ALU_OP_temp;
+	assign REG_WRI = REG_WRI_temp;
+	assign MemToReg = MemToReg_temp;
 
 	always @(*) begin
 		case (instruction[15:11])
 			5'b01001:begin 	//ADDIU
-				ALU_OP <= ADD;
+				ALU_OP_temp <= ADD;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= EMP_REG;
 				case(instruction[7])
@@ -104,18 +116,18 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b1;
+				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[10:8]};
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b01000:begin 	//ADDIU3
-				ALU_OP <= ADD;
+				ALU_OP_temp <= ADD;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= EMP_REG;
 				case(instruction[3])
@@ -128,20 +140,20 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b1;
+				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[7:5]};
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b01100:begin 	//ADDSP	BTEQZ	 MTSP	 BTNEZ	SW_RS
 				case(instruction[10:8])
 					3'b011:begin	//ADDSP
-						ALU_OP <= ADD;
+						ALU_OP_temp <= ADD;
 						r_reg_A <= SP;
 						r_reg_B <= EMP_REG;
 						case(instruction[7])
@@ -154,18 +166,18 @@ module decoder#(
 						regsrc_B <= EMP_REG;
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= SP;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					3'b000:begin	//BTEQZ
-						ALU_OP <= EMPTY;
+						ALU_OP_temp <= EMPTY;
 						r_reg_A <= T;
 						r_reg_B <= EMP_REG;
 						case(instruction[7])
@@ -178,19 +190,19 @@ module decoder#(
 						regsrc_B <= EMP_REG;
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b1;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b1;
 						eqz <= EQU_ZERO;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b0;
+						REG_WRI_temp_temp <= 1'b0;
 						w_reg <= EMP_REG;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					3'b100:begin	//MTSP
-						ALU_OP <= MOVE;
+						ALU_OP_temp <= MOVE;
 						r_reg_A <= {1'b0,instruction[7:5]};
 						r_reg_B <= EMP_REG;
 						immediate <= 16'h0000;
@@ -200,18 +212,18 @@ module decoder#(
 						regsrc_B <= EMP_REG;
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= SP;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					3'b001:begin	//BTNEZ
-						ALU_OP <= EMPTY;
+						ALU_OP_temp <= EMPTY;
 						r_reg_A <= T;
 						r_reg_B <= EMP_REG;
 						case(instruction[7])
@@ -225,18 +237,18 @@ module decoder#(
 						regsrc_sw <= EMP_REG;
 						eqz <= NOT_EQU_ZERO;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b1;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b1;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b0;
+						REG_WRI_temp_temp <= 1'b0;
 						w_reg <= EMP_REG;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					3'b010:begin	//SW_RS
-						ALU_OP <= ADD;
+						ALU_OP_temp <= ADD;
 						r_reg_A <= SP;
 						r_reg_B <= RA;
 						case(instruction[7])
@@ -249,15 +261,15 @@ module decoder#(
 						regsrc_B <= EMP_REG;
 						regsrc_sw <= RA;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b1;
 
-						REG_WRI <= 1'b0;
+						REG_WRI_temp_temp <= 1'b0;
 						w_reg <= EMP_REG;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 
 					end
 				endcase
@@ -265,7 +277,7 @@ module decoder#(
 			5'b11100:begin		//ADDU	SUBU
 				case(instruction[1:0])
 					2'b01:begin		//ADDU
-						ALU_OP <= ADD;
+						ALU_OP_temp <= ADD;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						immediate <= 16'h0000;
@@ -275,18 +287,18 @@ module decoder#(
 						regsrc_B <= {1'b0,instruction[7:5]};
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[4:2]};
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					2'b11:begin		//SUBU
-						ALU_OP <= SUB;
+						ALU_OP_temp <= SUB;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						immediate <= 16'h0000;
@@ -296,21 +308,21 @@ module decoder#(
 						regsrc_B <= {1'b0,instruction[7:5]};
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[4:2]};
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 				endcase
 
 			end
 			5'b00010:begin		//B
-				ALU_OP <= EMPTY;
+				ALU_OP_temp <= EMPTY;
 				r_reg_A <= EMP_REG;
 				r_reg_B <= EMP_REG;
 				case(instruction[10])
@@ -323,19 +335,19 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b1;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b1;
 				eqz <= B_IMME;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b0;
+				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b00100:begin		//BEQZ
-				ALU_OP <= EMPTY;
+				ALU_OP_temp <= EMPTY;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= EMP_REG;
 				case(instruction[7])
@@ -348,19 +360,19 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b1;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b1;
 				eqz <= EQU_ZERO;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b0;
+				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b00101:begin		//BNQZ
-				ALU_OP <= EMPTY;
+				ALU_OP_temp <= EMPTY;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= EMP_REG;
 				case(instruction[7])
@@ -373,21 +385,21 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b1;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b1;
 				eqz <= NOT_EQU_ZERO;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b0;
+				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b11101:begin
 				case(instruction[4:0])
 					5'b01100:begin		//AND
-						ALU_OP <= AND;
+						ALU_OP_temp <= AND;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						immediate <= 16'h0000;
@@ -397,18 +409,18 @@ module decoder#(
 						regsrc_B <= {1'b0,instruction[7:5]};
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[10:8]};
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					5'b01010:begin		//CMP
-						ALU_OP <= EQUAL;
+						ALU_OP_temp <= EQUAL;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						immediate <= 16'h0000;
@@ -418,21 +430,21 @@ module decoder#(
 						regsrc_B <= {1'b0,instruction[7:5]};
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= T;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 
 					end
 					5'b00000:begin
 						case(instruction[7:5])
 							3'b000:begin		//JR
-								ALU_OP <= EMPTY;
+								ALU_OP_temp <= EMPTY;
 								r_reg_A <= {1'b0,instruction[10:8]};
 								r_reg_B <= EMP_REG;
 								immediate <= 16'h0000;
@@ -442,18 +454,18 @@ module decoder#(
 								regsrc_B <= EMP_REG;
 								regsrc_sw <= EMP_REG;
 
-								is_jump <= 1'b1;
-								is_branch <= 1'b0;
+								is_jump_temp <= 1'b1;
+								is_branch_temp <= 1'b0;
 
 								mem_read <= 1'b0;
 								mem_write <= 1'b0;
 
-								REG_WRI <= 1'b0;
+								REG_WRI_temp_temp <= 1'b0;
 								w_reg <= EMP_REG;
-								MemToReg <= 1'b0;
+								MemToReg_temp <= 1'b0;
 							end
 							3'b010:begin		//MFPC
-								ALU_OP <= MOVE;
+								ALU_OP_temp <= MOVE;
 								r_reg_A <= EMP_REG;
 								r_reg_B <= EMP_REG;
 								immediate[15:0] <= PC[15:0];
@@ -463,20 +475,20 @@ module decoder#(
 								regsrc_B <= EMP_REG;
 								regsrc_sw <= EMP_REG;
 
-								is_jump <= 1'b0;
-								is_branch <= 1'b0;
+								is_jump_temp <= 1'b0;
+								is_branch_temp <= 1'b0;
 
 								mem_read <= 1'b0;
 								mem_write <= 1'b0;
 
-								REG_WRI <= 1'b1;
+								REG_WRI_temp_temp <= 1'b1;
 								w_reg <= {1'b0,instruction[10:8]};
-								MemToReg <= 1'b0;
+								MemToReg_temp <= 1'b0;
 							end
 						endcase
 					end
 					5'b01101:begin		//OR
-						ALU_OP <= OR;
+						ALU_OP_temp <= OR;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						immediate <= 16'h0000;
@@ -486,18 +498,18 @@ module decoder#(
 						regsrc_B <= {1'b0,instruction[7:5]};
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[10:8]};
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					5'b00010:begin		//SLT
-						ALU_OP <= LESS;
+						ALU_OP_temp <= LESS;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= {1'b0,instruction[7:5]};
 						immediate <= 16'h0000;
@@ -507,19 +519,19 @@ module decoder#(
 						regsrc_B <= {1'b0,instruction[7:5]};
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= T;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 
 					end
 					5'b00111:begin		//SRAV
-						ALU_OP <= SRA;
+						ALU_OP_temp <= SRA;
 						r_reg_A <= {1'b0,instruction[7:5]};
 						r_reg_B <= {1'b0,instruction[10:8]};
 						immediate <= 16'h0000;
@@ -529,20 +541,20 @@ module decoder#(
 						regsrc_B <= {1'b0,instruction[10:8]};
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[7:5]};
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 				endcase
 			end
 			5'b01101:begin		//LI
-				ALU_OP <= MOVE;
+				ALU_OP_temp <= MOVE;
 				r_reg_A <= EMP_REG;
 				r_reg_B <= EMP_REG;
 				immediate[15:0] <= {8'b00000000,instruction[7:0]};
@@ -552,18 +564,18 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b1;
+				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[10:8]};
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b10011:begin		//LW
-				ALU_OP <= ADD;
+				ALU_OP_temp <= ADD;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= EMP_REG;
 				case(instruction[4])
@@ -576,19 +588,19 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b1;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b1;
+				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[7:5]};
-				MemToReg <= 1'b1;
+				MemToReg_temp <= 1'b1;
 
 			end
 			5'b10010:begin		//LW_SP
-				ALU_OP <= ADD;
+				ALU_OP_temp <= ADD;
 				r_reg_A <= SP;
 				r_reg_B <= EMP_REG;
 				case(instruction[7])
@@ -601,21 +613,21 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b1;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b1;
+				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= {1'b0,instruction[10:8]};
-				MemToReg <= 1'b1;
+				MemToReg_temp <= 1'b1;
 
 			end
 			5'b11110:begin		//MFIH	MTIH
 				case(instruction[0])
 					1'b0:begin		//MFIH
-						ALU_OP <= MOVE;
+						ALU_OP_temp <= MOVE;
 						r_reg_A <= IH;
 						r_reg_B <= EMP_REG;
 						immediate <= 16'h0000;
@@ -625,18 +637,18 @@ module decoder#(
 						regsrc_B <= EMP_REG;
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= {1'b0,instruction[10:8]};
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 					1'b1:begin		//MTIH
-						ALU_OP <= MOVE;
+						ALU_OP_temp <= MOVE;
 						r_reg_A <= {1'b0,instruction[10:8]};
 						r_reg_B <= EMP_REG;
 						immediate <= 16'h0000;
@@ -646,20 +658,20 @@ module decoder#(
 						regsrc_B <= EMP_REG;
 						regsrc_sw <= EMP_REG;
 
-						is_jump <= 1'b0;
-						is_branch <= 1'b0;
+						is_jump_temp <= 1'b0;
+						is_branch_temp <= 1'b0;
 
 						mem_read <= 1'b0;
 						mem_write <= 1'b0;
 
-						REG_WRI <= 1'b1;
+						REG_WRI_temp_temp <= 1'b1;
 						w_reg <= IH;
-						MemToReg <= 1'b0;
+						MemToReg_temp <= 1'b0;
 					end
 				endcase
 			end
 			5'b00001:begin		//NOP
-				ALU_OP <= EMPTY;
+				ALU_OP_temp <= EMPTY;
 				r_reg_A <= EMP_REG;
 				r_reg_B <= EMP_REG;
 				immediate <= 16'h0000;
@@ -669,20 +681,20 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b0;
+				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b00110:begin
 				case(instruction[1:0])
 				2'b00:begin		//SLL
-					ALU_OP <= SLL;
+					ALU_OP_temp <= SLL;
 					r_reg_A <= {1'b0,instruction[7:5]};
 					r_reg_B <= EMP_REG;
 					if(instruction[4:2] == 3'b000)
@@ -699,18 +711,18 @@ module decoder#(
 					regsrc_B <= EMP_REG;
 					regsrc_sw <= EMP_REG;
 
-					is_jump <= 1'b0;
-					is_branch <= 1'b0;
+					is_jump_temp <= 1'b0;
+					is_branch_temp <= 1'b0;
 
 					mem_read <= 1'b0;
 					mem_write <= 1'b0;
 
-					REG_WRI <= 1'b1;
+					REG_WRI_temp_temp <= 1'b1;
 					w_reg <= {1'b0,instruction[10:8]};
-					MemToReg <= 1'b0;
+					MemToReg_temp <= 1'b0;
 				end
 				2'b11:begin		//SRA
-					ALU_OP <= SRA;
+					ALU_OP_temp <= SRA;
 					r_reg_A <= {1'b0,instruction[7:5]};
 					r_reg_B <= EMP_REG;
 					if(instruction[4:2] == 3'b000)
@@ -727,20 +739,20 @@ module decoder#(
 					regsrc_B <= EMP_REG;
 					regsrc_sw <= EMP_REG;
 
-					is_jump <= 1'b0;
-					is_branch <= 1'b0;
+					is_jump_temp <= 1'b0;
+					is_branch_temp <= 1'b0;
 
 					mem_read <= 1'b0;
 					mem_write <= 1'b0;
 
-					REG_WRI <= 1'b1;
+					REG_WRI_temp_temp <= 1'b1;
 					w_reg <= {1'b0,instruction[10:8]};
-					MemToReg <= 1'b0;
+					MemToReg_temp <= 1'b0;
 				end
 				endcase
 			end
 			5'b11011:begin		//SW
-				ALU_OP <= ADD;
+				ALU_OP_temp <= ADD;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= {1'b0,instruction[7:5]};
 				case(instruction[4])
@@ -753,18 +765,18 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= {1'b0,instruction[7:5]};
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b1;
 
-				REG_WRI <= 1'b0;
+				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b11010:begin		//SW_SP
-				ALU_OP <= ADD;
+				ALU_OP_temp <= ADD;
 				r_reg_A <= SP;
 				r_reg_B <= {1'b0,instruction[10:8]};
 				case(instruction[7])
@@ -777,18 +789,18 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= {1'b0,instruction[10:8]};
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b1;
 
-				REG_WRI <= 1'b0;
+				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b01110:begin		//CMPI
-				ALU_OP <= EQUAL;
+				ALU_OP_temp <= EQUAL;
 				r_reg_A <= {1'b0,instruction[10:8]};
 				r_reg_B <= EMP_REG;
 				case(instruction[7])
@@ -801,18 +813,18 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b0;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b1;
+				REG_WRI_temp_temp <= 1'b1;
 				w_reg <= T;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
 			end
 			5'b11111:begin		//INT
-				ALU_OP <= EMPTY;
+				ALU_OP_temp <= EMPTY;
 				case(instruction[3:0])
 				4'b1111:begin
 					r_reg_A <= EPC;
@@ -829,15 +841,37 @@ module decoder#(
 				regsrc_B <= EMP_REG;
 				regsrc_sw <= EMP_REG;
 
-				is_jump <= 1'b1;
-				is_branch <= 1'b0;
+				is_jump_temp <= 1'b1;
+				is_branch_temp <= 1'b0;
 
 				mem_read <= 1'b0;
 				mem_write <= 1'b0;
 
-				REG_WRI <= 1'b0;
+				REG_WRI_temp_temp <= 1'b0;
 				w_reg <= EMP_REG;
-				MemToReg <= 1'b0;
+				MemToReg_temp <= 1'b0;
+			end
+
+			default:begin		//
+				ALU_OP_temp <= EMPTY;
+				r_reg_A <= EMP_REG;
+				r_reg_B <= EMP_REG;
+				immediate <= 16'h0000;
+				ALU_SRC <= null;
+
+				regsrc_A <= EMP_REG;
+				regsrc_B <= EMP_REG;
+				regsrc_sw <= EMP_REG;
+
+				is_jump_temp <= 1'b0;
+				is_branch_temp <= 1'b0;
+
+				mem_read <= 1'b0;
+				mem_write <= 1'b0;
+
+				REG_WRI_temp_temp <= 1'b0;
+				w_reg <= EMP_REG;
+				MemToReg_temp <= 1'b0;
 			end
 
 		endcase
