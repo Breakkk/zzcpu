@@ -30,7 +30,7 @@ initial clock = 0;
 
 always@ (posedge clk) begin
 	cnt <= cnt + 1;
-	if(cnt == 2500000) begin
+	if(cnt == 250000) begin
 		clock <= !clock;
 		cnt <= 0;
 	end

@@ -44,7 +44,10 @@ module zzcpu(
 	output rdn
     );
 
-
+clock _clk(
+	.clk(clk),
+	.clock(clock)
+);
 
 wire intercepted;
 wire flush_id;
@@ -102,7 +105,7 @@ wire [15:0] epc_if_o;
 wire [15:0] pcplus1_if_o;
 
 ifetch _if(
-	.CLK(clk),
+	.CLK(clock),
 	.RST(rst),
 	.stall_pc_i(stall_pc),
 	.jr_i(ifjr_hdu_o),
@@ -112,6 +115,7 @@ ifetch _if(
 	.precorrc_i(precorrc_hdu_o),
 	.preresult_o(preresult_if_o),
 	.instr_i(ram2res_ram2_o),
+	//.instr_i(l),
 	.pc_o(pc_if_o),
 	.pcplus1_o(pcplus1_if_o),
 	.epc_o(epc_if_o)
@@ -131,13 +135,14 @@ wire [15:0] pcplus1_ifid_o;
 assign light[14:8] = instr_ifid_o[5:0];
 assign light[6:0] = ram2res_ram2_o[6:0];
 if_id _if_id(
-	.CLK(clk),
+	.CLK(clock),
 	.RST(rst),
 	.flush_if_i(flush_if),
 	.isintzero_i(isintzero),
 	.stall_if_i(stall_if),
 	.epc_i(epc_if_o),
 	.pcplus1_i(pcplus1_if_o),
+	//.instr_i(l),
 	.instr_i(ram2res_ram2_o),
 	.epc_o(epc_ifid_o),
 	.pcplus1_o(pcplus1_ifid_o),
@@ -213,7 +218,7 @@ wire memread_idex_o;
 wire memwrite_idex_o;
 
 id_ex _id_ex(
-	.CLK(clk),
+	.CLK(clock),
 	.RST(rst),
 	.regwrite_i(regwrite_id_o),			//input
 	.memtoreg_i(memtoreg_id_o),
@@ -285,7 +290,7 @@ wire [15:0] memdata_exmem_o;
 wire memtoreg_exmem_o;
 
 ex_mem _ex_mem(
-	.CLK(clk),
+	.CLK(clock),
 	.RST(rst),
 	.flush_ex_i(flush_ex),					//input
 	.regwrite_i(regwrite_idex_o),
@@ -345,7 +350,7 @@ ram1 _ram1(
 	.isread_i(memread_exmem_o),
 	.iswrite_i(memwrite_exmem_o),
 	.ram1res_o(ram1res_ram1_o),
-	.clk(clk)
+	.clk(clock)
 );
 
 ram2 _ram2(
@@ -361,7 +366,7 @@ ram2 _ram2(
 	.iswrite_mem_i(memwrite_exmem_o),
 	.addr_if_i(pc_if_o),
 	.ram2res_o(ram2res_ram2_o),
-	.clk(clk)
+	.clk(clock)
 );
 
 // MEM/WB
@@ -369,7 +374,7 @@ wire [15:0] alures_memwb_o;
 wire [15:0] memres_memwb_o;
 wire memtoreg_memwb_o;
 mem_wb _mem_wb(
-	.CLK(clk),
+	.CLK(clock),
 	.RST(rst),
 	.memtoreg_i(memtoreg_exmem_o),
 	.regdst_i(regdst_exmem_o),
@@ -394,7 +399,7 @@ wb _wb(
 // RegHeap
 wire [15:0] epc_hdu_o;
 RegisterHeap _regheap(
-	.CLK(clk),
+	.CLK(clock),
 	.rdreg1_i(readreg1_id_o),
 	.rdreg2_i(readreg2_id_o),
 	.regwrite_i(regwrite_memwb_o),
@@ -407,7 +412,7 @@ RegisterHeap _regheap(
 
 // Hazard detection unit
 hazard _hazard(
-	.CLK(clk),
+	.CLK(clock),
 	.interception_i(intercepted),			// Interception
 	.ram2_conflict_i(is_RAM2_mem_o),			// SRAM Hazard
 	.memtoreg_i(memtoreg_idex_o),			// Data Hazard -- LW
