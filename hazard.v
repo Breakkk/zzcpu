@@ -58,8 +58,8 @@ module hazard(
     assign stall = (conflictLW || ram2_conflict_i);
 	
 	// while stalling: prediction judgment and jump order is "stalled", too
-	assign prewrong_o = (prewrong) && (!stall) && (!intercepted);
-	assign precorrc_o = (precorrc) && (!stall) && (!intercepted);
+	assign prewrong_o = (prewrong) && (!stall) /*&& (!intercepted)*/;
+	assign precorrc_o = (precorrc) && (!stall) /*&& (!intercepted)*/;
 	// assign jr_o = isjump_i && (!stall_LW) && (!intercepted);
     // while stalling, PC won't change, doesn't matter is jr order is true
     assign jr_o = isjump_i;

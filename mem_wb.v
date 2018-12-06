@@ -48,7 +48,7 @@ module mem_wb(
 	always@(posedge CLK or negedge RST) begin
 		if (!RST) begin
 			memtoreg <= 1'b0;
-			regdst <= 1'b1111;
+			regdst <= 4'b1111;
 			regwrite <= 1'b0;
 		end else begin
 			memtoreg <= memtoreg_i;
