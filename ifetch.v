@@ -53,7 +53,7 @@ module ifetch(
         if (instr_i[15:11] === 5'b00010) begin
             extendedimm <= {(instr_i[10] ? 5'b11111 : 5'b00000), instr_i[10:0]};
         end else begin
-            extendedimm <= {(instr_i[7] ? 8'b11111111 : 5'b00000000), instr_i[7:0]};
+				extendedimm <= {(instr_i[7] ? 8'b11111111 : 8'b00000000), instr_i[7:0]};
         end
     end
     assign pcplus1 = pc + 16'h0001;
