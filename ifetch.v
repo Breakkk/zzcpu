@@ -80,7 +80,7 @@ module ifetch(
 				end else begin
 					pc_lock <= pc;
 					pcplus1_lock <= pcplus1;
-					pcplusimm_lock <= pc;
+					pcplusimm_lock <= pcplusimm;
 					pc <= nextpc;
 				end
             end
