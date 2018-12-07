@@ -133,6 +133,7 @@ wire [15:0] pcplus1_ifid_o;
 //assign light[15] = ifjr_hdu_o;
 //assign light[14] = isbranch_id_o;
 assign light[15:8] = pc_if_o[7:0];
+assign light[7:0] = instr_ifid_o[7:0];
 if_id _if_id(
 	.CLK(clock),
 	.RST(rst),
@@ -322,7 +323,6 @@ wire is_UART_mem_o;
 wire [15:0] memres_mem_o;
 
 
-assign light[7:0] = memres_mem_o[7:0];
 // assign wrn = 1'b1;
 // assign rdn = 1'b1;
 mem _mem(
