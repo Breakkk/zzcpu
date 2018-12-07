@@ -115,7 +115,7 @@ ifetch _if(
 	.precorrc_i(precorrc_hdu_o),
 	.preresult_o(preresult_if_o),
 	.instr_i(ram2res_ram2_o),
-	//.instr_i(l),
+	// .instr_i(l),
 	.pc_o(pc_if_o),
 	.pcplus1_o(pcplus1_if_o),
 	.epc_o(epc_if_o)
@@ -141,7 +141,7 @@ if_id _if_id(
 	.stall_if_i(stall_if),
 	.epc_i(epc_if_o),
 	.pcplus1_i(pcplus1_if_o),
-	//.instr_i(l),
+	// .instr_i(l),
 	.instr_i(ram2res_ram2_o),
 	.epc_o(epc_ifid_o),
 	.pcplus1_o(pcplus1_ifid_o),
@@ -178,6 +178,12 @@ id _id(
 	.rdata1_i(regdata1_rh_o),
 	.rdata2_i(regdata2_rh_o),
 	.pcplus1_i(pcplus1_ifid_o),		//MFPC
+	.exregdst_i(regdst_idex_o),			//input -- Forwarding Unit
+	.exregwrite_i(regwrite_idex_o),
+	.exregdata_i(alures_ex_o),
+	.memregdst_i(regdst_exmem_o),
+	.memregwrite_i(regwrite_exmem_o),
+	.memregdata_i(alures_exmem_o),
 	.readreg1_o(readreg1_id_o),
 	.readreg2_o(readreg2_id_o),
 	.regwrite_o(regwrite_id_o),			// ctrl code
@@ -418,6 +424,10 @@ hazard _hazard(
 	.regsrc1_i(regsrc1_id_o),
 	.regsrc2_i(regsrc2_id_o),
 	.regdst_i(regdst_idex_o),
+	.memtoreg_mem_i(memtoreg_exmem_o),		// Data Hazard -- LW & JR/B
+	.memread_mem_i(memread_exmem_o),
+	.regdst_mem_i(regdst_exmem_o),
+	.regsrc1_id_i(readreg1_id_o),
 	.isjump_i(isjump_id_o),					// Control Hazard -- Jump
 	.jr_o(ifjr_hdu_o),						// jr giving order to IF
 	.isbranch_i(isbranch_id_o),				// Control Hazard -- Branch

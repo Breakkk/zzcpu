@@ -28,6 +28,13 @@ module id#(
 	input [ADDRESS_WIDTH-1:0] rdata1_i,
 	input [ADDRESS_WIDTH-1:0] rdata2_i,
 	input [INSTR_WIDTH-1:0] pcplus1_i,
+	
+	input [3:0] exregdst_i,
+	input exregwrite_i,
+	input [15:0] exregdata_i,
+	input [3:0] memregdst_i,
+	input memregwrite_i,
+	input [15:0] memregdata_i,
 
 	// signal from ID to RegHeap
 	output [REG_WIDTH-1:0] readreg1_o,			//-
@@ -65,6 +72,14 @@ module id#(
 	wire IS_BRANCH;
 	wire [1:0] equal_zero;
 
+	// forwarding unit -- JR & B
+	wire conflict_ex;
+	wire conflict_mem;
+	assign conflict_ex = (exregwrite_i) && (exregdst_i === readreg1_o);
+	assign conflict_mem = (memregwrite_i) && (memregdst_i === readreg1_o);
+	wire [15:0] forward_jr_bt;
+	assign forward_jr_bt = (conflict_ex ? exregdata_i : (conflict_mem ? memregdata_i : rdata1_i));
+
 	always @(*) begin
 		case(IS_BRANCH)
 			1'b1:begin
@@ -73,13 +88,15 @@ module id#(
 						ifbranch_o <= 1'b1;
 					end
 					EQU_ZERO:begin
-						case(rdata1_i)
+						// case(rdata1_i)
+						case(forward_jr_bt)
 						16'h0000:begin ifbranch_o <= 1'b1; end
 						default:begin ifbranch_o <= 1'b0; end
 						endcase
 					end
 					NOT_EQU_ZERO:begin
-						case(rdata1_i)
+						// case(rdata1_i)
+						case(forward_jr_bt)
 							16'h0000:begin ifbranch_o <= 1'b0; end
 							default:begin ifbranch_o <= 1'b1; end
 						endcase
@@ -139,7 +156,8 @@ module id#(
 		.memdata(memdata_o)
 	);
 
-	assign address_jr = rdata1_i;
+	// assign address_jr = rdata1_i;
+	assign address_jr = forward_jr_bt;
 
 	//assign isjump_o = IS_JUMP;
 	assign isbranch_o = IS_BRANCH;

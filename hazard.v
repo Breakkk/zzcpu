@@ -27,6 +27,10 @@ module hazard(
     input [3:0] regsrc1_i,
     input [3:0] regsrc2_i,
     input [3:0] regdst_i,
+    input memtoreg_mem_i,
+    input memread_mem_i,
+    input [3:0] regdst_mem_i,
+    input [3:0] regsrc1_id_i,
     input isjump_i,
     output jr_o,
     input ifbranch_i,
@@ -46,6 +50,7 @@ module hazard(
 	
     // priority : Interception > LW/RAM > jr/branch
     
+    wire conflictJRB;
 	wire conflictLW;
     wire prewrong;
     wire precorrc;
@@ -55,7 +60,8 @@ module hazard(
     assign precorrc = (isbranch_i && (prediction_i === ifbranch_i));
 	assign prewrong = (isbranch_i && (prediction_i ^ ifbranch_i));
 	assign conflictLW = ((memtoreg_i && memread_i) && ((regsrc1_i === regdst_i) || (regsrc2_i === regdst_i)));
-    assign stall = (conflictLW || ram2_conflict_i);
+	assign conflictJRB = ((isbranch_i || isjump_i) && (memtoreg_mem_i && memread_mem_i) && (regsrc1_id_i === regdst_mem_i));
+    assign stall = (conflictLW || ram2_conflict_i || conflictJRB);
 	
 	// while stalling: prediction judgment and jump order is "stalled", too
 	assign prewrong_o = (prewrong) && (!stall) /*&& (!intercepted)*/;
