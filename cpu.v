@@ -173,6 +173,13 @@ wire isjump_id_o;
 wire ifbranch_id_o;
 
 
+wire [3:0] regdst_idex_o;
+wire regwrite_idex_o;
+wire [3:0] regdst_exmem_o;
+wire regwrite_exmem_o;
+wire [15:0] alures_exmem_o;
+wire [15:0] alures_ex_o;
+
 id _id(
 	.instr_i(instr_ifid_o),
 	.rdata1_i(regdata1_rh_o),
@@ -214,9 +221,7 @@ wire [3:0] regsrc1_idex_o;
 wire [3:0] regsrc2_idex_o;
 wire [3:0] regsrc_sw_idex_o;
 wire [15:0] memdata_idex_o;
-wire [3:0] regdst_idex_o;
 // signal from ID/EX to EX/MEM
-wire regwrite_idex_o;
 wire memtoreg_idex_o;					//isload = memtoreg & memread --- Hazard
 wire memread_idex_o;
 wire memwrite_idex_o;
@@ -255,15 +260,11 @@ id_ex _id_ex(
 
 // EXE ---- contains Forwarding Unit
 // signal from EX/MEM to EX
-wire [3:0] regdst_exmem_o;
-wire regwrite_exmem_o;
-wire [15:0] alures_exmem_o;
 // signal from MEM/WB to EX
 wire [3:0] regdst_memwb_o;
 wire regwrite_memwb_o;
 wire [15:0] res_wb_o;
 // signal from EX to EX/MEM
-wire [15:0] alures_ex_o;
 wire [15:0] memdata_ex_o;
 //wire [3:0] regdst_ex_o;
 
