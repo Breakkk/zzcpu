@@ -1,21 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    23:40:27 12/02/2018 
-// Design Name: 
-// Module Name:    ram1 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    23:40:27 12/02/2018
+// Design Name:
+// Module Name:    ram1
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module ram1(
@@ -29,24 +29,24 @@ module ram1(
 		output Ram1OE_o,
 		output Ram1WE_o,
 		output Ram1EN_o,
-		
+
 		input is_RAM1_i,
 		input is_UART_i,
 		input [17:0] addr_i,      //17:0 !!!!!!!!!!!!
 		input [15:0] data_i,
-		
+
 		input isread_i,
 		input iswrite_i,
 		output [15:0] ram1res_o,
 		input clk
     );
-	 
-reg is_uart_read = 1'b0;			
-reg is_uart_write = 1'b0;
-reg is_ram_read = 1'b0;			
 
-wire read; 					
-assign read = is_ram_read | is_uart_read; 				
+reg is_uart_read = 1'b0;
+reg is_uart_write = 1'b0;
+reg is_ram_read = 1'b0;
+
+wire read;
+assign read = !((!is_ram_read & is_RAM1_i) | (is_UART_i & is_uart_write));
 
 assign rdn_o = !is_uart_read ? 1'b1 : !clk;
 assign wrn_o = !is_uart_write ? 1'b1 : !clk;
@@ -78,6 +78,7 @@ always @(*) begin
 			is_check <= 1'b0;
 		end
 		1'b1:begin
+			is_ram_read <= 1'b0;
 			case(addr_i[15:0])
 				16'hbf01:begin
 					is_check <= 1'b1;
@@ -105,7 +106,7 @@ always @(*) begin
 			endcase
 		end
 	endcase
-	
+
 	case(is_RAM1_i)
 		1'b0:begin
 			en <= 1'b1;
@@ -124,7 +125,7 @@ always @(*) begin
 				default:begin
 					en <= 1'b1;
 					is_ram_read <= 1'b1;
-				
+
 				end
 			endcase
 		end

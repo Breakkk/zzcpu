@@ -132,8 +132,7 @@ wire [15:0] pcplus1_ifid_o;
 
 //assign light[15] = ifjr_hdu_o;
 //assign light[14] = isbranch_id_o;
-assign light[14:8] = instr_ifid_o[5:0];
-assign light[6:0] = ram2res_ram2_o[6:0];
+assign light[15:8] = pc_if_o[7:0];
 if_id _if_id(
 	.CLK(clock),
 	.RST(rst),
@@ -174,7 +173,6 @@ wire isjump_id_o;
 wire ifbranch_id_o;
 
 
-assign light[7] = isjump_id_o;
 id _id(
 	.instr_i(instr_ifid_o),
 	.rdata1_i(regdata1_rh_o),
@@ -316,8 +314,8 @@ wire is_RAM1_mem_o;
 wire is_UART_mem_o;
 wire [15:0] memres_mem_o;
 
-//assign light = memres_mem_o;
-assign light[15] = is_RAM2_mem_o;
+
+assign light[7:0] = memres_mem_o[7:0];
 // assign wrn = 1'b1;
 // assign rdn = 1'b1;
 mem _mem(

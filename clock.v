@@ -1,30 +1,31 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    14:57:07 11/29/2018 
-// Design Name: 
-// Module Name:    clock 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    14:57:07 11/29/2018
+// Design Name:
+// Module Name:    clock
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module clock(
 	input clk,
-	output reg clock
+	output clock
     );
 
-reg [20: 0] cnt;	 
-
+reg [20: 0] cnt;
+assign clock = clk;
+/*
 initial cnt = 0;
 initial clock = 0;
 
@@ -34,7 +35,7 @@ always@ (posedge clk) begin
 		clock <= !clock;
 		cnt <= 0;
 	end
-end
+end*/
 
 
 endmodule

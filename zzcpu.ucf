@@ -80,7 +80,6 @@ NET "light[0]" LOC = D10;
 NET "rdn" LOC = C14;
 NET "wrn" LOC = U5;
 
-# PlanAhead Generated physical constraints 
 
 NET "data_ready" LOC = A16;
 NET "Ram2EN" LOC = N10;

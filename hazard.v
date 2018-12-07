@@ -68,7 +68,7 @@ module hazard(
     // assign flush_if_o = (((prewrong) || stall_LW) && (!intercepted));
     // flush & insertion priority judgement moved to IF/ID
     assign flush_if_o = (prewrong || isjump_i);
-    assign flush_id_o = intercepted;
+    assign flush_id_o = (intercepted || stall);
     assign flush_ex_o = intercepted;
     assign stall_pc_o = stall;
     assign stall_if_o = stall;
