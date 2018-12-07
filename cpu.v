@@ -114,8 +114,8 @@ ifetch _if(
 	.prewrong_i(prewrong_hdu_o),
 	.precorrc_i(precorrc_hdu_o),
 	.preresult_o(preresult_if_o),
-	.instr_i(ram2res_ram2_o),
-	// .instr_i(l),
+	// .instr_i(ram2res_ram2_o),
+	.instr_i(l),
 	.pc_o(pc_if_o),
 	.pcplus1_o(pcplus1_if_o),
 	.epc_o(epc_if_o)
@@ -141,8 +141,8 @@ if_id _if_id(
 	.stall_if_i(stall_if),
 	.epc_i(epc_if_o),
 	.pcplus1_i(pcplus1_if_o),
-	// .instr_i(l),
-	.instr_i(ram2res_ram2_o),
+	.instr_i(l),
+	// .instr_i(ram2res_ram2_o),
 	.epc_o(epc_ifid_o),
 	.pcplus1_o(pcplus1_ifid_o),
 	.instr_o(instr_ifid_o)
@@ -424,6 +424,7 @@ hazard _hazard(
 	.memread_i(memread_idex_o),
 	.regsrc1_i(regsrc1_id_o),
 	.regsrc2_i(regsrc2_id_o),
+	.regsrc_sw_i(regsrc_sw_id_o),
 	.regdst_i(regdst_idex_o),
 	.memtoreg_mem_i(memtoreg_exmem_o),		// Data Hazard -- LW & JR/B
 	.memread_mem_i(memread_exmem_o),
