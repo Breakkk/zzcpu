@@ -46,7 +46,7 @@ reg is_uart_write = 1'b0;
 reg is_ram_read = 1'b0;
 
 wire read;
-assign read = !((!is_ram_read & is_RAM1_i) | (is_UART_i & is_uart_write));
+assign read = !iswrite_i;
 
 assign rdn_o = !is_uart_read ? 1'b1 : !clk;
 assign wrn_o = !is_uart_write ? 1'b1 : !clk;
