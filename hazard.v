@@ -26,6 +26,7 @@ module hazard(
     input memread_i,
     input [3:0] regsrc1_i,
     input [3:0] regsrc2_i,
+    input [3:0] regsrc_sw_i,
     input [3:0] regdst_i,
     input memtoreg_mem_i,
     input memread_mem_i,
@@ -59,7 +60,7 @@ module hazard(
 
     assign precorrc = (isbranch_i && (prediction_i === ifbranch_i));
 	assign prewrong = (isbranch_i && (prediction_i ^ ifbranch_i));
-	assign conflictLW = ((memtoreg_i && memread_i) && ((regsrc1_i === regdst_i) || (regsrc2_i === regdst_i)));
+	assign conflictLW = ((memtoreg_i && memread_i) && ((regsrc1_i === regdst_i) || (regsrc2_i === regdst_i) || (regsrc_sw_i === regdst_i)));
 	assign conflictJRB = ((isbranch_i || isjump_i) && (memtoreg_mem_i && memread_mem_i) && (regsrc1_id_i === regdst_mem_i));
     assign stall = (conflictLW || ram2_conflict_i || conflictJRB);
 	
