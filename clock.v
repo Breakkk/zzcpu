@@ -29,11 +29,11 @@ initial cnt = 0;
 initial clock = 0;
 
 always@ (posedge clk) begin
-	cnt <= cnt + 1;
+	/*cnt <= cnt + 1;
 	if(cnt == 1) begin
 		cnt <= 0;
-		clock <= !clock;
-	end
+	end*/
+	clock <= !clock;
 end
 
 

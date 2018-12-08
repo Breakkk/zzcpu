@@ -45,15 +45,15 @@ module ram2(
 		input read,	//0-read 1-write*/
     );
 reg [15:0] memres2 = 16'h0000;
-assign ram2res_o = memres2;
+assign ram2res_o = Ram2Data_io;
 
 reg is_ram_read = 1'b1;
 
 wire oe;
 wire we;
 reg en = 1'b0;
-assign Ram2OE_o = !is_ram_read ? 1'b1 : !clk;
-assign Ram2WE_o = !is_ram_read ? !clk : 1'b1;
+assign Ram2OE_o = !is_ram_read ? 1'b1 : clk;
+assign Ram2WE_o = !is_ram_read ? clk : 1'b1;
 assign Ram2EN_o = en;
 
 assign Ram2Data_io = !is_ram_read ? data_mem_i : 16'bz;
@@ -84,10 +84,9 @@ always @(*) begin
 	endcase
 end
 
-
-always@(negedge clk) begin
+/*always@(negedge clk) begin
 	if (is_ram_read == 1'b1) begin
 		memres2 <= Ram2Data_io;
 	end
-end
+end*/
 endmodule

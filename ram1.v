@@ -48,14 +48,14 @@ reg is_ram_read = 1'b0;
 wire read;
 assign read = !iswrite_i;
 
-assign rdn_o = !is_uart_read ? 1'b1 : !clk;
-assign wrn_o = !is_uart_write ? 1'b1 : !clk;
+assign rdn_o = !is_uart_read ? 1'b1 : clk;
+assign wrn_o = !is_uart_write ? 1'b1 : clk;
 
 wire oe;
 wire we;
 reg en = 1'b0;
-assign Ram1OE_o = !is_ram_read ? 1'b1 : !clk;
-assign Ram1WE_o = !is_ram_read ? !clk : 1'b1;
+assign Ram1OE_o = !is_ram_read ? 1'b1 : clk;
+assign Ram1WE_o = !is_ram_read ? clk : 1'b1;
 assign Ram1EN_o = en;
 
 assign Ram1Data_io = !read ? data_i : 16'bz;
@@ -63,7 +63,7 @@ assign Ram1Addr_o = addr_i;
 
 reg is_check;
 
-reg [15:0] mem1res;
+wire [15:0] mem1res;
 reg [15:0] uart_check;
 assign ram1res_o = is_check ? uart_check : mem1res;
 /*
@@ -131,9 +131,10 @@ always @(*) begin
 		end
 	endcase
 end
-always@(negedge clk) begin
+assign mem1res = Ram1Data_io;
+/*always@(negedge clk) begin
 	if (isread_i == 1'b1) begin
 		mem1res <= Ram1Data_io;
 	end
-end
+end*/
 endmodule
