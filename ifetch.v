@@ -56,15 +56,18 @@ module ifetch(
         end
     end
 	
-    assign preresult_o = pretable[pc_lock][1];
+    reg preresult_lock;
+    wire preresult;
+    assign preresult = pretable[pc[7:0]][1];
+    assign preresult_o = preresult_lock;
 	always@(negedge CLK) begin
 		if (prewrong_i) begin
-            if (pretable[pc_lock] != 2'b11) begin
-                pretable[pc_lock] <= pretable[pc_lock] + 1;
+            if (pretable[pc_lock[7:0]] != 2'b11) begin
+                pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] + 1;
             end
         end else if (precorrc_i) begin
-            if (pretable[pc_lock] != 2'b00) begin
-                pretable[pc_lock] <= pretable[pc_lock] - 1;
+            if (pretable[pc_lock[7:0]] != 2'b00) begin
+                pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] - 1;
             end
         end
 	end
@@ -78,7 +81,7 @@ module ifetch(
     end
     assign pcplus1 = pc + 16'h0001;
     assign pcplusimm = pc + 16'h0001 + extendedimm;
-    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? pcplusimm_lock : (pretable[pc][1] ? pcplus1 : pcplusimm));
+    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? (preresult_lock ? pcplus1_lock : pcplusimm_lock) : (preresult ? pcplus1 : pcplusimm));
 
     assign epc_o = (isbranch_i || jr_i) ? pc_lock : pc;
     assign pc_o = pc;
@@ -91,6 +94,7 @@ module ifetch(
             pc_lock <= 16'h0000;
             pcplus1_lock <= 16'h0000;
             pcplusimm_lock <= 16'h0000;
+            preresult_lock <= 1'b0;
 			reset <= 1'b1;
         end else begin
             if (!stall_pc_i) begin
@@ -101,6 +105,7 @@ module ifetch(
 					pcplus1_lock <= pcplus1;
 					pcplusimm_lock <= pcplusimm;
 					pc <= nextpc;
+                    preresult_lock <= preresult;
 				end
             end
         end
