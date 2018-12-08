@@ -114,8 +114,8 @@ ifetch _if(
 	.prewrong_i(prewrong_hdu_o),
 	.precorrc_i(precorrc_hdu_o),
 	.preresult_o(preresult_if_o),
-	// .instr_i(ram2res_ram2_o),
-	.instr_i(l),
+	.instr_i(ram2res_ram2_o),
+	//.instr_i(l),
 	.pc_o(pc_if_o),
 	.pcplus1_o(pcplus1_if_o),
 	.epc_o(epc_if_o)
@@ -133,6 +133,7 @@ wire [15:0] pcplus1_ifid_o;
 //assign light[15] = ifjr_hdu_o;
 //assign light[14] = isbranch_id_o;
 assign light[15:8] = pc_if_o[7:0];
+assign light[7:0] = instr_ifid_o[7:0];
 if_id _if_id(
 	.CLK(clock),
 	.RST(rst),
@@ -141,8 +142,8 @@ if_id _if_id(
 	.stall_if_i(stall_if),
 	.epc_i(epc_if_o),
 	.pcplus1_i(pcplus1_if_o),
-	.instr_i(l),
-	// .instr_i(ram2res_ram2_o),
+	//.instr_i(l),
+	.instr_i(ram2res_ram2_o),
 	.epc_o(epc_ifid_o),
 	.pcplus1_o(pcplus1_ifid_o),
 	.instr_o(instr_ifid_o)
@@ -322,7 +323,6 @@ wire is_UART_mem_o;
 wire [15:0] memres_mem_o;
 
 
-assign light[7:0] = memres_mem_o[7:0];
 // assign wrn = 1'b1;
 // assign rdn = 1'b1;
 mem _mem(

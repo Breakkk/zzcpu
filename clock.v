@@ -20,22 +20,21 @@
 //////////////////////////////////////////////////////////////////////////////////
 module clock(
 	input clk,
-	output clock
+	output reg clock
     );
+//assign clock = clk;
 
 reg [20: 0] cnt;
-assign clock = clk;
-/*
 initial cnt = 0;
 initial clock = 0;
 
 always@ (posedge clk) begin
-	cnt <= cnt + 1;
-	if(cnt == 250000) begin
-		clock <= !clock;
+	/*cnt <= cnt + 1;
+	if(cnt == 1) begin
 		cnt <= 0;
-	end
-end*/
+	end*/
+	clock <= !clock;
+end
 
 
 endmodule
