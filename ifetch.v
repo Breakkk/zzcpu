@@ -46,7 +46,7 @@ module ifetch(
     wire [15:0] pcplusimm;
     wire [15:0] nextpc;
 
-	reg /*[1:0] */pretable[0:255];
+	reg /*[1:0] */[255:0]pretable/*[0:255]*/;
 	integer i;
     initial
     begin
