@@ -59,7 +59,7 @@ module hazard(
     reg intercepted = 0;
 
     assign precorrc = (isbranch_i && (prediction_i === ifbranch_i));
-	assign prewrong = (isbranch_i && (prediction_i ^ ifbranch_i));
+	assign prewrong = ((isbranch_i && (prediction_i ^ ifbranch_i)) || (!isbranch_i && prediction_i));
 	assign conflictLW = ((memtoreg_i && memread_i) && ((regsrc1_i === regdst_i) || (regsrc2_i === regdst_i) || (regsrc_sw_i === regdst_i)));
 	assign conflictJRB = ((isbranch_i || isjump_i) && (memtoreg_mem_i && memread_mem_i) && (regsrc1_id_i === regdst_mem_i));
     assign stall = (conflictLW || ram2_conflict_i || conflictJRB);

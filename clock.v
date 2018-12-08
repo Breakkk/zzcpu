@@ -20,20 +20,20 @@
 //////////////////////////////////////////////////////////////////////////////////
 module clock(
 	input clk,
-	output reg clock
+	output /*reg */clock
     );
-//assign clock = clk;
+assign clock = clk;
 
 reg [20: 0] cnt;
 initial cnt = 0;
-initial clock = 0;
+//initial clock = 0;
 
 always@ (posedge clk) begin
 	/*cnt <= cnt + 1;
 	if(cnt == 1) begin
 		cnt <= 0;
-	end*/
-	clock <= !clock;
+	end
+	clock <= !clock;*/
 end
 
 

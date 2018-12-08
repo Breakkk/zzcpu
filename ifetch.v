@@ -46,31 +46,45 @@ module ifetch(
     wire [15:0] pcplusimm;
     wire [15:0] nextpc;
 
-	reg [1:0] pretable[0:255];
+	reg /*[1:0] */pretable[0:255];
 	integer i;
     initial
     begin
         for (i=255;i>=0;i=i-1)
         begin
-            pretable[i] = 2'b00;
+            //pretable[i] = 2'b00;
+            pretable[i] = 1'b0;
         end
     end
 	
     reg preresult_lock;
     wire preresult;
-    assign preresult = pretable[pc[7:0]][1];
+    assign preresult = pretable[pc[7:0]]/*[1]*/;
     assign preresult_o = preresult_lock;
 	always@(negedge CLK) begin
-		if (prewrong_i) begin
-            if (pretable[pc_lock[7:0]] != 2'b11) begin
-                pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] + 1;
+        if (prewrong_i) begin
+            pretable[pc_lock[7:0]] <= !pretable[pc_lock[7:0]];
+            // if (preresult_lock) begin
+            //     if (pretable[pc_lock[7:0]] != 2'b00) begin
+            //         pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] - 1;
+            //     end
+            // end else begin         
+            //     if (pretable[pc_lock[7:0]] != 2'b11) begin
+            //         pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] + 1;
+            //     end
+            // end
+        end /*else if (precorrc_i) begin
+            if (preresult_lock) begin
+                if (pretable[pc_lock[7:0]] != 2'b11) begin
+                    pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] + 1;
+                end
+            end else begin
+                if (pretable[pc_lock[7:0]] != 2'b00) begin
+                    pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] - 1;
+                end
             end
-        end else if (precorrc_i) begin
-            if (pretable[pc_lock[7:0]] != 2'b00) begin
-                pretable[pc_lock[7:0]] <= pretable[pc_lock[7:0]] - 1;
-            end
-        end
-	end
+        end*/
+    end
 	
     always@(*) begin
         if (instr_i[15:11] === 5'b00010) begin
@@ -81,7 +95,7 @@ module ifetch(
     end
     assign pcplus1 = pc + 16'h0001;
     assign pcplusimm = pc + 16'h0001 + extendedimm;
-    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? (preresult_lock ? pcplus1_lock : pcplusimm_lock) : (preresult ? pcplus1 : pcplusimm));
+    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? (preresult_lock ? pcplus1_lock : pcplusimm_lock) : ((preresult) ? pcplusimm : pcplus1));
 
     assign epc_o = (isbranch_i || jr_i) ? pc_lock : pc;
     assign pc_o = pc;

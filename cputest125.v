@@ -171,7 +171,7 @@ module cputest125;
 		clk = 1;
 		#5;
 		clk = 0;
-		l = 16'h8000;	// NOP
+		l = 16'h0800;	// NOP
 		#5;
 		clk = 1;
 		#5;
