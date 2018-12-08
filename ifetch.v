@@ -78,7 +78,7 @@ module ifetch(
     end
     assign pcplus1 = pc + 16'h0001;
     assign pcplusimm = pc + 16'h0001 + extendedimm;
-    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? pcplusimm_lock : (pretable[pc][1] ? pcplus1 : pcplusimm);
+    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? pcplusimm_lock : (pretable[pc][1] ? pcplus1 : pcplusimm));
 
     assign epc_o = (isbranch_i || jr_i) ? pc_lock : pc;
     assign pc_o = pc;
