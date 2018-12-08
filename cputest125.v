@@ -91,27 +91,87 @@ module cputest125;
 		rst = 1'b1;
 		#5;
 		clk = 0;
-		l = 16'b0000100000000000;
+		l = 16'h6AFF;	// LI R2 FF
 		#5;
 		clk = 1;
 		#5;
 		clk = 0;
-		l = 16'b0110100100011111;
+		l = 16'h6BC0;	// LI R3 C0
 		#5;
 		clk = 1;
 		#5;
 		clk = 0;
-		l = 16'b0111000101111110;
+		l = 16'h3360;	// SLL R3 R3 0
 		#5;
 		clk = 1;
 		#5;
 		clk = 0;
-		l = 16'b0110000111111100;
+		l = 16'h6DFF;	// LI R5 FF
 		#5;
 		clk = 1;
 		#5;
 		clk = 0;
-		l = 16'b00001000000000000;
+		l = 16'h35A0;	// SLL R5 R5 0
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h4D83;	// ADDIU R5 R3
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h6961;	// LI R1 61
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h4901;	// ADDIU R1 1
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'hDB02;	// SW R3 R1 2
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h9B82;	// LW R3 R4 2
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'hDB81;	// SW R3 R4 1
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h9B21;	// LW R3 R1 1
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h2CFA;	// BNEZ R4 FA
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h4D01;
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h4D01;	// ADDIU R5 1
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h2DF7;	// BNEZ R5 F7
+		#5;
+		clk = 1;
+		#5;
+		clk = 0;
+		l = 16'h8000;	// NOP
 		#5;
 		clk = 1;
 		#5;
@@ -130,6 +190,8 @@ module cputest125;
 		clk = 0;
 		#5;
 		clk = 1;
+		#5;
+		clk = 0;
 	end
       
 endmodule

@@ -36,9 +36,6 @@ module ifetch(
     
     reg reset;  // reset pc
 
-    // fake prediction
-    assign preresult_o = 1'b0;
-
     reg [15:0] pc;
     reg [15:0] pc_lock;
     reg [15:0] pcplus1_lock;
@@ -49,29 +46,51 @@ module ifetch(
     wire [15:0] pcplusimm;
     wire [15:0] nextpc;
 
+	reg [1:0] pretable[0:255];
+	integer i;
+    initial
+    begin
+        for (i=255;i>=0;i=i-1)
+        begin
+            pretable[i] = 2'b00;
+        end
+    end
+	
+    assign preresult_o = pretable[pc_lock][1];
+	always@(negedge CLK) begin
+		if (prewrong_i) begin
+            if (pretable[pc_lock] != 2'b11) begin
+                pretable[pc_lock] <= pretable[pc_lock] + 1;
+            end
+        end else if (precorrc_i) begin
+            if (pretable[pc_lock] != 2'b00) begin
+                pretable[pc_lock] <= pretable[pc_lock] - 1;
+            end
+        end
+	end
+	
     always@(*) begin
         if (instr_i[15:11] === 5'b00010) begin
             extendedimm <= {(instr_i[10] ? 5'b11111 : 5'b00000), instr_i[10:0]};
         end else begin
-				extendedimm <= {(instr_i[7] ? 8'b11111111 : 8'b00000000), instr_i[7:0]};
+			extendedimm <= {(instr_i[7] ? 8'b11111111 : 8'b00000000), instr_i[7:0]};
         end
     end
     assign pcplus1 = pc + 16'h0001;
     assign pcplusimm = pc + 16'h0001 + extendedimm;
-    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? pcplusimm_lock : pcplus1);
-    // always@(*) begin
-    //     if (jr_i) begin
-    //         nextpc <= address_jr_i;
-    //     end else if ()
-    // end
+    assign nextpc = jr_i ? address_jr_i : (prewrong_i ? pcplusimm_lock : (pretable[pc][1] ? pcplus1 : pcplusimm);
 
     assign epc_o = (isbranch_i || jr_i) ? pc_lock : pc;
     assign pc_o = pc;
     assign pcplus1_o = pcplus1;
 
+	
     always@(posedge CLK or negedge RST) begin
         if (!RST) begin
 			pc <= 16'h0000;
+            pc_lock <= 16'h0000;
+            pcplus1_lock <= 16'h0000;
+            pcplusimm_lock <= 16'h0000;
 			reset <= 1'b1;
         end else begin
             if (!stall_pc_i) begin
